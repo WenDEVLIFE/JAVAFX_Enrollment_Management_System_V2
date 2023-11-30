@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="631.0" prefWidth="618.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+    <stylesheets>
+        <URL value="@mainfxml.css" />
+    </stylesheets>
+   <children>
+      <TextField id="username" layoutX="96.0" layoutY="221.0" prefHeight="45.0" prefWidth="401.0" />
+      <PasswordField id="password" layoutX="96.0" layoutY="332.0" prefHeight="45.0" prefWidth="401.0" />
+      <Label layoutX="251.0" layoutY="128.0" prefHeight="45.0" prefWidth="117.0" text="Login" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed Bold" size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="96.0" layoutY="155.0" prefHeight="66.0" prefWidth="185.0" text="Username" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed Bold" size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="96.0" layoutY="266.0" prefHeight="66.0" prefWidth="185.0" text="Password" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed Bold" size="31.0" />
+         </font>
+      </Label>
+      <Button id="MyButton" layoutX="195.0" layoutY="443.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="173.0" text="Sign in" />
+      <ImageView fitHeight="73.0" fitWidth="88.0" layoutX="260.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons8-user-60.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

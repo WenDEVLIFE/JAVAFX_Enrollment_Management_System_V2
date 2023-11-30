@@ -1,0 +1,14 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background: 
+        #16a085, /* fallback for old browsers */
+        -webkit-linear-gradient(to right, #16a085, #f4d03f), /* Chrome 10-25, Safari 5.1-6 */
+        linear-gradient(to right, #16a085, #f4d03f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+#MyButton {
+    -fx-background-color: rgba(255,0,0, 0.7);  /*this for the buttons color and font color */
+    -fx-text-fill: #FFFFFF;
+}
