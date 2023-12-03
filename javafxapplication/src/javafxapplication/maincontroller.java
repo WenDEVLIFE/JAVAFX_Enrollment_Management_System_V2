@@ -7,18 +7,32 @@ package javafxapplication;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import static signup.Sign_up_xmlController.stage;
 
 
 public class maincontroller {
-      private Stage primaryStage;
-    private Scene scene2;
+    public static Stage stage1;
+
+    private Parent root;
+    private Scene scene;
+
+    private AnchorPane anchorpane;
+
+    @FXML
+    private CheckBox checkpassword;
 
     @FXML
     private PasswordField password;
@@ -37,21 +51,42 @@ public class maincontroller {
         System.out.println("Hello World");
     }
 
-    
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-    
     @FXML
-void handleLabelClick(MouseEvent event) {
-  try {
-            Main.showSignup((Stage) labels.getScene().getWindow());
+    // this is how to see a password
+  public void seePassword(ActionEvent event) {
+    try {
+        // Check if the checkbox is selected.
+        if (checkpassword.isSelected()) {
+            // Show password
+            password.setPromptText(password.getText());
+            password.setText("");
+        } else {
+            // Hide password
+            password.setText(password.getPromptText());
+        
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+    @FXML
+    void handleLabelClick(MouseEvent event) throws IOException {
+        // this is how you change scenes
+        try {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("signup/sign_up_xml.fxml"));
+            Scene scene = new Scene(root);
+            Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+            stage1 = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage1.setScene(scene);
+            stage1.getIcons().add(icon);
+            stage1.setTitle("Login");
+            stage1.show();
+            stage1.setResizable(false);
         } catch (IOException e) {
             e.printStackTrace();
-            // Handle the exception (e.g., show an error message)
         }
-    
-}
+    }
 
    
 }

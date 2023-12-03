@@ -3,12 +3,16 @@
  */
 
 .mainFxmlClass {
-    -fx-background: 
-        #16a085, /* fallback for old browsers */
-        -webkit-linear-gradient(to right, #16a085, #f4d03f), /* Chrome 10-25, Safari 5.1-6 */
-        linear-gradient(to right, #16a085, #f4d03f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -fx-background-image: url('../pictures/mabinibg.jpg');
+    -fx-background-size: cover; /* You can adjust the size as needed */
+    -fx-background-repeat: no-repeat;
 }
 #MyButton {
+     -fx-background-image: url('../pictures/user.png');
+    -fx-background-size: 50px 50px; /* Adjust the width and height as needed */
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center;
+    
     -fx-background-color: #1899D6, rgba(255, 0, 0, 0.7);
     -fx-background-radius: 16px;
     -fx-border-color: transparent;
@@ -27,7 +31,32 @@
     -fx-text-transform: uppercase;
 }
 
+#MyButton2 {
+     -fx-background-image: url('../pictures/signup.png');
+    -fx-background-size: 50px 50px; /* Adjust the width and height as needed */
+    -fx-background-repeat: no-repeat;
+ -fx-background-position: left center;
+    
+     -fx-background-color: #1899D6, rgba(255, 0, 0, 0.7);
+    -fx-background-radius: 16px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 16px;
+    -fx-border-width: 0, 0, 4px;
+    -fx-box-sizing: border-box;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+    -fx-font-family: "din-round", sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+    -fx-line-spacing: 20px;
+   -fx-padding: 13px 0 13px 16px; /* top, right, bottom, left */
+    -fx-text-alignment: center;
+    -fx-text-transform: uppercase;
+}
+
 #username{
+    
       -fx-border-color: #4CAF50; /* Set your desired border color */
     -fx-border-width: 2;      /* Set your desired border width */
     -fx-border-radius: 5;     /* Set your desired border radius */
@@ -62,4 +91,9 @@
 -fx-accent: -fx-primary-color;
 -fx-background-insets: 0, 0 0 1 0;
 -fx-background-radius: 0;
+}
+
+.sidepanel {
+    -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
+     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
 }
