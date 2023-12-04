@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.GlyphsStack?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="696.0" prefWidth="966.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="userinteraction.DashboardController">
+<AnchorPane prefHeight="696.0" prefWidth="966.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinteraction.DashboardController">
     <stylesheets>
         <URL value="@/javafxapplication/mainfxml.css" />
     </stylesheets>
+   <children>
+      <Pane id="Navbar" prefHeight="82.0" prefWidth="966.0" stylesheets="@../javafxapplication/mainfxml.css">
+         <children>
+            <ImageView fitHeight="70.0" fitWidth="108.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../pictures/mabini.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="93.0" layoutY="14.0" prefHeight="55.0" prefWidth="595.0" text="MNHS ENROLLEMENT MANAGEMENT SYSTEM " textFill="#364694">
+               <font>
+                  <Font name="Gill Sans MT Condensed" size="34.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="-1.0" layoutY="82.0" prefHeight="631.0" prefWidth="153.0" styleClass="sidepanel" stylesheets="@../javafxapplication/mainfxml.css">
+         <children>
+            <Button id="customebutton1" fx:id="dashboards" mnemonicParsing="false" onAction="#dashboard_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Dashboard" textFill="WHITE" />
+            <FontAwesomeIcon fill="WHITE" glyphName="DASHBOARD" layoutX="28.0" layoutY="39.0" />
+            <Button id="customebutton1" fx:id="Enrollaction" layoutY="70.0" mnemonicParsing="false" onAction="#Enroll_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll a student" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="USER" text="" />
+               </graphic>
+            </Button>
+            <GlyphsStack layoutX="84.0" layoutY="326.0" />
+            <GlyphsStack layoutX="21.0" layoutY="105.0" />
+            <GlyphsStack layoutX="65.0" layoutY="335.0" />
+         </children>
+      </Pane>
+      <TabPane fx:id="TabPanesel" layoutX="151.0" layoutY="-30.0" prefHeight="740.0" prefWidth="816.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="DASHB" text="Dashboard">
+               <content>
+                  <Pane fx:id="tabbedpanemenu" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="40.0" layoutY="116.0" prefHeight="55.0" prefWidth="595.0" text="MNHS ENROLLEMENT MANAGEMENT SYSTEM " textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+          <Tab fx:id="Enroll" text="Enroll">
+               <content>
+                  <Pane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="46.0" layoutY="94.0" prefHeight="55.0" prefWidth="595.0" text="MNHS ENROLLEMENT MANAGEMENT SYSTEM1 " textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>

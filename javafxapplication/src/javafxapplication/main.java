@@ -29,7 +29,7 @@ public class Main extends Application {
  Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
    stage.setScene(scene);
    stage.getIcons().add(icon);
-   stage.setTitle("Login");
+   stage.setTitle("Mabini National HighSchool Management System Login");
    stage.show();
     stage.setResizable(false);
     

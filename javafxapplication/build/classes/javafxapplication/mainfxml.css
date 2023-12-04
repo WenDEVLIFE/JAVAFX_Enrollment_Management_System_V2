@@ -97,3 +97,16 @@
     -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
 }
+
+#Navbar {
+-fx-background-color: linear-gradient(to top, #007FFF 0%, #e3eeff 99%, #e3eeff 100%);
+      -fx-text-fill: #616161;
+}
+#listview {
+        -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
+}
+
+#customebutton1 {
+    -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
+     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+}

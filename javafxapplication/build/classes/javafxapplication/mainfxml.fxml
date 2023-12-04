@@ -19,7 +19,7 @@
    <children>
       <Pane layoutX="690.0" prefHeight="631.0" prefWidth="484.0" styleClass="sidepanel" stylesheets="@mainfxml.css">
          <children>
-            <PasswordField id="password" fx:id="password" layoutX="144.0" layoutY="427.0" prefHeight="45.0" prefWidth="401.0" />
+            <PasswordField id="password" fx:id="password" layoutX="42.0" layoutY="376.0" prefHeight="45.0" prefWidth="401.0" />
             <Button id="MyButton" fx:id="signbutton" layoutX="156.0" layoutY="516.0" mnemonicParsing="false" onAction="#sign_up_action" prefHeight="86.0" prefWidth="173.0" text="Sign in" />
             <Label fx:id="labels" layoutX="42.0" layoutY="458.0" onMouseClicked="#handleLabelClick" prefHeight="45.0" prefWidth="340.0" text="don't have an account? click me to create an account" textFill="WHITE">
                <font>
@@ -54,15 +54,10 @@
             </CheckBox>
          </children>
       </Pane>
-      <ImageView fitHeight="259.0" fitWidth="252.0" layoutX="233.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="631.0" fitWidth="502.0" layoutX="106.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pictures/mabini.png" />
          </image>
       </ImageView>
-      <Label layoutX="74.0" layoutY="316.0" prefHeight="55.0" prefWidth="571.0" text="MNHS ENROLLEMENT MANAGEMENT SYSTEM " textFill="#364694">
-         <font>
-            <Font name="Gill Sans MT Condensed" size="44.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

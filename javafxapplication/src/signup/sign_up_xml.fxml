@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Signup_Pane" prefHeight="631.0" prefWidth="1174.0" styleClass="mainFxmlClass" stylesheets="@../javafxapplication/mainfxml.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signup.Sign_up_xmlController">
+<AnchorPane id="Signup_Pane"  prefHeight="631.0" prefWidth="1174.0" styleClass="mainFxmlClass" stylesheets="@../javafxapplication/mainfxml.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="signup.Sign_up_xmlController">
    <children>
       <Pane layoutX="384.0" prefHeight="637.0" prefWidth="515.0" styleClass="sidepanel" stylesheets="@../javafxapplication/mainfxml.css">
          <children>

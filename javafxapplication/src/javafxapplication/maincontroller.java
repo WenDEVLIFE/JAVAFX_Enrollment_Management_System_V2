@@ -24,13 +24,13 @@ import static signup.Sign_up_xmlController.stage;
 
 
 public class maincontroller {
-    public static Stage stage1;
+    public static Stage stage1, stage2;
 
     private Parent root;
     private Scene scene;
 
     private AnchorPane anchorpane;
-
+    public static String u, p;
     @FXML
     private CheckBox checkpassword;
 
@@ -47,22 +47,34 @@ public class maincontroller {
     private TextField username;
 
     @FXML
-    void sign_up_action(ActionEvent event) {
-        System.out.println("Hello World");
+    void sign_up_action(ActionEvent event) throws IOException {
+     u=username.getText();
+     p=password.getText();
+     
+           Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("userinteraction/dashboard.fxml"));
+            Scene scene = new Scene(root);
+            Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+            stage2 = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage2.setScene(scene);
+            stage2.getIcons().add(icon);
+            stage2.setTitle("Mabini National High School Management System Dashboard");
+            stage2.show();
+            stage2.setResizable(false);
     }
 
     @FXML
     // this is how to see a password
-  public void seePassword(ActionEvent event) {
+  public void seepassword(ActionEvent event) {
     try {
         // Check if the checkbox is selected.
         if (checkpassword.isSelected()) {
             // Show password
             password.setPromptText(password.getText());
-            password.setText("");
+            password.setText(p);
         } else {
             // Hide password
             password.setText(password.getPromptText());
+       
         
         }
     } catch (Exception e) {
