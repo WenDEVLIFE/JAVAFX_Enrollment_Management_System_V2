@@ -61,7 +61,6 @@ public class maincontroller {
             stage2.show();
             stage2.setResizable(false);
     }
-
     @FXML
     // this is how to see a password
   public void seepassword(ActionEvent event) {

@@ -110,3 +110,64 @@
     -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
 }
+
+.roots {
+    /* this the css for rectagular shape */
+    
+    -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
+    -fx-background-radius: 15px;
+    -fx-background-insets: 0;
+    -fx-padding: 16px;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(24, 24, 27, 0.08);
+ -fx-effect: dropshadow(gaussian, 6px, 3px, 6px, rgba(24, 24, 27, 0.02)), dropshadow(gaussian, 7px, 2px, 7px, rgba(24, 24, 27, 0.04));
+    -fx-text-fill: #18181B;
+    -fx-label-text-fill: #18181B;
+}
+#enrollbutton {
+
+    -fx-background-size: 50px 50px; /* Adjust the width and height as needed */
+    -fx-background-repeat: no-repeat;
+ -fx-background-position: left center;
+    
+     -fx-background-color: #1899D6, rgba(0, 255, 0, 0.7);
+    -fx-background-radius: 16px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 16px;
+    -fx-border-width: 0, 0, 4px;
+    -fx-box-sizing: border-box;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+    -fx-font-family: "din-round", sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+    -fx-line-spacing: 20px;
+   -fx-padding: 13px 0 13px 16px; /* top, right, bottom, left */
+    -fx-text-alignment: center;
+    -fx-text-transform: uppercase;
+}
+
+#clearbutton1 {
+    
+    -fx-background-size: 50px 50px; /* Adjust the width and height as needed */
+    -fx-background-repeat: no-repeat;
+ -fx-background-position: left center;
+    
+     -fx-background-color: #1899D6, rgba(255,0, 0, 0.7);
+    -fx-background-radius: 16px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 16px;
+    -fx-border-width: 0, 0, 4px;
+    -fx-box-sizing: border-box;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+    -fx-font-family: "din-round", sans-serif;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+    -fx-line-spacing: 20px;
+   -fx-padding: 13px 0 13px 16px; /* top, right, bottom, left */
+    -fx-text-alignment: center;
+    -fx-text-transform: uppercase;
+}

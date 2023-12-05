@@ -43,7 +43,6 @@ public static AnchorPane anchorpane;
      
          @FXML
     private CheckBox checkpassword;
-
       
     @FXML
     private PasswordField password1;
@@ -57,10 +56,6 @@ public static AnchorPane anchorpane;
     @FXML
     private TextField username;
 
-    @FXML
-    void sign_in_action(ActionEvent event) {
-        // Add your logic for the sign-in action here
-    }
       @FXML
 void login_back(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/javafxapplication/mainfxml.fxml"));
@@ -74,7 +69,6 @@ void login_back(ActionEvent event) throws IOException {
  stage.setResizable(false);
     
 }
-   
  @FXML
    public  void seepassword(ActionEvent event) {
         try {
