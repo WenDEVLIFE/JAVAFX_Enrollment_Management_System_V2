@@ -7,6 +7,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -316,42 +317,42 @@
             </Tab>
             <Tab fx:id="User" text="UserForm">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane fx:id="R" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Pane layoutX="20.0" layoutY="176.0" prefHeight="518.0" prefWidth="782.0" styleClass="roots" stylesheets="@../javafxapplication/mainfxml.css">
                            <children>
                               <GlyphsStack layoutX="84.0" layoutY="326.0" />
                               <GlyphsStack layoutX="21.0" layoutY="105.0" />
                               <GlyphsStack layoutX="65.0" layoutY="335.0" />
-                              <TextField layoutX="195.0" layoutY="162.0" prefHeight="40.0" prefWidth="420.0" />
                               <Label layoutX="195.0" layoutY="118.0" prefHeight="20.0" prefWidth="88.0" text="Password" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="195.0" layoutY="64.0" prefHeight="35.0" prefWidth="420.0" />
                               <Label layoutX="193.0" layoutY="14.0" prefHeight="37.0" prefWidth="165.0" text="Enter Username" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Button id="enrollbutton" fx:id="Adduser" layoutX="270.0" layoutY="460.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add User" />
+                              <Button id="enrollbutton" fx:id="Adduser" layoutX="270.0" layoutY="460.0" mnemonicParsing="false" onAction="#AdduserAction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add User" />
                               <Button id="clearbutton1" layoutX="413.0" layoutY="460.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
                               <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="443.0" layoutY="489.0" />
                               <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="295.0" layoutY="487.0" selectionStart="1" />
-                              <ComboBox layoutX="195.0" layoutY="370.0" prefWidth="150.0" />
+                              <ComboBox fx:id="Role" layoutX="195.0" layoutY="370.0" prefWidth="150.0" />
                               <Label layoutX="194.0" layoutY="335.0" prefHeight="20.0" prefWidth="164.0" text="User Role" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="195.0" layoutY="259.0" prefHeight="40.0" prefWidth="420.0" />
                               <Label layoutX="193.0" layoutY="221.0" prefHeight="30.0" prefWidth="137.0" text="Confirm Password" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <CheckBox layoutX="195.0" layoutY="309.0" mnemonicParsing="false" text="Check to see the password" textFill="WHITE" />
+                              <CheckBox fx:id="checkpassword" layoutX="195.0" layoutY="309.0" mnemonicParsing="false" onAction="#seepassword" text="Check to see the password" textFill="WHITE" />
+                              <TextField id="none" fx:id="usernamefield" layoutX="195.0" layoutY="63.0" prefHeight="42.0" prefWidth="418.0" />
+                              <PasswordField id="none" fx:id="passwordfield" layoutX="194.0" layoutY="161.0" prefHeight="44.0" prefWidth="423.0" />
+                              <PasswordField id="none" fx:id="confirmpasswordfield" layoutX="193.0" layoutY="251.0" prefHeight="44.0" prefWidth="423.0" />
                            </children>
                         </Pane>
                         <Label layoutX="32.0" layoutY="95.0" prefHeight="55.0" prefWidth="595.0" text="ADMIN FORM" textFill="#364694">
@@ -362,6 +363,16 @@
                         <Line endX="644.0" layoutX="133.0" layoutY="150.0" startX="-100.0" />
                         <ComboBox fx:id="selecttable3" layoutX="628.0" layoutY="110.0" onAction="#comboaction3" prefWidth="150.0" />
                         <Label layoutX="448.0" layoutY="95.0" prefHeight="55.0" prefWidth="180.0" text="Select to go on next form" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userlabel" layoutX="593.0" layoutY="26.0" prefHeight="27.0" prefWidth="216.0" text="Username:" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="593.0" layoutY="53.0" prefHeight="27.0" prefWidth="118.0" text="Role:" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="22.0" />
                            </font>

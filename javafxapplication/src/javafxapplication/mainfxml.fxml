@@ -21,11 +21,6 @@
          <children>
             <PasswordField id="password" fx:id="password" layoutX="42.0" layoutY="376.0" prefHeight="45.0" prefWidth="401.0" />
             <Button id="MyButton" fx:id="signbutton" layoutX="156.0" layoutY="516.0" mnemonicParsing="false" onAction="#sign_up_action" prefHeight="86.0" prefWidth="173.0" text="Sign in" />
-            <Label fx:id="labels" layoutX="42.0" layoutY="458.0" onMouseClicked="#handleLabelClick" prefHeight="45.0" prefWidth="340.0" text="don't have an account? click me to create an account" textFill="WHITE">
-               <font>
-                  <Font name="Bodoni MT Condensed Bold" size="18.0" />
-               </font>
-            </Label>
             <Label layoutX="42.0" layoutY="330.0" prefHeight="34.0" prefWidth="185.0" text="Password" textFill="WHITE">
                <font>
                   <Font name="Bodoni MT Condensed Bold" size="31.0" />

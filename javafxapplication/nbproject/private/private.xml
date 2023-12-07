@@ -5,16 +5,19 @@
             <url>src/javafxapplication/maincontroller.java</url>
             <bookmark id="1">
                 <name/>
-                <line>98</line>
+                <line>140</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/userinteraction/dashboard.fxml</file>
-            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/javafxapplication/mainfxml.css</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/functions/FxMain.java</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/userinteraction/ew.java</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/javafxapplication/Main.java</file>
             <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/userinteraction/DashboardController.java</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/functions/loginuser.java</file>
+            <file>file:/C:/Users/Administrator/Documents/NetBeansProjects/javafxapplication/src/javafxapplication/maincontroller.java</file>
         </group>
     </open-files>
 </project-private>

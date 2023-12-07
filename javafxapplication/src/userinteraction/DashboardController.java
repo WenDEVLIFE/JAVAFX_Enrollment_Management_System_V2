@@ -4,19 +4,46 @@
  */
 package userinteraction;
 
+import functions.User_Exist;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 
 public class DashboardController {
 
+    public String user;
+    
+    public static String password;
+    public static String confirmpass;
+    
+
+@FXML
+private Tooltip toolTip = new Tooltip();
+private Tooltip toolTip1 = new Tooltip();
+
+
+  public DashboardController() {
+        // Initialize the tooltip
+        this.toolTip = new Tooltip();
+          this.toolTip1 = new Tooltip();
+    }
+    
     // this are the tabs
     @FXML
     private Tab DASHB;
@@ -67,6 +94,9 @@ public class DashboardController {
     private Pane tabbedpanemenu;
     
     
+        @FXML
+    private Label userlabel;
+        
     // table
     @FXML
     private TableView<?> EnrollTable;
@@ -94,13 +124,35 @@ public class DashboardController {
     @FXML
     private ComboBox<String> selecttable6;
     
+        @FXML
+    private TextField usernamefield;
+        
+            @FXML
+    private PasswordField passwordfield;
+            
+    @FXML
+    private  PasswordField confirmpasswordfield;
+    
+        @FXML
+    private ComboBox<String> Role;
+        
+            @FXML
+    private CheckBox checkpassword;
+        
               @FXML
     public void initialize() {
+            userlabel.setText("Username:"+user);
+        passwordfield.setTooltip(toolTip);
+    confirmpasswordfield.setTooltip(toolTip1);
+    
        selecttable.setValue("Select an Option");
        selecttable1.setValue("Select an Option");
        selecttable2.setValue("Select an Option");
        selecttable3.setValue("Select an Option");
        selecttable4.setValue("Select an Option");
+          selecttable5.setValue("Select an Option");
+             selecttable6.setValue("Select an Option");
+        Role.setValue("Select an Role");
        
         // Add items to the ComboBox
         ObservableList<String> items = FXCollections.observableArrayList(
@@ -136,9 +188,127 @@ public class DashboardController {
              selecttable4.setItems(items2);
              selecttable5.setItems(items2);
              selecttable6.setItems(items2);
+             
+                ObservableList<String> items3 = FXCollections.observableArrayList(
+                "Select an Role",
+                "Admin",
+                "Teacher"
+                // Add more items as needed
+        );
+                  Role.setItems(items3);
 }
     
+    
     // this are the action events
+    
+    
+      @FXML
+     void AdduserAction(ActionEvent event) {
+         String username = usernamefield.getText();
+        password = passwordfield.getText();
+        confirmpass = confirmpasswordfield.getText();
+        String selectedItemString1 = Role.getSelectionModel().getSelectedItem();
+
+        if (selectedItemString1.equals("Select an Role")) {
+            showAlert("Please select a role.");
+        } else {
+            if (username.isEmpty() || password.isEmpty() || confirmpass.isEmpty()) {
+                showAlert("Don't leave a field blank. Please fill in all fields.");
+            } else if (!password.equals(confirmpass)) {
+                showAlert("Passwords do not match!");
+            } else if (!verifyPasswordLength(confirmpass)) {
+                showAlert("Password must be at least 8 to 12 characters long.");
+            } else {
+                boolean hasCapsLock = false;
+                boolean hasSpecialCharacters = false;
+
+                for (char character : confirmpass.toCharArray()) {
+                    if (Character.isUpperCase(character)) {
+                        hasCapsLock = true;
+                    } else if (!Character.isLetterOrDigit(character)) {
+                        hasSpecialCharacters = true;
+                    }
+                }
+
+                if (!hasCapsLock || !hasSpecialCharacters) {
+                    showAlert("The password must contain at least one uppercase letter and one special character.");
+                } else {
+                    // All checks passed, user registration or other actions can proceed here
+                  User_Exist e = new User_Exist(username, password, selectedItemString1);
+                    e.user_identification();
+                    clearFields(); // You can define this method to clear the input fields
+                }
+            }
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Message");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private boolean verifyPasswordLength(String password) {
+         int length = password.length();
+    return length >= 8 && length <=20;
+    }
+
+    private void clearFields() {
+        // Implement your logic to clear the input fields here
+        usernamefield.clear();
+        passwordfield.clear();
+        confirmpasswordfield.clear();
+        Role.getSelectionModel().clearSelection();
+    }
+    
+       // this is how to see a password
+  public void seepassword(ActionEvent event) {
+       password = passwordfield.getText();
+        confirmpass = confirmpasswordfield.getText();
+    try {
+        // Check if the checkbox is selected.
+        if (checkpassword.isSelected()) {
+            // Show password
+           showPassword(passwordfield);
+           showPassword1(confirmpasswordfield);
+        } else {
+           hidePassword();
+        
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+  
+  // this function serve to show password
+  private void showPassword(PasswordField passwordfield) {
+    Point2D p = passwordfield.localToScene(passwordfield.getBoundsInLocal().getMaxX(), passwordfield.getBoundsInLocal().getMaxY());
+    toolTip.setText(passwordfield.getText());
+    toolTip.show(passwordfield,
+            p.getX() + passwordfield.getScene().getX() + passwordfield.getScene().getWindow().getX(),
+            p.getY() + passwordfield.getScene().getY() + passwordfield.getScene().getWindow().getY());
+   
+}
+  private void showPassword1( PasswordField confirmpasswordfield) {
+  
+    // this is for confirmpasswordfield
+    Point2D p1 = confirmpasswordfield.localToScene(confirmpasswordfield.getBoundsInLocal().getMaxX(), confirmpasswordfield.getBoundsInLocal().getMaxY());
+    toolTip1.setText(confirmpasswordfield.getText());
+    toolTip1.show(confirmpasswordfield,
+            p1.getX() + confirmpasswordfield.getScene().getX() + confirmpasswordfield.getScene().getWindow().getX(),
+            p1.getY() + confirmpasswordfield.getScene().getY() + confirmpasswordfield.getScene().getWindow().getY());
+}
+
+  // this void serve to hide password
+private void hidePassword() {
+    toolTip.setText("");
+    toolTip.hide();
+    
+      toolTip1.setText("");
+    toolTip1.hide();
+}
    @FXML
     void comboaction(ActionEvent event) {
         String selectedItem = selecttable.getSelectionModel().getSelectedItem();
@@ -271,5 +441,8 @@ TabPanesel.getSelectionModel().select(DASHB);
    TabPanesel.getSelectionModel().select(Admin);
     }
     
-
+public void setuserlabel(String user){
+    userlabel.setText("Username:"+user);
+}
+    
 }

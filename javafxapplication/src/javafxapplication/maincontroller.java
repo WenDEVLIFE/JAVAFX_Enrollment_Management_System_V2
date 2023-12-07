@@ -4,22 +4,30 @@
  */
 package javafxapplication;
 
+import functions.loginuser;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 public class maincontroller {
@@ -29,15 +37,17 @@ public class maincontroller {
     private Scene scene;
 
     private AnchorPane anchorpane;
-    public static String u, p;
+    public static String user, pass;
+    
+    @FXML
+private Tooltip toolTip = new Tooltip();
+    
     @FXML
     private CheckBox checkpassword;
 
     @FXML
     private PasswordField password;
 
-    @FXML
-    private Label labels;
 
     @FXML
     private Button signbutton;
@@ -47,18 +57,52 @@ public class maincontroller {
 
     @FXML
     void sign_up_action(ActionEvent event) throws IOException {
-     u=username.getText();
-     p=password.getText();
+     user=username.getText();
+     pass=password.getText();
+       if (isMySQLXAMPPOnline()) {
+	                    login(user, pass, event);
+	                    
+	                } else // else if the database is offline
+	                {
+	                 
+	                }
+       
+        
+         
+    }
+    
+    public boolean isMySQLXAMPPOnline() {
+        String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
+        String username = "root";
+        String password = "";
+
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void login(String user, String pass,ActionEvent event) {
+        try {
+            if (!isMySQLXAMPPOnline()) {
      
-           Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("userinteraction/dashboard.fxml"));
-            Scene scene = new Scene(root);
-            Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-            stage2 = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage2.setScene(scene);
-            stage2.getIcons().add(icon);
-            stage2.setTitle("Mabini National High School Management System Dashboard");
-            stage2.show();
-            stage2.setResizable(false);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Database Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Permission denied, please contact the administrator");
+                    alert.showAndWait();
+                return;
+            }
+            
+            // call the database class
+           loginuser lu = new loginuser(user, pass);
+lu.login_authentication(user, pass, event);
+       
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     @FXML
     // this is how to see a password
@@ -67,11 +111,10 @@ public class maincontroller {
         // Check if the checkbox is selected.
         if (checkpassword.isSelected()) {
             // Show password
-            password.setPromptText(password.getText());
-            password.setText(p);
+         showPassword(password);
         } else {
             // Hide password
-            password.setText(password.getPromptText());
+          hidePassword();
        
         
         }
@@ -79,24 +122,23 @@ public class maincontroller {
         e.printStackTrace();
     }
 }
-
-    @FXML
-    void handleLabelClick(MouseEvent event) throws IOException {
-        // this is how you change scenes
-        try {
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("signup/sign_up_xml.fxml"));
-            Scene scene = new Scene(root);
-            Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-            stage1 = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage1.setScene(scene);
-            stage1.getIcons().add(icon);
-            stage1.setTitle("Login");
-            stage1.show();
-            stage1.setResizable(false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+// this function serve to show password
+  private void showPassword(PasswordField password) {
+    Point2D p = password.localToScene(password.getBoundsInLocal().getMaxX(), password.getBoundsInLocal().getMaxY());
+    toolTip.setText(password.getText());
+    toolTip.show(password,
+            p.getX() + password.getScene().getX() + password.getScene().getWindow().getX(),
+            p.getY() + password.getScene().getY() + password.getScene().getWindow().getY());
+   
+}
+  
+  // this void serve to hide password
+private void hidePassword() {
+    toolTip.setText("");
+    toolTip.hide();
+    
+   
+}
 
    
 }
