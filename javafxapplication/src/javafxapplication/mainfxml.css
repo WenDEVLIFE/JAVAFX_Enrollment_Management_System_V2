@@ -55,44 +55,6 @@
     -fx-text-transform: uppercase;
 }
 
-#username{
-    
-      -fx-border-color: #4CAF50; /* Set your desired border color */
-    -fx-border-width: 2;      /* Set your desired border width */
-    -fx-border-radius: 5;     /* Set your desired border radius */
-    
-     -fx-text-fill: #FFFFFF;
-     -fx-font-family: "Verdana";
-     -fx-background-color:rgba(128, 128, 128, 0.7);
-    -fx-primary-color: #007acc;
-    -fx-secondary-color: #4B6EAF;
-  -fx-grey-color: #b9b9b9;
-  
- -fx-focus-color: -fx-secondary-color;
-  -fx-accent: -fx-primary-color;
--fx-background-insets: 0, 0 0 1 0;
--fx-background-radius: 0;
-        
-}
-#password {
-    -fx-border-color: #4CAF50; /* Set your desired border color */
-    -fx-border-width: 2;      /* Set your desired border width */
-    -fx-border-radius: 5;     /* Set your desired border radius */
-    
-        -fx-text-fill: #FFFFFF;
-     -fx-font-family: "Verdana";
-     -fx-background-color:rgba(128, 128, 128, 0.7);
-    -fx-primary-color: #007acc;
-    
--fx-secondary-color: #4B6EAF;
--fx-grey-color: #b9b9b9;
-    
--fx-focus-color: -fx-secondary-color;
--fx-accent: -fx-primary-color;
--fx-background-insets: 0, 0 0 1 0;
--fx-background-radius: 0;
-}
-
 .sidepanel {
     -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
@@ -170,4 +132,10 @@
    -fx-padding: 13px 0 13px 16px; /* top, right, bottom, left */
     -fx-text-alignment: center;
     -fx-text-transform: uppercase;
+}
+#table-row-cell {
+  -fx-focus-color: transparent;
+}
+.table-view-skin .virtual-flow {
+  -fx-focus-color: transparent;
 }

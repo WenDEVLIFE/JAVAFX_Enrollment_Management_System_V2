@@ -19,14 +19,14 @@
    <children>
       <Pane layoutX="690.0" prefHeight="631.0" prefWidth="484.0" styleClass="sidepanel" stylesheets="@mainfxml.css">
          <children>
-            <PasswordField id="password" fx:id="password" layoutX="42.0" layoutY="376.0" prefHeight="45.0" prefWidth="401.0" />
+            <PasswordField fx:id="password" layoutX="42.0" layoutY="376.0" prefHeight="45.0" prefWidth="401.0" />
             <Button id="MyButton" fx:id="signbutton" layoutX="156.0" layoutY="516.0" mnemonicParsing="false" onAction="#sign_up_action" prefHeight="86.0" prefWidth="173.0" text="Sign in" />
             <Label layoutX="42.0" layoutY="330.0" prefHeight="34.0" prefWidth="185.0" text="Password" textFill="WHITE">
                <font>
                   <Font name="Bodoni MT Condensed Bold" size="31.0" />
                </font>
             </Label>
-            <TextField id="username" fx:id="username" layoutX="42.0" layoutY="260.0" prefHeight="45.0" prefWidth="401.0" />
+            <TextField fx:id="username" layoutX="42.0" layoutY="260.0" prefHeight="45.0" prefWidth="401.0" />
             <Label layoutX="49.0" layoutY="208.0" prefHeight="45.0" prefWidth="107.0" text="Username" textFill="WHITE">
                <font>
                   <Font name="Bodoni MT Condensed Bold" size="31.0" />

@@ -30,13 +30,13 @@ import userinteraction.DashboardController;
  */
 public class loginuser {
     
-        public static Stage stage1, stage2;
+        public static Stage stage;
 
     private Parent root;
     private Scene scene;
     
      // store the data from the main
-private final String user;
+public final String user;
 private final String pass;
 
  public static String mydb_url = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
@@ -49,59 +49,41 @@ private final String pass;
 
     }
      
-    public void login_authentication(String user, String pass, ActionEvent event) throws ClassNotFoundException, IOException {
-        Connection con = null;
-        try {
-            checkMySQLServerStatus(); // Check if MySQL is online before attempting to authenticate
+  public void loginAuthentication(String user, String pass, ActionEvent event) throws ClassNotFoundException, IOException {
+    try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "")) {
+        checkMySQLServerStatus(); // Check if MySQL is online before attempting to authenticate
 
-            // Connect to the database.
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "");
+        String sql = "SELECT username, password, salt FROM usertable WHERE username = ?";
 
-            // SQL command
-            String sql = "SELECT username, password, salt FROM usertable WHERE username = ?";
+        try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
+            preparedStatement.setString(1, user);
 
-            // SQL function
-            try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
-                preparedStatement.setString(1, user);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String storedHashedPassword = resultSet.getString("password");
+                    byte[] storedSalt = resultSet.getBytes("salt");
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        // User found
-                        String storedHashedPassword = resultSet.getString("password");
-                        byte[] storedSalt = resultSet.getBytes("salt");
-
-                        // Verify the entered password
-                        if (pass.isEmpty()) {
-                            // Password is empty, show an error message
-                            displayErrorMessage("Password is required");
-                        } else if (validatePassword(pass, storedSalt, storedHashedPassword)) {
-                            displayWelcomeMessage(user,event);
-                            
-                            // Authentication successful, do not dispose the dashboard frame
-                        } else {
-                            // Incorrect username or password
-                            displayErrorMessage("Incorrect username or password");
-                        }
+                    if (pass.isEmpty()) {
+                        displayErrorMessage("Password is required");
+                    } else if (validatePassword(pass, storedSalt, storedHashedPassword)) {
+                        displayWelcomeMessage(user,event);
                     } else {
-                        // User not found
-                        displayErrorMessage("User not found");
+                        displayErrorMessage("Incorrect username or password");
                     }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle database connection errors
-        } finally {
-            // Close the database connection in the finally block
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace(); // Handle the exception if needed
+                } else {
+                    displayErrorMessage("User not found");
                 }
             }
         }
-    
+    } catch (SQLException e) {
+        handleDatabaseConnectionError(e);
+    }
 }
+
+private void handleDatabaseConnectionError(SQLException e) {
+    e.printStackTrace(); // Log or handle the error appropriately
+}
+
       public  void checkMySQLServerStatus() throws SQLException {
         try (Connection connection = DriverManager.getConnection(mydb_url, myDB_username, myDB_PASSWORD)) {
             // Connection successful, MySQL is online.
@@ -123,24 +105,28 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
      Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Login Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("You successfully login, Good day and Welcome" +user);
+                    alert.setContentText("You successfully login, Good day and Welcome " +user);
                     alert.showAndWait();
-    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("userinteraction/dashboard.fxml"));
-    root = loader.load();
 
-    DashboardController s = loader.getController();
-    s.setuserlabel(user);
+FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
+
+    Parent root = loader.load();
+    System.out.println("DashboardController instance: " + loader.getController());
+System.out.println("User value: " + user);
+    DashboardController  DashboardControllerd = loader.getController();
+     DashboardControllerd.setuserlabel(user);
 
     Scene scene = new Scene(root);
-    Stage stage2 = (Stage) ((Node) event.getSource()).getScene().getWindow();
     javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
     
-    stage2 = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage2.setScene(scene);
-    stage2.getIcons().add(icon);
-    stage2.setTitle("Mabini National High School Management System Dashboard");
-    stage2.show();
-    stage2.setResizable(false);
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.setScene(scene);
+    stage.getIcons().add(icon);
+    stage.setTitle("Mabini National High School Management System Dashboard");
+    stage.show();
+    stage.setResizable(false);
+     
+    
 }
 
 public boolean validatePassword(String enteredPassword, byte[] storedSalt, String storedHashedPassword) {

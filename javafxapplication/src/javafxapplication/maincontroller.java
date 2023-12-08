@@ -11,33 +11,27 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 
 public class maincontroller {
-    public static Stage stage1, stage2;
+    public static Stage stage;
 
     private Parent root;
     private Scene scene;
 
     private AnchorPane anchorpane;
-    public static String user, pass;
+    public String user, pass;
     
     @FXML
 private Tooltip toolTip = new Tooltip();
@@ -64,7 +58,12 @@ private Tooltip toolTip = new Tooltip();
 	                    
 	                } else // else if the database is offline
 	                {
-	                 
+	                  Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Database Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Permission denied, please contact the administrator");
+                    alert.showAndWait();
+           
 	                }
        
         
@@ -98,7 +97,7 @@ private Tooltip toolTip = new Tooltip();
             
             // call the database class
            loginuser lu = new loginuser(user, pass);
-lu.login_authentication(user, pass, event);
+lu.loginAuthentication(user, pass, event);
        
         } catch (Exception e) {
             e.printStackTrace();

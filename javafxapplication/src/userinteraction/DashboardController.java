@@ -4,30 +4,77 @@
  */
 package userinteraction;
 
+import functions.User;
 import functions.User_Exist;
-import javafx.beans.property.SimpleBooleanProperty;
+import static functions.loginuser.stage;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javafx.geometry.Pos;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableCell;
 
 public class DashboardController {
 
-    public String user;
+    // for receiving the username and display it on the label
+       @FXML
+    private Label setLabelUser;
+
+      @FXML
+    private Label setLabelUser1;
+
+    @FXML
+    private Label setLabelUser2;
+
+    @FXML
+    private Label setLabelUser3;
+
+    @FXML
+    private Label setLabelUser4;
+
+    @FXML
+    private Label setLabelUser5;
+
+    @FXML
+    private Label setLabelUser6;
+    
+        @FXML
+    private Label setUserLabel7;
+
+    @FXML
+    private Label setUserLabel8;
+
     
     public static String password;
     public static String confirmpass;
@@ -42,6 +89,7 @@ private Tooltip toolTip1 = new Tooltip();
         // Initialize the tooltip
         this.toolTip = new Tooltip();
           this.toolTip1 = new Tooltip();
+     
     }
     
     // this are the tabs
@@ -93,14 +141,14 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private Pane tabbedpanemenu;
     
-    
-        @FXML
-    private Label userlabel;
         
     // table
     @FXML
     private TableView<?> EnrollTable;
     
+    
+    @FXML
+    private TableView<User> AdminTable;
     
     // combolist
     @FXML
@@ -139,9 +187,37 @@ private Tooltip toolTip1 = new Tooltip();
             @FXML
     private CheckBox checkpassword;
         
+            // for menu action
+      @FXML
+    private MenuButton menuactions;
+
+    @FXML
+    private MenuButton menuactions1;
+
+    @FXML
+    private MenuButton menuactions2;
+
+    @FXML
+    private MenuButton menuactions3;
+
+    @FXML
+    private MenuButton menuactions4;
+
+    @FXML
+    private MenuButton menuactions5;
+
+    @FXML
+    private MenuButton menuactions6;
+
+    @FXML
+    private MenuButton menuactions7;       
+    
+    @FXML
+    private MenuButton menuactions8;
+            
               @FXML
     public void initialize() {
-            userlabel.setText("Username:"+user);
+        // for the passwordfield and confirmpasswordfield
         passwordfield.setTooltip(toolTip);
     confirmpasswordfield.setTooltip(toolTip1);
     
@@ -196,6 +272,58 @@ private Tooltip toolTip1 = new Tooltip();
                 // Add more items as needed
         );
                   Role.setItems(items3);
+                  
+        AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
+    TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idColumn.setCellFactory(CustomTableCellFactory::cellFactoryForInteger);
+
+TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
+
+usernameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+usernameColumn.setOnEditCommit(event -> {
+    User user = event.getRowValue();
+    user.setUsername(event.getNewValue());
+    // Handle database update or other logic
+});
+
+TableColumn<User, String> roleColumn = new TableColumn<>("Role");
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        roleColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
+roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+roleColumn.setOnEditCommit(event -> {
+    User user = event.getRowValue();
+    user.setRole(event.getNewValue());
+    // Handle database update or other logic
+});
+
+        TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
+        deleteColumn.setCellFactory(param -> new ButtonCell("Delete"));
+
+        TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
+        editColumn.setCellFactory(param -> new ButtonCell("Edit"));
+
+        // Add columns to the table
+        AdminTable.getColumns().addAll(idColumn, usernameColumn, roleColumn, deleteColumn, editColumn);
+
+// Set column resize policy
+AdminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+// Autoresize columns
+AdminTable.getColumns().forEach(column -> {
+    if (column.isResizable()) {
+        column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
+    }
+});
+
+        // Load data from the database
+        loadDataFromDatabase();
+    
+                  
+                  
+                      
 }
     
     
@@ -309,6 +437,8 @@ private void hidePassword() {
       toolTip1.setText("");
     toolTip1.hide();
 }
+
+// for sidepanel navbar function buttons
    @FXML
     void comboaction(ActionEvent event) {
         String selectedItem = selecttable.getSelectionModel().getSelectedItem();
@@ -441,8 +571,94 @@ TabPanesel.getSelectionModel().select(DASHB);
    TabPanesel.getSelectionModel().select(Admin);
     }
     
+    
 public void setuserlabel(String user){
-    userlabel.setText("Username:"+user);
+
+if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
+   setLabelUser.setText("User:"+ user);
+    setLabelUser1.setText("User:" + user);
+    setLabelUser2.setText("User:" + user);
+    setLabelUser3.setText("User:" + user);
+    setLabelUser4.setText("User:" + user);
+    setLabelUser5.setText("User:" + user);
+    setLabelUser6.setText("User:" + user);
+     setUserLabel7.setText("User:" + user);
+     setUserLabel8.setText("User:" + user);
+  }
+else {
+    System.out.println("username is null");
 }
+} 
+    
+
+    @FXML
+    void logoutaction(ActionEvent event) {
+showLogoutConfirmation();
+    }
+    
+    private void showLogoutConfirmation() {
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Logout Confirmation");
+    alert.setHeaderText(null);
+    alert.setContentText("Are you sure you want to logout?");
+
+    // Add "Yes" and "No" buttons
+    ButtonType buttonTypeYes = new ButtonType("Yes");
+    ButtonType buttonTypeNo = new ButtonType("No");
+
+    alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+    // Show and wait for user's response
+    alert.showAndWait().ifPresent(response -> {
+        if (response == buttonTypeYes) {
+            // User clicked "Yes," perform logout action
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/javafxapplication/mainfxml.fxml"));
+                Scene scene = new Scene(root);
+ Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+   stage.setScene(scene);
+   stage.getIcons().add(icon);
+   stage.setTitle("Mabini National HighSchool Management System Login");
+   stage.show();
+    stage.setResizable(false);
+            } catch (IOException ex) {
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+   
+            
+            performLogout();
+        } else if (response == buttonTypeNo) {
+            // User clicked "No," do nothing or handle accordingly
+        }
+    });
+}
+
+private void performLogout() {
+    // Add the logout logic here
+    System.out.println("Logging out...");
+    // You can close the current stage or navigate to the login screen, etc.
+}
+
+    private void loadDataFromDatabase() {
+    // Clear existing data in the table
+        AdminTable.getItems().clear();
+
+        // Replace these with your database connection details
+        String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
+        String username1 = "root";
+        String password = "";
+
+        // call the class to display the value from the database
+        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password);
+        ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
+
+        // Set the items in the TableView
+        AdminTable.setItems(userList);
+    }
+    
+    
+ 
+
     
 }
