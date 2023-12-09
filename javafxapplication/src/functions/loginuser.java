@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import static javafxapplication.maincontroller.stage;
 import userinteraction.DashboardController;
 
 /**
@@ -30,7 +31,7 @@ import userinteraction.DashboardController;
  */
 public class loginuser {
     
-        public static Stage stage;
+        public static Stage stage1;
 
     private Parent root;
     private Scene scene;
@@ -102,31 +103,42 @@ private void displayErrorMessage(String message) {
 }
 
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-     Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Login Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("You successfully login, Good day and Welcome " +user);
-                    alert.showAndWait();
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Login Message");
+    alert.setHeaderText(null);
+    alert.setContentText("You successfully login, Good day and Welcome " + user);
+    alert.showAndWait();
 
-FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
-
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
     Parent root = loader.load();
+
     System.out.println("DashboardController instance: " + loader.getController());
-System.out.println("User value: " + user);
-    DashboardController  DashboardControllerd = loader.getController();
-     DashboardControllerd.setuserlabel(user);
+    System.out.println("User value: " + user);
+
+    DashboardController dashboardController = loader.getController();
+    dashboardController.setuserlabel(user);
+    
+    // Initialize stage1 if it is null
+    // to close the current scene
+    if (stage1 == null) {
+        stage1 = new Stage();
+    }
+
+    dashboardController.setStage(stage1);
 
     Scene scene = new Scene(root);
     javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-    
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(scene);
-    stage.getIcons().add(icon);
-    stage.setTitle("Mabini National High School Management System Dashboard");
-    stage.show();
-    stage.setResizable(false);
-     
-    
+
+    stage1.setScene(scene);
+    stage1.getIcons().add(icon);
+    stage1.setTitle("Mabini National High School Management System Dashboard");
+    stage1.show();
+    stage1.setResizable(false);
+
+    // Close the current stage
+    Node sourceNode = (Node) event.getSource();
+    Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+    currentStage.close();
 }
 
 public boolean validatePassword(String enteredPassword, byte[] storedSalt, String storedHashedPassword) {

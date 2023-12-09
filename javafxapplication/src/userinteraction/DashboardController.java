@@ -6,7 +6,6 @@ package userinteraction;
 
 import functions.User;
 import functions.User_Exist;
-import static functions.loginuser.stage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -35,18 +35,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javafx.geometry.Pos;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableCell;
+import javafx.stage.Stage;
 
 public class DashboardController {
 
+         private Stage stage1;
     // for receiving the username and display it on the label
        @FXML
     private Label setLabelUser;
@@ -90,6 +85,11 @@ private Tooltip toolTip1 = new Tooltip();
         this.toolTip = new Tooltip();
           this.toolTip1 = new Tooltip();
      
+    }
+  
+  
+    public void setStage(Stage stage1) {
+        this.stage1 = stage1;
     }
     
     // this are the tabs
@@ -609,35 +609,45 @@ showLogoutConfirmation();
     alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
 
     // Show and wait for user's response
-    alert.showAndWait().ifPresent(response -> {
-        if (response == buttonTypeYes) {
-            // User clicked "Yes," perform logout action
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("/javafxapplication/mainfxml.fxml"));
-                Scene scene = new Scene(root);
- Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-   stage.setScene(scene);
-   stage.getIcons().add(icon);
-   stage.setTitle("Mabini National HighSchool Management System Login");
-   stage.show();
-    stage.setResizable(false);
-            } catch (IOException ex) {
-                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-   
-            
+   alert.showAndWait().ifPresent((ButtonType response) -> {
+    if (response == buttonTypeYes) {
+        try {
             performLogout();
-        } else if (response == buttonTypeNo) {
-            // User clicked "No," do nothing or handle accordingly
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    });
+            } else if (response == buttonTypeNo) {
+                // User clicked "No," do nothing or handle accordingly
+            }
+        });
 }
 
-private void performLogout() {
-    // Add the logout logic here
+private void performLogout() throws IOException {
     System.out.println("Logging out...");
-    // You can close the current stage or navigate to the login screen, etc.
+
+    // User clicked "Yes," perform logout action
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/javafxapplication/mainfxml.fxml"));
+    Parent root = loader.load();
+
+    // Set up the stage for the new scene
+    Stage loginStage = new Stage();
+    loginStage.setTitle("Mabini National HighSchool Management System Login");
+
+    // Set the icon for the login stage
+    javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+    loginStage.getIcons().add(icon);
+
+    loginStage.setScene(new Scene(root));
+
+    // Close the current stage
+    if (stage1 != null) {
+        stage1.close();
+    } else {
+        System.out.println("Error: stage1 is null");
+    }
+
+    // Show the login stage
+    loginStage.show();
 }
 
     private void loadDataFromDatabase() {
