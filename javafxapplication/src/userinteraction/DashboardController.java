@@ -7,15 +7,16 @@ package userinteraction;
 import functions.User;
 import functions.User_Exist;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -38,9 +39,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
+import static javafxapplication.Main.LoginView;
+import static javafxapplication.Main.MABINIVIEW;
 
 public class DashboardController {
 
+    private WeakReference<Button> buttonRef;
+    
          private Stage stage1;
     // for receiving the username and display it on the label
        @FXML
@@ -172,6 +177,10 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private ComboBox<String> selecttable6;
     
+    @FXML
+    private ComboBox<String> Role;
+    
+    
         @FXML
     private TextField usernamefield;
         
@@ -180,9 +189,6 @@ private Tooltip toolTip1 = new Tooltip();
             
     @FXML
     private  PasswordField confirmpasswordfield;
-    
-        @FXML
-    private ComboBox<String> Role;
         
             @FXML
     private CheckBox checkpassword;
@@ -217,6 +223,9 @@ private Tooltip toolTip1 = new Tooltip();
             
               @FXML
     public void initialize() {
+        
+
+        
         // for the passwordfield and confirmpasswordfield
         passwordfield.setTooltip(toolTip);
     confirmpasswordfield.setTooltip(toolTip1);
@@ -634,14 +643,15 @@ private void performLogout() throws IOException {
     loginStage.setTitle("Mabini National HighSchool Management System Login");
 
     // Set the icon for the login stage
-    javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-    loginStage.getIcons().add(icon);
+    javafx.scene.image.Image icon2 = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+    loginStage.getIcons().add(icon2);
 
     loginStage.setScene(new Scene(root));
-
+   icon2 = null;
     // Close the current stage
     if (stage1 != null) {
         stage1.close();
+        memoryleakclose();
     } else {
         System.out.println("Error: stage1 is null");
     }
@@ -661,14 +671,60 @@ private void performLogout() throws IOException {
 
         // call the class to display the value from the database
         DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password);
-        ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
-
-        // Set the items in the TableView
-        AdminTable.setItems(userList);
+    try {
+    // Fetch data from the database
+    ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
+    // Set the items in the TableView
+    AdminTable.setItems(userList);
+} finally {
+    // Close the database connection
+    databaseHandler.closeConnection();
+}
     }
-    
-    
- 
+    void memoryleakclose(){
+        Enrollaction.setOnAction(null);
 
+   dashboards.setOnAction(null);
+
+  gradesbuttonaction.setOnAction(null);
+
+
+reportbutton.setOnAction(null);
+
+
+     menuactions.setOnAction(null);
+
+ menuactions1.setOnAction(null);
+
+  menuactions2.setOnAction(null);
+
+    menuactions3.setOnAction(null);
+
+  menuactions4.setOnAction(null);
+
+   menuactions5.setOnAction(null);
+
+     menuactions6.setOnAction(null);
+
+     menuactions7.setOnAction(null);      
+    
+    menuactions8.setOnAction(null);
+    
+     selecttable.setDisable(true);
+     
+      selecttable1.setDisable(true);
+      
+       selecttable2.setDisable(true);
+
+   selecttable3.setDisable(true);
+
+    selecttable4.setDisable(true);
+    
+    selecttable5.setDisable(true);
+
+  selecttable6.setDisable(true);
+    
+  Role.setDisable(true);
+    }
     
 }

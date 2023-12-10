@@ -22,7 +22,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import static javafxapplication.maincontroller.stage;
+import static javafxapplication.Main.LoginView;
+import static javafxapplication.Main.MABINIVIEW;
 import userinteraction.DashboardController;
 
 /**
@@ -127,14 +128,17 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
     dashboardController.setStage(stage1);
 
     Scene scene = new Scene(root);
-    javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+    javafx.scene.image.Image icon1 = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
 
     stage1.setScene(scene);
-    stage1.getIcons().add(icon);
+    stage1.getIcons().add(icon1);
     stage1.setTitle("Mabini National High School Management System Dashboard");
     stage1.show();
     stage1.setResizable(false);
-
+    
+     icon1 = null;
+        MABINIVIEW=null;
+    LoginView=null;
     // Close the current stage
     Node sourceNode = (Node) event.getSource();
     Stage currentStage = (Stage) sourceNode.getScene().getWindow();

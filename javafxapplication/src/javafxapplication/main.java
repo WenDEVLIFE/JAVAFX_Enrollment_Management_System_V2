@@ -6,9 +6,11 @@ package javafxapplication;
 
 import javafx.scene.image.Image;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -19,6 +21,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 
+    @FXML
+    public static  ImageView MABINIVIEW;
+        @FXML
+    public static ImageView LoginView;
+        
       @Override
 
  public void start(Stage stage) {
@@ -32,6 +39,11 @@ public class Main extends Application {
    stage.setTitle("Mabini National HighSchool Management System Login");
    stage.show();
     stage.setResizable(false);
+    
+        icon = null;
+        
+      MABINIVIEW=null;
+    LoginView=null;
     
   } catch(Exception e) {
    e.printStackTrace();
