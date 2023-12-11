@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 
 
 public class maincontroller {
+    
     public static Stage stage;
 
     private Parent root;

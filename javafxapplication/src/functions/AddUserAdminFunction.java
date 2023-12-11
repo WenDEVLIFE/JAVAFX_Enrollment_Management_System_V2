@@ -12,23 +12,25 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TableView;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.swing.JOptionPane;
+
+//</editor-fold>
+
 
 /**
  *
  * @author Administrator
  */
 public class AddUserAdminFunction {
-  
+      private static TableView<User> AdminTable;
  private  static String username;
  private static String password;
  private static String confirmpass;
-private  static String selectedItemString;
+private  static String selectedItemString1;
+
 
   
  public static String mydb_url = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
@@ -42,7 +44,7 @@ private  static String selectedItemString;
         random.nextBytes(salt);
         return salt;
     }
-
+    
     // MD5 function
     private static String hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
         int iterations = 10000; // Number of iterations
@@ -65,14 +67,15 @@ private  static String selectedItemString;
     }
     
    
-    public AddUserAdminFunction (String username, String password, String selectedItemString) {
+    public AddUserAdminFunction (String username, String password, String selectedItemString1, TableView<User> AdminTable) {
               this.username = username; // Initialize the username instance variable
     this.password = password; // Initialize the password instance variable
-                  this.selectedItemString= selectedItemString; // Initialize the username instance variable
-        
+                  this.selectedItemString1= selectedItemString1; // Initialize the username instance variable
+                  this.AdminTable = AdminTable;
+
     }
   // Move the create() method outside of the main() method.
- public static void create(String username, String password, String selectedItemString) throws NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException {
+ public static void create(String username, String password, String selectedItemString1, TableView<User> AdminTable) throws NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException {
         
    
 
@@ -106,7 +109,7 @@ private  static String selectedItemString;
         insertStatement.setString(2, username);
         insertStatement.setString(3, hashedPassword);
         insertStatement.setBytes(4, salt);
-        insertStatement.setString(5, selectedItemString);
+        insertStatement.setString(5, selectedItemString1);
 
         // Execute the prepared statement.
         int rowsAffected = insertStatement.executeUpdate();
@@ -120,7 +123,9 @@ private  static String selectedItemString;
         alert.setHeaderText(null);
         alert.setContentText("Successfully added a user");
         alert.showAndWait();
-            
+   User newUser = new User(newId, username, selectedItemString1);
+AdminTable.getItems().add(newUser);
+ 
         } else {
           
         }
@@ -131,8 +136,8 @@ private  static String selectedItemString;
  
     public static void main(String[] args) {
         try {
-            
-            create(username, password, selectedItemString);
+        
+            create(username, password, selectedItemString1, AdminTable);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }

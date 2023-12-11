@@ -22,19 +22,19 @@ import java.sql.Statement;
 public class DatabaseHandler {
 private Connection connection;
     private final String jdbcUrl;
-    private final String username;
-    private final String password;
+    private final String username1;
+    private final String password1;
 
-    public DatabaseHandler(String jdbcUrl, String username, String password) {
+    public DatabaseHandler(String jdbcUrl, String username1, String password1) {
         this.jdbcUrl = jdbcUrl;
-        this.username = username;
-        this.password = password;
+        this.username1 = username1;
+        this.password1= password1;
     }
 
    public ObservableList<User> fetchDataFromDatabase() {
     ObservableList<User> userList = FXCollections.observableArrayList();
 
-    try (Connection connection= DriverManager.getConnection(jdbcUrl, username, password);
+    try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery("SELECT UserID, username, role FROM usertable")) {
 

@@ -4,6 +4,7 @@
  */
 package userinteraction;
 
+import functions.DeleteInformationDB;
 import functions.User;
 import functions.User_Exist;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
@@ -38,12 +38,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import static javafxapplication.Main.LoginView;
-import static javafxapplication.Main.MABINIVIEW;
 
 public class DashboardController {
 
+    private static ObservableList<User> userList;
+     public String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
+       public   String username1 = "root";
+        public   String password1 = "";
     private WeakReference<Button> buttonRef;
     
          private Stage stage1;
@@ -75,6 +78,8 @@ public class DashboardController {
     @FXML
     private Label setUserLabel8;
 
+      @FXML
+    private Label setLabelUser9;
     
     public static String password;
     public static String confirmpass;
@@ -84,6 +89,9 @@ public class DashboardController {
 private Tooltip toolTip = new Tooltip();
 private Tooltip toolTip1 = new Tooltip();
 
+
+    @FXML
+    private ImageView LogoView;
 
   public DashboardController() {
         // Initialize the tooltip
@@ -125,7 +133,9 @@ private Tooltip toolTip1 = new Tooltip();
         @FXML
     private Tab Admin;
 
-               
+      @FXML
+    private Tab CreateSubject;
+      
     @FXML
        
         // my tabpane
@@ -177,6 +187,9 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private ComboBox<String> selecttable6;
     
+   @FXML
+    private ComboBox<String> selecttable7;
+    
     @FXML
     private ComboBox<String> Role;
     
@@ -221,24 +234,27 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private MenuButton menuactions8;
             
+        @FXML
+    private MenuButton menuactions9;
               @FXML
     public void initialize() {
-        
-
-        
+  
         // for the passwordfield and confirmpasswordfield
         passwordfield.setTooltip(toolTip);
     confirmpasswordfield.setTooltip(toolTip1);
     
+    // set value for the combobox
        selecttable.setValue("Select an Option");
        selecttable1.setValue("Select an Option");
        selecttable2.setValue("Select an Option");
        selecttable3.setValue("Select an Option");
        selecttable4.setValue("Select an Option");
-          selecttable5.setValue("Select an Option");
-             selecttable6.setValue("Select an Option");
-        Role.setValue("Select an Role");
+       selecttable5.setValue("Select an Option");
+       selecttable6.setValue("Select an Option");
+       selecttable7.setValue("Select an Option");
+       Role.setValue("Select an Role");
        
+        // This are the assigned vale for comboBox
         // Add items to the ComboBox
         ObservableList<String> items = FXCollections.observableArrayList(
                 "Select an option",
@@ -273,6 +289,7 @@ private Tooltip toolTip1 = new Tooltip();
              selecttable4.setItems(items2);
              selecttable5.setItems(items2);
              selecttable6.setItems(items2);
+               selecttable7.setItems(items2);
              
                 ObservableList<String> items3 = FXCollections.observableArrayList(
                 "Select an Role",
@@ -281,7 +298,7 @@ private Tooltip toolTip1 = new Tooltip();
                 // Add more items as needed
         );
                   Role.setItems(items3);
-                  
+      
         AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -296,6 +313,33 @@ usernameColumn.setOnEditCommit(event -> {
     User user = event.getRowValue();
     user.setUsername(event.getNewValue());
     // Handle database update or other logic
+
+       Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Delete Confirmation");
+    alert.setHeaderText(null);
+    alert.setContentText("Are you sure you want to Delete this user?");
+
+    // Add "Yes" and "No" buttons
+    ButtonType buttonTypeYes = new ButtonType("Yes");
+    ButtonType buttonTypeNo = new ButtonType("No");
+
+    alert.showAndWait().ifPresent((ButtonType response) -> {
+        if (response == buttonTypeYes) {
+            // Get the selected item
+            User selectedUser = AdminTable.getSelectionModel().getSelectedItem();
+
+            if (selectedUser != null) {
+                // Delete the user from the database
+                DeleteInformationDB db = new DeleteInformationDB();
+                db.deleteuser(selectedUser);
+
+                // Remove the selected user from the TableView
+                AdminTable.getItems().remove(selectedUser);
+            }
+        } else if (response == buttonTypeNo) {
+            // User clicked "No," do nothing or handle accordingly
+        }
+    });
 });
 
 TableColumn<User, String> roleColumn = new TableColumn<>("Role");
@@ -309,23 +353,24 @@ roleColumn.setOnEditCommit(event -> {
 });
 
         TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
-        deleteColumn.setCellFactory(param -> new ButtonCell("Delete"));
+        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList ));
 
         TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
-        editColumn.setCellFactory(param -> new ButtonCell("Edit"));
+        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList ));
 
         // Add columns to the table
         AdminTable.getColumns().addAll(idColumn, usernameColumn, roleColumn, deleteColumn, editColumn);
 
 // Set column resize policy
-AdminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+   AdminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 
 // Autoresize columns
-AdminTable.getColumns().forEach(column -> {
-    if (column.isResizable()) {
-        column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
-    }
-});
+ AdminTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
+            }
+        });
 
         // Load data from the database
         loadDataFromDatabase();
@@ -371,7 +416,11 @@ AdminTable.getColumns().forEach(column -> {
                     showAlert("The password must contain at least one uppercase letter and one special character.");
                 } else {
                     // All checks passed, user registration or other actions can proceed here
-                  User_Exist e = new User_Exist(username, password, selectedItemString1);
+                     DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
+  
+    ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
+
+                  User_Exist e = new User_Exist(username, password, selectedItemString1, AdminTable, userList);
                     e.user_identification();
                     clearFields(); // You can define this method to clear the input fields
                 }
@@ -514,7 +563,7 @@ TabPanesel.getSelectionModel().select(Subject);
   TabPanesel.getSelectionModel().select(Grading);
         }
         else if (selectedItem3.equals("Create Subject")) {
-  TabPanesel.getSelectionModel().select(User);
+TabPanesel.getSelectionModel().select(CreateSubject);
         }
     
     }
@@ -533,7 +582,7 @@ TabPanesel.getSelectionModel().select(Subject);
   TabPanesel.getSelectionModel().select(Grading);
         }
         else if (selectedItem3.equals("Create Subject")) {
-  TabPanesel.getSelectionModel().select(User);
+ TabPanesel.getSelectionModel().select(CreateSubject);
         }
     }
 
@@ -551,7 +600,7 @@ TabPanesel.getSelectionModel().select(Subject);
   TabPanesel.getSelectionModel().select(Grading);
         }
         else if (selectedItem3.equals("Create Subject")) {
-  TabPanesel.getSelectionModel().select(User);
+ TabPanesel.getSelectionModel().select(CreateSubject);
         }
     }
     
@@ -593,6 +642,7 @@ if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null || 
     setLabelUser6.setText("User:" + user);
      setUserLabel7.setText("User:" + user);
      setUserLabel8.setText("User:" + user);
+       setLabelUser9.setText("User:" + user);
   }
 else {
     System.out.println("username is null");
@@ -664,16 +714,12 @@ private void performLogout() throws IOException {
     // Clear existing data in the table
         AdminTable.getItems().clear();
 
-        // Replace these with your database connection details
-        String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
-        String username1 = "root";
-        String password = "";
 
         // call the class to display the value from the database
-        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password);
+        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
     try {
     // Fetch data from the database
-    ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
+ userList = databaseHandler.fetchDataFromDatabase();
     // Set the items in the TableView
     AdminTable.setItems(userList);
 } finally {
@@ -681,50 +727,28 @@ private void performLogout() throws IOException {
     databaseHandler.closeConnection();
 }
     }
-    void memoryleakclose(){
-        Enrollaction.setOnAction(null);
-
-   dashboards.setOnAction(null);
-
-  gradesbuttonaction.setOnAction(null);
-
-
-reportbutton.setOnAction(null);
-
-
-     menuactions.setOnAction(null);
-
- menuactions1.setOnAction(null);
-
-  menuactions2.setOnAction(null);
-
-    menuactions3.setOnAction(null);
-
-  menuactions4.setOnAction(null);
-
-   menuactions5.setOnAction(null);
-
-     menuactions6.setOnAction(null);
-
-     menuactions7.setOnAction(null);      
     
-    menuactions8.setOnAction(null);
-    
-     selecttable.setDisable(true);
-     
-      selecttable1.setDisable(true);
-      
-       selecttable2.setDisable(true);
+    // disable Components when not used
+   public void memoryleakclose(){
+     Tab selectedTab = TabPanesel.getSelectionModel().getSelectedItem();
+    if (selectedTab != null) {
+         MemoryManagement m= new MemoryManagement(Enrollaction, dashboards, gradesbuttonaction, reportbutton,
+            tabbedpanemenu,
+            EnrollTable, AdminTable,
+            selecttable, selecttable1,
+            selecttable2, selecttable3,
+            selecttable4, selecttable5,
+            selecttable6, Role,
+            menuactions, menuactions1,
+            menuactions2, menuactions3,
+            menuactions4, menuactions5,
+            menuactions6, menuactions7,
+            menuactions8,  menuactions9);
+     m.disableLeaks();
+     LogoView = null;
+      TabPanesel.getTabs().remove(selectedTab);
+    }
 
-   selecttable3.setDisable(true);
-
-    selecttable4.setDisable(true);
-    
-    selecttable5.setDisable(true);
-
-  selecttable6.setDisable(true);
-    
-  Role.setDisable(true);
     }
     
 }

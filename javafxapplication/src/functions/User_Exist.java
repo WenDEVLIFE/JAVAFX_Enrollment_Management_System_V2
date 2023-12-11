@@ -15,21 +15,25 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
-import javax.swing.JOptionPane;
+import javafx.scene.control.TableView;
+
 
 
 public class User_Exist {
-
+  private TableView<User> AdminTable;
     private String username;
     private String password;
     private String selectedItemString1;
 
-    public User_Exist(String username, String password,String selectedItemString1) {
+    public User_Exist(String username, String password, String selectedItemString1, TableView<User> AdminTable, ObservableList<User> userList) {
         this.username = username;
         this.password = password;
         this.selectedItemString1 = selectedItemString1;
-    }
+        this.AdminTable =AdminTable;
+   }
 
     public static String mydb_url = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     public static String myDB_username = "root";
@@ -66,7 +70,7 @@ public class User_Exist {
             } else {
                 try {
                     // Assuming AddUserAdminFunction.create() adds the user to the database
-                    AddUserAdminFunction.create(username, password, selectedItemString1);
+                AddUserAdminFunction.create(username, password, selectedItemString1, AdminTable);
                     // You might want to show a success message here
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");

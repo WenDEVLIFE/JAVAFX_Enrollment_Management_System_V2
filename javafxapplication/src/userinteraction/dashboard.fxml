@@ -29,7 +29,7 @@
    <children>
       <Pane id="Navbar" prefHeight="82.0" prefWidth="966.0" stylesheets="@../javafxapplication/mainfxml.css">
          <children>
-            <ImageView fitHeight="70.0" fitWidth="108.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="LogoView" fitHeight="70.0" fitWidth="108.0" layoutX="14.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../pictures/mabini.png" />
                </image>
@@ -560,6 +560,72 @@
                               <MenuItem mnemonicParsing="false" text="Change Credentials" />
                            </items>
                         </MenuButton>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="CreateSubject" text="Create Subject">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="17.0" layoutY="168.0" prefHeight="529.0" prefWidth="782.0" styleClass="roots" stylesheets="@../javafxapplication/mainfxml.css">
+                           <children>
+                              <GlyphsStack layoutX="84.0" layoutY="326.0" />
+                              <GlyphsStack layoutX="21.0" layoutY="105.0" />
+                              <GlyphsStack layoutX="65.0" layoutY="335.0" />
+                              <TextField layoutX="181.0" layoutY="156.0" prefHeight="40.0" prefWidth="420.0" />
+                              <Button id="enrollbutton" fx:id="Adduser11" layoutX="263.0" layoutY="444.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add Subject" />
+                              <Button id="clearbutton1" layoutX="419.0" layoutY="444.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="450.0" layoutY="471.0" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="278.0" layoutY="471.0" selectionStart="1" />
+                              <Label layoutX="188.0" layoutY="32.0" prefHeight="20.0" prefWidth="164.0" text="SUBJECT NAME" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="181.0" layoutY="71.0" prefHeight="40.0" prefWidth="420.0" />
+                              <Label layoutX="181.0" layoutY="126.0" prefHeight="20.0" prefWidth="164.0" text="SECTION" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="181.0" layoutY="208.0" prefHeight="20.0" prefWidth="164.0" text="ClASS TIME START" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="181.0" layoutY="245.0" prefHeight="40.0" prefWidth="420.0" />
+                              <Label layoutX="181.0" layoutY="296.0" prefHeight="30.0" prefWidth="163.0" text="CLASS TIME ENDED" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="181.0" layoutY="335.0" prefHeight="40.0" prefWidth="420.0" />
+                           </children>
+                        </Pane>
+                        <Label layoutX="36.0" layoutY="104.0" prefHeight="34.0" prefWidth="589.0" text="CREATE SUBJECT" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Line endX="644.0" layoutX="136.0" layoutY="145.0" startX="-100.0" />
+                        <Label fx:id="setLabelUser9" layoutX="554.0" layoutY="32.0" prefHeight="27.0" prefWidth="262.0" text="Username:" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <MenuButton fx:id="menuactions9" layoutX="551.0" layoutY="59.0" mnemonicParsing="false" text="Options">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
+                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                           </items>
+                        </MenuButton>
+                        <ComboBox fx:id="selecttable7" layoutX="625.0" layoutY="112.0" onAction="#comboaction6" prefWidth="150.0" />
+                        <Label layoutX="445.0" layoutY="97.0" prefHeight="55.0" prefWidth="180.0" text="Select to go on next form" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
               </content>
