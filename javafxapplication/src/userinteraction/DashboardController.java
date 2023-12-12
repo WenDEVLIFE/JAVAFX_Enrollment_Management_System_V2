@@ -4,11 +4,14 @@
  */
 package userinteraction;
 
+import functions.CreateStudent;
 import functions.DeleteInformationDB;
+import functions.Student;
 import functions.User;
 import functions.User_Exist;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -43,7 +46,9 @@ import javafx.stage.Stage;
 
 public class DashboardController {
 
+    
     private static ObservableList<User> userList;
+   ObservableList<Student> studentList = FXCollections.observableArrayList();
      public String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
        public   String username1 = "root";
         public   String password1 = "";
@@ -153,13 +158,37 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private Button reportbutton;
 
+        @FXML
+    private Button clearbutton1;
+        
+         @FXML
+    private Button enrollstudent;
+         
+             @FXML
+    private Button clearbutton2;
+             
     @FXML
     private Pane tabbedpanemenu;
     
+        @FXML
+    private ComboBox<String> Age;
         
+        @FXML
+    private ComboBox<String> day;
+        
+            @FXML
+    private ComboBox<String> year;
+            
+            
+    @FXML
+    private ComboBox<String> month;
+
+    
+    @FXML
+    private ComboBox<String> gender;
     // table
     @FXML
-    private TableView<?> EnrollTable;
+    private TableView<Student> EnrollTable;
     
     
     @FXML
@@ -196,13 +225,23 @@ private Tooltip toolTip1 = new Tooltip();
     
         @FXML
     private TextField usernamefield;
-        
+                
             @FXML
     private PasswordField passwordfield;
             
     @FXML
     private  PasswordField confirmpasswordfield;
         
+        
+    @FXML
+    private TextField phonenumber;
+    
+        @FXML
+    private TextField Address;
+        
+            @FXML
+    private TextField Studentname;
+            
             @FXML
     private CheckBox checkpassword;
         
@@ -253,7 +292,11 @@ private Tooltip toolTip1 = new Tooltip();
        selecttable6.setValue("Select an Option");
        selecttable7.setValue("Select an Option");
        Role.setValue("Select an Role");
-       
+       Age.setValue("Select age");
+       year.setValue("Select a year");
+       gender.setValue("Select a gender");
+        month.setValue("Select a month");       
+
         // This are the assigned vale for comboBox
         // Add items to the ComboBox
         ObservableList<String> items = FXCollections.observableArrayList(
@@ -290,7 +333,53 @@ private Tooltip toolTip1 = new Tooltip();
              selecttable5.setItems(items2);
              selecttable6.setItems(items2);
                selecttable7.setItems(items2);
+               
+                   ObservableList<String> items4 = FXCollections.observableArrayList(
+                "Select age"
+                // Add more items as needed
+        );
+                    for (int i = 1; i <= 50; i++) {
+            items4.add(String.valueOf(i));
+        }
+                Age.setItems(items4);
+                    
+                
+                    ObservableList<String> items5 = FXCollections.observableArrayList(
+                "Select gender",
+                "Male" ,"Female"
+                // Add more items as needed
+        );
+                        gender.setItems(items5);
+                      
+                   ObservableList<String> items6 = FXCollections.observableArrayList(
+                "Select a month",
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        );
              
+                   month.setItems(items6);
+                   
+                        ObservableList<String> items7 = FXCollections.observableArrayList(
+                "Select a day"
+              
+        );
+             
+                    for (int i = 1; i <= 31; i++) {
+            items7.add(String.valueOf(i));
+        }
+                    day.setItems(items7);
+                    
+                     ObservableList<String> items8 = FXCollections.observableArrayList(
+                "Select a day"
+              
+        );
+               int startYear = 1990;
+        int endYear = 2024;
+                    for (int year = startYear; year <= endYear; year++) {
+            items8.add(String.valueOf(year));
+        }
+                     year.setItems(items8);
+                   
                 ObservableList<String> items3 = FXCollections.observableArrayList(
                 "Select an Role",
                 "Admin",
@@ -374,16 +463,113 @@ roleColumn.setOnEditCommit(event -> {
 
         // Load data from the database
         loadDataFromDatabase();
+        
+        
+       
+    EnrollTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
+    TableColumn<Student, Integer> idColumn1 = new TableColumn<>("ID");
+        idColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
+        idColumn1.setCellFactory(CustomTableCellFactory1::cellFactoryForInteger);
+
+TableColumn<Student, String> usernameColumn1 = new TableColumn<>("Name");
+        usernameColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
+        usernameColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+
+usernameColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
+usernameColumn1.setOnEditCommit(event -> {
+    Student user1 = event.getRowValue();
+     user1.setUsername(event.getNewValue());
+  
+
     
-                  
-                  
+});
+TableColumn<Student, String> Agecolumn = new TableColumn<>("Age");
+      Agecolumn.setCellValueFactory(new PropertyValueFactory<>("Age"));
+        Agecolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+         Agecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+         Agecolumn.setOnEditCommit(event -> {
+ 
+});
+      
+TableColumn<Student, String> AddressColumn1 = new TableColumn<>("Address");
+       AddressColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentAddress"));
+        AddressColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+         AddressColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
+         AddressColumn1.setOnEditCommit(event -> {
+ 
+});
+         
+         
+        TableColumn<Student, String> Gendercolumn = new TableColumn<>("Gender");
+       Gendercolumn.setCellValueFactory(new PropertyValueFactory<>("Gender"));
+        Gendercolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+  Gendercolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+   Gendercolumn.setOnEditCommit(event -> {
+ 
+});
+  
+          TableColumn<Student, String> Birthcolumn = new TableColumn<>("Born");
+       Birthcolumn.setCellValueFactory(new PropertyValueFactory<>("BirthYear"));
+       Birthcolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+ Birthcolumn .setCellFactory(TextFieldTableCell.forTableColumn());
+Birthcolumn .setOnEditCommit(event -> {
+ 
+});
+ 
+     TableColumn<Student, String> PhoneNumbercolumn = new TableColumn<>("Phone Number");
+     PhoneNumbercolumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNum"));
+       PhoneNumbercolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+ PhoneNumbercolumn .setCellFactory(TextFieldTableCell.forTableColumn());
+  PhoneNumbercolumn.setOnEditCommit(event -> {
+ 
+});
+
+
+        TableColumn<Student, Void> deleteColumn1 = new TableColumn<>("Delete");
+        deleteColumn1.setCellFactory(param -> new ButtonCell1("Delete", studentList ));
+        deleteColumn1.setOnEditCommit(event -> {
+    Student selectedStudent = event.getRowValue();
+    String studentName = selectedStudent.getStudentName();
+    System.out.println("Clicked Edit for student: " + studentName);
+           EnrollTable.getItems().remove( selectedStudent);
+    // Add your logic to handle the Edit action for this student
+});
+
+        TableColumn<Student, Void> editColumn1 = new TableColumn<>("Edit");
+        editColumn1.setCellFactory(param -> new ButtonCell1("Edit", studentList));
+        editColumn1.setOnEditCommit(event -> {
+    Student selectedStudent = event.getRowValue();
+    String studentName = selectedStudent.getStudentName();
+    System.out.println("Clicked Edit for student: " + studentName);
+
+    // For example, you can create a method like editStudent(Student student) and call it here
+    // This method would then handle opening the editing interface and updating the student details
+    // You may also want to refresh the table after editing to reflect changes
+});
+
+        // Add columns to the table
+        EnrollTable.getColumns().addAll(idColumn1, usernameColumn1, Agecolumn,AddressColumn1,Gendercolumn,PhoneNumbercolumn, Birthcolumn,deleteColumn1, editColumn1);
+
+        
+// Set column resize policy
+   EnrollTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+ EnrollTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
+            }
+        });
+ 
+        enroll_loadDataFromDatabase();
+               
+              
                       
 }
     
     
     // this are the action events
-    
-    
       @FXML
      void AdduserAction(ActionEvent event) {
          String username = usernamefield.getText();
@@ -418,7 +604,7 @@ roleColumn.setOnEditCommit(event -> {
                     // All checks passed, user registration or other actions can proceed here
                      DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
   
-    ObservableList<User> userList = databaseHandler.fetchDataFromDatabase();
+               userList = databaseHandler.fetchDataFromDatabase();
 
                   User_Exist e = new User_Exist(username, password, selectedItemString1, AdminTable, userList);
                     e.user_identification();
@@ -427,7 +613,15 @@ roleColumn.setOnEditCommit(event -> {
             }
         }
     }
-
+     // to clear the admin form
+  @FXML
+    void clearbuttonaction2(ActionEvent event) {
+        usernamefield.setText("");
+        passwordfield.setText("");
+        confirmpasswordfield.setText("");
+     Role.setValue("Select an Role");
+    }
+     
     private void showAlert(String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Message");
@@ -510,6 +704,8 @@ private void hidePassword() {
         // Add more conditions as needed for other strings or tabs
     }
      
+    
+    // this are ComboBox from enrollment tform to enroll 
        @FXML
     void comboshitacctionfucker(ActionEvent event) {
 
@@ -604,8 +800,61 @@ TabPanesel.getSelectionModel().select(Subject);
         }
     }
     
+    // to enroll student function
+     @FXML
+    void EnrollStudent(ActionEvent event) throws SQLException, ClassNotFoundException {
+         String studentname = Studentname.getText();
+         String address = Address.getText();
+         String Phone = phonenumber.getText();
+         String selected_Age = Age.getSelectionModel().getSelectedItem();
+         String selected_gender = gender.getSelectionModel().getSelectedItem();
+         String birthmonth = month.getSelectionModel().getSelectedItem();
+         String birthdate = day.getSelectionModel().getSelectedItem();
+         String birthyear = year.getSelectionModel().getSelectedItem();
+          if(studentname.isEmpty() || Phone.isEmpty() || address.isEmpty()){
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Please fill all the blanks");
+        alert.showAndWait();
+          }
+          else {
+              if(selected_Age=="Select age" || selected_gender=="Select gender" || birthmonth=="Select a month" || birthdate =="Select a day" || birthyear =="Select a year"){
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select a value from the Age, month, day and year");
+        alert.showAndWait();
+              } else {
+                  if (isValidPhoneNumber(Phone)) {
+                          Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("The phone number lenght should be 11");
+        alert.showAndWait();
+                  }
+                  else {
+                  CreateStudent s = new CreateStudent(studentname, address, Phone, selected_Age, selected_gender ,birthmonth, birthdate, birthyear ,EnrollTable, studentList);
+                  s.createstudent();
+                  }
+              }
+          }
+         
+    }
     
+    // to clear the enrollment form
+      @FXML
+    void clearbuttonaction1(ActionEvent event) {
+ Studentname.setText("");       
+ Address.setText("");    
+ phonenumber.setText("");       
+Age.setValue("Select age");
+year.setValue("Select a year"); 
+gender.setValue("Select a gender"); 
+month.setValue("Select a month");
+    }
     
+    // for sidepanel navbar function
     @FXML
     void Enroll_Action(ActionEvent event) {
 TabPanesel.getSelectionModel().select(Enroll);
@@ -727,6 +976,23 @@ private void performLogout() throws IOException {
     databaseHandler.closeConnection();
 }
     }
+    private void enroll_loadDataFromDatabase() {
+    // Clear existing data in the table
+        EnrollTable.getItems().clear();
+
+
+        // call the class to display the value from the database
+        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
+    try {
+    // Fetch data from the database
+ studentList = databaseHandler.fetchDataFromDatabase1();
+    // Set the items in the TableView
+  EnrollTable.setItems(studentList);
+} finally {
+    // Close the database connection
+    databaseHandler.closeConnection();
+}
+    }
     
     // disable Components when not used
    public void memoryleakclose(){
@@ -750,5 +1016,7 @@ private void performLogout() throws IOException {
     }
 
     }
-    
+    private static boolean isValidPhoneNumber(String Phone){
+         return Phone.matches("0\\d{10}");
+    }
 }

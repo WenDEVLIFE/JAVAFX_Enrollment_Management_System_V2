@@ -8,6 +8,7 @@ package userinteraction;
  *
  * @author Administrator
  */
+import functions.Student;
 import functions.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,6 +53,32 @@ private Connection connection;
     }
 
     return userList;
+}
+    public ObservableList<Student> fetchDataFromDatabase1() {
+    ObservableList<Student> studentList = FXCollections.observableArrayList();
+
+    try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT StudentID, StudentName, Age, StudentAddress, Gender, BirthYear, PhoneNum FROM studentinformation")){
+
+        // Populate the ObservableList with data from the ResultSet
+        while (resultSet.next()) {
+             int id = resultSet.getInt("StudentID");
+            String name = resultSet.getString("StudentName");
+             String age = resultSet.getString("Age");
+            String address = resultSet.getString("StudentAddress");
+            String gender = resultSet.getString("Gender");
+             String birthYear = resultSet.getString("BirthYear");
+            String phoneNumber = resultSet.getString("PhoneNum");
+
+           studentList.add(new Student(id, name, address, gender, age, birthYear, phoneNumber));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return studentList;
 }
 
     void closeConnection() {

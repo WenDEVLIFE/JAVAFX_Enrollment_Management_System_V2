@@ -35,4 +35,23 @@ public class DeleteInformationDB {
             e.printStackTrace();
         }
     }
+     public void deleteStudent(Student selectedStudent) {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username1, password)) {
+            String deleteQuery = "DELETE FROM studentinformation WHERE StudentID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setInt(1, selectedStudent.getId()); // Assuming there's a method named getId() in your User class
+                int rowsDeleted = preparedStatement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Student deleted successfully");
+    
+                    
+
+                } else {
+                    System.out.println("Student deletion failed");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

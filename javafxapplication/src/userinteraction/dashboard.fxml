@@ -160,7 +160,7 @@
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="193.0" layoutY="194.0" prefHeight="35.0" prefWidth="420.0" />
+                              <TextField fx:id="Address" layoutX="193.0" layoutY="194.0" prefHeight="35.0" prefWidth="420.0" />
                               <Label layoutX="194.0" layoutY="164.0" prefHeight="20.0" prefWidth="164.0" text="Enter Student Address" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
@@ -171,24 +171,24 @@
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="195.0" layoutY="128.0" prefWidth="150.0" />
-                              <TextField layoutX="195.0" layoutY="51.0" prefHeight="36.0" prefWidth="420.0" />
+                              <ComboBox fx:id="Age" layoutX="195.0" layoutY="128.0" prefWidth="150.0" />
+                              <TextField fx:id="Studentname" layoutX="195.0" layoutY="51.0" prefHeight="36.0" prefWidth="420.0" />
                               <Label layoutX="193.0" layoutY="14.0" prefHeight="37.0" prefWidth="165.0" text="Enter Student Name" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="195.0" layoutY="335.0" prefHeight="25.0" prefWidth="137.0" />
-                              <ComboBox layoutX="343.0" layoutY="335.0" prefHeight="25.0" prefWidth="70.0" />
-                              <ComboBox layoutX="426.0" layoutY="335.0" prefHeight="25.0" prefWidth="137.0" />
-                              <TextField layoutX="195.0" layoutY="408.0" prefHeight="37.0" prefWidth="420.0" />
+                              <ComboBox fx:id="month" layoutX="195.0" layoutY="335.0" prefHeight="25.0" prefWidth="137.0" />
+                              <ComboBox fx:id="day" layoutX="343.0" layoutY="335.0" prefHeight="25.0" prefWidth="70.0" />
+                              <ComboBox fx:id="year" layoutX="426.0" layoutY="335.0" prefHeight="25.0" prefWidth="137.0" />
+                              <TextField fx:id="phonenumber" layoutX="195.0" layoutY="408.0" prefHeight="37.0" prefWidth="420.0" />
                               <Label layoutX="193.0" layoutY="368.0" prefHeight="33.0" prefWidth="164.0" text="Phone Number" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Button id="enrollbutton" layoutX="270.0" layoutY="460.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll" />
-                              <Button id="clearbutton1" layoutX="413.0" layoutY="460.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <Button id="enrollbutton" fx:id="enrollstudent" layoutX="270.0" layoutY="460.0" mnemonicParsing="false" onAction="#EnrollStudent" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll" />
+                              <Button id="clearbutton1" fx:id="clearbutton1" layoutX="413.0" layoutY="460.0" mnemonicParsing="false" onAction="#clearbuttonaction1" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
                               <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="443.0" layoutY="489.0" />
                               <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="303.0" layoutY="490.0" selectionStart="1" />
                               <Label layoutX="193.0" layoutY="237.0" prefHeight="20.0" prefWidth="164.0" text="Gender" textFill="WHITE">
@@ -196,7 +196,7 @@
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="193.0" layoutY="267.0" prefHeight="25.0" prefWidth="137.0" />
+                              <ComboBox fx:id="gender" layoutX="193.0" layoutY="267.0" prefHeight="25.0" prefWidth="137.0" />
                            </children>
                         </Pane>
                         <Label layoutX="451.0" layoutY="102.0" prefHeight="55.0" prefWidth="180.0" text="Select to go on next form" textFill="#364694">
@@ -229,17 +229,7 @@
                            </font>
                         </Label>
                         <Line endX="644.0" layoutX="122.0" layoutY="151.0" startX="-100.0" />
-                        <TableView fx:id="EnrollTable" layoutX="23.0" layoutY="175.0" prefHeight="464.0" prefWidth="759.0">
-                          <columns>
-                            <TableColumn editable="false" prefWidth="116.0" text="STUDENTID" />
-                            <TableColumn editable="false" prefWidth="110.0" text="Name" />
-                              <TableColumn editable="false" prefWidth="125.0" text="Age" />
-                              <TableColumn editable="false" prefWidth="99.0" text="PhoneNum" />
-                              <TableColumn editable="false" prefWidth="130.0" text="Address" />
-                              <TableColumn editable="false" minWidth="0.0" prefWidth="104.0" text="Gender" />
-                              <TableColumn prefWidth="75.0" text="Delete" />
-                          </columns>
-                        </TableView>
+                        <TableView fx:id="EnrollTable" layoutX="23.0" layoutY="175.0" prefHeight="464.0" prefWidth="759.0" />
                         <Button id="enrollbutton" layoutX="334.0" layoutY="650.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" stylesheets="@../javafxapplication/mainfxml.css" text="Print the table">
                            <graphic>
                               <FontAwesomeIcon fill="WHITE" glyphName="FILE" />
@@ -344,7 +334,7 @@
                            <columns>
                               <TableColumn editable="false" prefWidth="116.0" text="SubjectID" />
                               <TableColumn fx:id="AddUserTable1" editable="false" prefWidth="171.0" text="SubjectName" />
-                              <TableColumn editable="false" minWidth="6.0" prefWidth="145.0" text="Date Created" />
+                              <TableColumn editable="false" minWidth="6.0" prefWidth="145.0" text="Section" />
                               <TableColumn prefWidth="145.0" text="Open" />
                               <TableColumn editable="false" prefWidth="144.0" text="Delete" />
                            </columns>
@@ -396,7 +386,7 @@
                                  </font>
                               </Label>
                               <Button id="enrollbutton" fx:id="Adduser" layoutX="270.0" layoutY="460.0" mnemonicParsing="false" onAction="#AdduserAction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add User" />
-                              <Button id="clearbutton1" layoutX="413.0" layoutY="460.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <Button id="clearbutton1" fx:id="clearbutton2" layoutX="413.0" layoutY="460.0" mnemonicParsing="false" onAction="#clearbuttonaction2" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
                               <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="443.0" layoutY="489.0" />
                               <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="295.0" layoutY="487.0" selectionStart="1" />
                               <ComboBox fx:id="Role" layoutX="195.0" layoutY="370.0" prefWidth="150.0" />
