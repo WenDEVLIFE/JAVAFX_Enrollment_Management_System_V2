@@ -43,8 +43,8 @@
       </Pane>
       <Pane layoutX="-1.0" layoutY="82.0" prefHeight="631.0" prefWidth="153.0" styleClass="sidepanel" stylesheets="@../javafxapplication/mainfxml.css">
          <children>
-            <Button id="customebutton1" fx:id="dashboards" mnemonicParsing="false" onAction="#dashboard_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Dashboard" textFill="WHITE" />
-            <Button id="customebutton1" fx:id="Enrollaction" layoutY="70.0" mnemonicParsing="false" onAction="#Enroll_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll a student" textFill="WHITE">
+            <Button id="customebutton1" fx:id="dashboards" layoutY="140.0" mnemonicParsing="false" onAction="#dashboard_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Dashboard" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="Enrollaction" mnemonicParsing="false" onAction="#Enroll_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll a student" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="USER" selectionStart="0" size="20" text="" />
                </graphic>
@@ -52,13 +52,13 @@
             <GlyphsStack layoutX="84.0" layoutY="326.0" />
             <GlyphsStack layoutX="21.0" layoutY="105.0" />
             <GlyphsStack layoutX="65.0" layoutY="335.0" />
-            <Button id="customebutton1" fx:id="gradesbuttonaction" layoutY="140.0" mnemonicParsing="false" onAction="#grades_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="GRADES" textFill="WHITE" />
-            <FontAwesomeIcon fill="WHITE" glyphName="FILE" layoutX="24.0" layoutY="182.0" size="20" />
-            <Button id="customebutton1" fx:id="reportbutton" layoutY="210.0" mnemonicParsing="false" onAction="#report_actionnotafuckingmousevent" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="REPORTS" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="gradesbuttonaction" layoutY="70.0" mnemonicParsing="false" onAction="#grades_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="GRADES" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="reportbutton" layoutY="212.0" mnemonicParsing="false" onAction="#report_actionnotafuckingmousevent" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="REPORTS" textFill="WHITE" />
             <Button id="customebutton1" fx:id="adminbutton" layoutY="281.0" mnemonicParsing="false" onAction="#admin_action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="ADMIN" textFill="WHITE" />
   <FontAwesomeIcon fill="WHITE" glyphName="FILE" layoutX="24.0" layoutY="254.0" size="20" />
             <FontAwesomeIcon fx:id="adminbutton" fill="WHITE" glyphName="USER" layoutX="25.0" layoutY="320.0" selectionStart="0" size="20" text="" />
-            <FontAwesomeIcon fill="WHITE" glyphName="DASHBOARD" layoutX="23.0" layoutY="43.0" size="20" text="" />
+            <FontAwesomeIcon fill="WHITE" glyphName="DASHBOARD" layoutX="24.0" layoutY="179.0" size="20" text="" />
+            <FontAwesomeIcon fill="WHITE" glyphName="FILE" layoutX="28.0" layoutY="115.0" size="20" />
          </children>
       </Pane>
       <TabPane fx:id="TabPanesel" layoutX="150.0" layoutY="-36.0" prefHeight="749.0" prefWidth="816.0" tabClosingPolicy="UNAVAILABLE">
@@ -129,10 +129,10 @@
                               <Font name="Gill Sans MT Condensed" size="22.0" />
                            </font>
                         </Label>
-                        <MenuButton fx:id="menuactions1" layoutX="615.0" layoutY="57.0" mnemonicParsing="false" text="Options">
+                        <MenuButton fx:id="menuactions1" layoutX="615.0" layoutY="57.0" mnemonicParsing="false" onAction="#changeaction" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -212,7 +212,7 @@
                         <MenuButton fx:id="menuactions8" layoutX="557.0" layoutY="59.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -229,7 +229,7 @@
                            </font>
                         </Label>
                         <Line endX="644.0" layoutX="122.0" layoutY="151.0" startX="-100.0" />
-                        <TableView fx:id="EnrollTable" layoutX="23.0" layoutY="175.0" prefHeight="464.0" prefWidth="759.0" />
+                        <TableView fx:id="EnrollTable" layoutX="23.0" layoutY="175.0" prefHeight="464.0" prefWidth="781.0" />
                         <Button id="enrollbutton" layoutX="334.0" layoutY="650.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" stylesheets="@../javafxapplication/mainfxml.css" text="Print the table">
                            <graphic>
                               <FontAwesomeIcon fill="WHITE" glyphName="FILE" />
@@ -249,7 +249,7 @@
                         <MenuButton fx:id="menuactions2" layoutX="603.0" layoutY="58.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -287,7 +287,7 @@
                         <MenuButton fx:id="menuactions7" layoutX="565.0" layoutY="57.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -319,7 +319,7 @@
                         <MenuButton fx:id="menuactions3" layoutX="572.0" layoutY="60.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -330,15 +330,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="SubjectTable" layoutX="59.0" layoutY="186.0" prefHeight="464.0" prefWidth="722.0">
-                           <columns>
-                              <TableColumn editable="false" prefWidth="116.0" text="SubjectID" />
-                              <TableColumn fx:id="AddUserTable1" editable="false" prefWidth="171.0" text="SubjectName" />
-                              <TableColumn editable="false" minWidth="6.0" prefWidth="145.0" text="Section" />
-                              <TableColumn prefWidth="145.0" text="Open" />
-                              <TableColumn editable="false" prefWidth="144.0" text="Delete" />
-                           </columns>
-                        </TableView>
+                        <TableView fx:id="SubjectTable" layoutX="24.0" layoutY="186.0" prefHeight="494.0" prefWidth="770.0" />
                         <Label layoutX="48.0" layoutY="97.0" prefHeight="55.0" prefWidth="595.0" text="SUBJECT TABLE" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="34.0" />
@@ -359,7 +351,7 @@
                         <MenuButton fx:id="menuactions" layoutX="578.0" layoutY="60.0" mnemonicParsing="false" text="Options">
                           <items>
                             <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                           </items>
                         </MenuButton>
                      </children>
@@ -426,7 +418,7 @@
                         <MenuButton fx:id="menuactions4" layoutX="590.0" layoutY="61.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -437,19 +429,8 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="SubjectTable1" layoutX="14.0" layoutY="176.0" prefHeight="480.0" prefWidth="771.0">
-                           <columns>
-                              <TableColumn editable="false" prefWidth="116.0" text="SubjectID" />
-                              <TableColumn fx:id="AddUserTable11" editable="false" prefWidth="210.0" text="StudentName" />
-                              <TableColumn editable="false" minWidth="6.0" prefWidth="95.0" text="Gender" />
-                              <TableColumn prefWidth="73.0" text="1st" />
-                              <TableColumn editable="false" prefWidth="81.0" text="2nd" />
-                              <TableColumn prefWidth="70.0" text="3rd" />
-                              <TableColumn prefWidth="62.0" text="4th" />
-                              <TableColumn prefWidth="75.0" text="total" />
-                           </columns>
-                        </TableView>
-                        <Label layoutX="39.0" layoutY="97.0" prefHeight="55.0" prefWidth="595.0" text="SUBJECT NAME:" textFill="#364694">
+                        <TableView fx:id="SubjectTable1" layoutX="14.0" layoutY="176.0" prefHeight="480.0" prefWidth="771.0" />
+                        <Label layoutX="20.0" layoutY="95.0" prefHeight="55.0" prefWidth="418.0" text="SUBJECT NAME:" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="34.0" />
                            </font>
@@ -469,7 +450,7 @@
                         <MenuButton fx:id="menuactions5" layoutX="574.0" layoutY="56.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -547,7 +528,7 @@
                         <MenuButton fx:id="menuactions6" layoutX="544.0" layoutY="58.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                      </children>
@@ -563,34 +544,36 @@
                               <GlyphsStack layoutX="84.0" layoutY="326.0" />
                               <GlyphsStack layoutX="21.0" layoutY="105.0" />
                               <GlyphsStack layoutX="65.0" layoutY="335.0" />
-                              <TextField layoutX="181.0" layoutY="156.0" prefHeight="40.0" prefWidth="420.0" />
-                              <Button id="enrollbutton" fx:id="Adduser11" layoutX="263.0" layoutY="444.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add Subject" />
-                              <Button id="clearbutton1" layoutX="419.0" layoutY="444.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
-                              <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="450.0" layoutY="471.0" />
+                              <Button id="enrollbutton" fx:id="Adddsubject" layoutX="263.0" layoutY="444.0" mnemonicParsing="false" onAction="#addsubjectaction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add Subject" />
+                              <Button id="clearbutton1" fx:id="clearbutton3" layoutX="419.0" layoutY="444.0" mnemonicParsing="false" onAction="#clearbuttonaction3" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear">
+                                 <graphic>
+                                    <FontAwesomeIcon fill="WHITE" glyphName="TRASH" />
+                                 </graphic></Button>
                               <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="278.0" layoutY="471.0" selectionStart="1" />
                               <Label layoutX="188.0" layoutY="32.0" prefHeight="20.0" prefWidth="164.0" text="SUBJECT NAME" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="181.0" layoutY="71.0" prefHeight="40.0" prefWidth="420.0" />
+                              <TextField fx:id="subjectfield" layoutX="181.0" layoutY="71.0" prefHeight="40.0" prefWidth="420.0" />
                               <Label layoutX="181.0" layoutY="126.0" prefHeight="20.0" prefWidth="164.0" text="SECTION" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="181.0" layoutY="208.0" prefHeight="20.0" prefWidth="164.0" text="ClASS TIME START" textFill="WHITE">
+                              <Label layoutX="181.0" layoutY="208.0" prefHeight="20.0" prefWidth="164.0" text="CLASS TIME START" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="181.0" layoutY="245.0" prefHeight="40.0" prefWidth="420.0" />
                               <Label layoutX="181.0" layoutY="296.0" prefHeight="30.0" prefWidth="163.0" text="CLASS TIME ENDED" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="181.0" layoutY="335.0" prefHeight="40.0" prefWidth="420.0" />
+                              <ComboBox fx:id="Selectedstarttime" layoutX="182.0" layoutY="248.0" prefHeight="34.0" prefWidth="192.0" />
+                              <ComboBox fx:id="Selectedendtime" layoutX="182.0" layoutY="326.0" prefHeight="34.0" prefWidth="192.0" />
+                              <ComboBox fx:id="Selectedsection" layoutX="182.0" layoutY="156.0" prefHeight="34.0" prefWidth="192.0" />
                            </children>
                         </Pane>
                         <Label layoutX="36.0" layoutY="104.0" prefHeight="34.0" prefWidth="589.0" text="CREATE SUBJECT" textFill="#364694">
@@ -607,7 +590,7 @@
                         <MenuButton fx:id="menuactions9" layoutX="551.0" layoutY="59.0" mnemonicParsing="false" text="Options">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" text="Change Credentials" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
                         <ComboBox fx:id="selecttable7" layoutX="625.0" layoutY="112.0" onAction="#comboaction6" prefWidth="150.0" />
@@ -616,6 +599,162 @@
                               <Font name="Gill Sans MT Condensed" size="22.0" />
                            </font>
                         </Label>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="changeCredentials" text="changeCredentials">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="260.0" layoutY="193.0" prefHeight="41.0" prefWidth="201.0" text="SELECT AN OPTION" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Line endX="644.0" layoutX="136.0" layoutY="162.0" startX="-100.0" />
+                        <Label layoutX="46.0" layoutY="115.0" prefHeight="34.0" prefWidth="589.0" text="Change Credentials" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Button id="customebutton1" fx:id="changeusername" layoutX="95.0" layoutY="294.0" mnemonicParsing="false" onAction="#gotochangeusername1" prefHeight="174.0" prefWidth="254.0" stylesheets="@../javafxapplication/mainfxml.css" text="Change Username" textFill="WHITE">
+                           <font>
+                              <Font name="Franklin Gothic Medium Cond" size="17.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" size="50" />
+                           </graphic>
+                        </Button>
+                        <Button id="customebutton1" fx:id="changepasswordbutton" layoutX="425.0" layoutY="294.0" mnemonicParsing="false" onAction="#gotopassword" prefHeight="174.0" prefWidth="254.0" stylesheets="@../javafxapplication/mainfxml.css" text="Change Password" textFill="WHITE">
+                           <font>
+                              <Font name="Franklin Gothic Medium Cond" size="17.0" />
+                           </font>
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="LOCK" size="50" />
+                           </graphic>
+                        </Button>
+                        <Label fx:id="setUserLabel10" layoutX="517.0" layoutY="14.0" prefHeight="27.0" prefWidth="224.0" text="Username:" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <MenuButton fx:id="menuactions10" layoutX="517.0" layoutY="48.0" mnemonicParsing="false" text="Options">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="Changeusername" text="Changeusername">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="17.0" layoutY="180.0" prefHeight="518.0" prefWidth="782.0" styleClass="roots" stylesheets="@../javafxapplication/mainfxml.css">
+                           <children>
+                              <GlyphsStack layoutX="84.0" layoutY="326.0" />
+                              <GlyphsStack layoutX="21.0" layoutY="105.0" />
+                              <GlyphsStack layoutX="65.0" layoutY="335.0" />
+                              <Label layoutX="195.0" layoutY="165.0" prefHeight="30.0" prefWidth="286.0" text="New Username" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="193.0" layoutY="68.0" prefHeight="37.0" prefWidth="329.0" text="Enter the Current Username" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Button id="enrollbutton" fx:id="Adduser2" layoutX="270.0" layoutY="413.0" mnemonicParsing="false" onAction="#changeuseraction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add User" />
+                              <Button id="clearbutton1" fx:id="clearbutton21" layoutX="432.0" layoutY="413.0" mnemonicParsing="false" onAction="#clearbuttonaction4" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="453.0" layoutY="440.0" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="283.0" layoutY="440.0" selectionStart="1" />
+                              <Label layoutX="193.0" layoutY="244.0" prefHeight="30.0" prefWidth="137.0" text="Password" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox fx:id="checkpassword1" layoutX="202.0" layoutY="345.0" mnemonicParsing="false" onAction="#seepassword1" text="Check to see the password" textFill="WHITE" />
+                              <TextField id="none" fx:id="currentusernamefield" layoutX="193.0" layoutY="113.0" prefHeight="42.0" prefWidth="418.0" />
+                              <PasswordField id="none" fx:id="passwordfield1" layoutX="193.0" layoutY="282.0" prefHeight="44.0" prefWidth="423.0" />
+                              <TextField id="none" fx:id="newusernamefield" layoutX="193.0" layoutY="202.0" prefHeight="42.0" prefWidth="418.0" />
+                           </children>
+                        </Pane>
+                        <Line endX="644.0" layoutX="115.0" layoutY="148.0" startX="-100.0" />
+                        <Label layoutX="17.0" layoutY="107.0" prefHeight="41.0" prefWidth="429.0" text="Change Username" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="setUserLabel11" layoutX="586.0" layoutY="27.0" prefHeight="27.0" prefWidth="224.0" text="Username:" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <MenuButton fx:id="menuactions101" layoutX="586.0" layoutY="54.0" mnemonicParsing="false" text="Options">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
+                           </items>
+                        </MenuButton>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="Changepassword" text="ChangePassword">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="17.0" layoutY="188.0" prefHeight="518.0" prefWidth="782.0" styleClass="roots" stylesheets="@../javafxapplication/mainfxml.css">
+                           <children>
+                              <GlyphsStack layoutX="84.0" layoutY="326.0" />
+                              <GlyphsStack layoutX="21.0" layoutY="105.0" />
+                              <GlyphsStack layoutX="65.0" layoutY="335.0" />
+                              <Label layoutX="195.0" layoutY="165.0" prefHeight="30.0" prefWidth="286.0" text="Old Password" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="193.0" layoutY="68.0" prefHeight="37.0" prefWidth="329.0" text="Enter Username" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Button id="enrollbutton" fx:id="Adduser21" layoutX="270.0" layoutY="413.0" mnemonicParsing="false" onAction="#changepasswordaction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add User" />
+                              <Button id="clearbutton1" fx:id="clearbutton211" layoutX="432.0" layoutY="413.0" mnemonicParsing="false" onAction="#clearbuttonaction5" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="453.0" layoutY="440.0" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="283.0" layoutY="440.0" selectionStart="1" />
+                              <Label layoutX="193.0" layoutY="244.0" prefHeight="30.0" prefWidth="137.0" text="New Password" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <CheckBox fx:id="checkpassword11" layoutX="202.0" layoutY="345.0" mnemonicParsing="false" onAction="#seepassword2" text="Check to see the password" textFill="WHITE" />
+                              <TextField id="none" fx:id="enterusername" layoutX="193.0" layoutY="113.0" prefHeight="42.0" prefWidth="418.0" />
+                              <PasswordField id="none" fx:id="newpassword" layoutX="193.0" layoutY="282.0" prefHeight="44.0" prefWidth="423.0" />
+                              <PasswordField id="none" fx:id="oldpassword" layoutX="193.0" layoutY="200.0" prefHeight="44.0" prefWidth="423.0" />
+                           </children>
+                        </Pane>
+                        <Line endX="644.0" layoutX="124.0" layoutY="154.0" startX="-100.0" />
+                        <Label layoutX="24.0" layoutY="113.0" prefHeight="34.0" prefWidth="589.0" text="Change Password" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="setUserLabel12" layoutX="592.0" layoutY="24.0" prefHeight="27.0" prefWidth="224.0" text="Username:" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="22.0" />
+                           </font>
+                        </Label>
+                        <MenuButton fx:id="menuactions1011" layoutX="586.0" layoutY="51.0" mnemonicParsing="false" text="Options">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
+                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
+                           </items>
+                        </MenuButton>
                      </children>
                   </AnchorPane>
               </content>

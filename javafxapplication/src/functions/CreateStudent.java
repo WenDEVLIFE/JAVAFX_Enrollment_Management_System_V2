@@ -21,22 +21,22 @@ import javafx.scene.control.TableView;
 
 public class CreateStudent{
     private static TableView<Student> EnrollTable;
-       private static ObservableList<Student> studentList = FXCollections.observableArrayList();
+       private static final ObservableList<Student> studentList = FXCollections.observableArrayList();
     public static String studentname, address, Phone, selected_Age, selected_gender ,birthmonth, birthdate, birthyear;
     String url = "jdbc:mysql://localhost:3306/mhns_enrollment_db"; // Change to your database URL
     String username = "root";
     String password = "";
 
      public CreateStudent(String studentname, String address, String Phone, String selected_Age, String selected_gender, String birthmonth, String birthdate, String birthyear, TableView<Student> EnrollTable, ObservableList<Student> studentList) {
-       this.studentname = studentname;
-        this.address = address;
-        this.Phone = Phone;
-        this.selected_Age= selected_Age;
-        this.selected_gender= selected_gender;
-        this.birthmonth = birthmonth;
-        this.birthdate = birthdate;
-        this.birthyear = birthyear;
-        this.EnrollTable = EnrollTable;
+       CreateStudent.studentname = studentname;
+        CreateStudent.address = address;
+        CreateStudent.Phone = Phone;
+        CreateStudent.selected_Age= selected_Age;
+        CreateStudent.selected_gender= selected_gender;
+        CreateStudent.birthmonth = birthmonth;
+        CreateStudent.birthdate = birthdate;
+        CreateStudent.birthyear = birthyear;
+        CreateStudent.EnrollTable = EnrollTable;
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
@@ -88,7 +88,8 @@ public class CreateStudent{
 
             // Execute the prepared statement.
             int rowsAffected = insertStatement.executeUpdate();
-
+   System.gc();
+   System.runFinalization();
             // If the event was successfully added to the database, display a success message.
             if (rowsAffected == 1) {
      Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -96,18 +97,19 @@ public class CreateStudent{
         alert.setHeaderText(null);
         alert.setContentText("Student Added Successfully");
         alert.showAndWait();
-           Student newstudent = new Student(newId1, studentname, selected_Age, address, selected_gender,alldate,Phone);
+           Student newstudent = new Student(newId1, studentname, address, selected_gender, selected_Age,Phone,alldate);
 EnrollTable.getItems().add(newstudent);
+    
             } else {
  
             }
         }
     
 }
- private boolean isStudentExists(Connection connection, String eventName) throws SQLException {
+ private boolean isStudentExists(Connection connection, String studentname) throws SQLException {
         String query = "SELECT COUNT(*) FROM studentinformation WHERE StudentName = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, eventName);
+            preparedStatement.setString(1, studentname);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);

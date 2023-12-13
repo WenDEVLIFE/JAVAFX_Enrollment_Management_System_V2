@@ -4,13 +4,18 @@
  */
 package userinteraction;
 
+import functions.Changecredentials;
 import functions.CreateStudent;
+import functions.CreateSubject;
 import functions.DeleteInformationDB;
 import functions.Student;
+import functions.Subject;
 import functions.User;
 import functions.User_Exist;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,9 +54,14 @@ public class DashboardController {
     
     private static ObservableList<User> userList;
    ObservableList<Student> studentList = FXCollections.observableArrayList();
+    ObservableList<Subject> subjectList = FXCollections.observableArrayList();
+   
      public String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
        public   String username1 = "root";
         public   String password1 = "";
+       
+        private static String user_receiver;
+        
     private WeakReference<Button> buttonRef;
     
          private Stage stage1;
@@ -86,6 +96,16 @@ public class DashboardController {
       @FXML
     private Label setLabelUser9;
     
+          @FXML
+    private Label setUserLabel10;
+          
+          @FXML
+    private Label setUserLabel11;
+         @FXML
+    private Label  setUserLabel12;
+          @FXML
+           private Label  setUserLabel112;
+         
     public static String password;
     public static String confirmpass;
     
@@ -93,6 +113,9 @@ public class DashboardController {
 @FXML
 private Tooltip toolTip = new Tooltip();
 private Tooltip toolTip1 = new Tooltip();
+private Tooltip toolTip2 = new Tooltip();
+private Tooltip toolTip3 = new Tooltip();
+
 
 
     @FXML
@@ -141,6 +164,14 @@ private Tooltip toolTip1 = new Tooltip();
       @FXML
     private Tab CreateSubject;
       
+         @FXML
+    private Tab changeCredentials;
+      
+             @FXML
+    private Tab Changeusername;
+             
+                        @FXML
+    private Tab Changepassword;
     @FXML
        
         // my tabpane
@@ -166,6 +197,16 @@ private Tooltip toolTip1 = new Tooltip();
          
              @FXML
     private Button clearbutton2;
+             
+             
+    @FXML
+    private Button Adddsubject;
+    
+    
+    @FXML
+    private Button clearbutton3;
+     @FXML
+    private Button changepasswordbutton;
              
     @FXML
     private Pane tabbedpanemenu;
@@ -193,6 +234,9 @@ private Tooltip toolTip1 = new Tooltip();
     
     @FXML
     private TableView<User> AdminTable;
+    
+       @FXML
+    private TableView<Subject> SubjectTable;
     
     // combolist
     @FXML
@@ -222,6 +266,15 @@ private Tooltip toolTip1 = new Tooltip();
     @FXML
     private ComboBox<String> Role;
     
+        @FXML
+    private ComboBox<String> Selectedendtime;
+
+    @FXML
+    private ComboBox<String> Selectedstarttime;
+    
+    
+    @FXML
+    private ComboBox<String> Selectedsection;
     
         @FXML
     private TextField usernamefield;
@@ -231,8 +284,7 @@ private Tooltip toolTip1 = new Tooltip();
             
     @FXML
     private  PasswordField confirmpasswordfield;
-        
-        
+         
     @FXML
     private TextField phonenumber;
     
@@ -244,7 +296,35 @@ private Tooltip toolTip1 = new Tooltip();
             
             @FXML
     private CheckBox checkpassword;
-        
+            
+             @FXML
+    private CheckBox checkpassword1;
+            
+                @FXML
+    private CheckBox checkpassword11;
+                
+              @FXML
+    private TextField subjectfield;
+              
+              
+    @FXML
+    private TextField currentusernamefield;
+    
+              @FXML
+    private TextField newusernamefield;
+
+    @FXML
+    private PasswordField passwordfield1;
+    
+    @FXML
+    private TextField enterusername;
+    
+    @FXML
+    private PasswordField  oldpassword;
+    
+    @FXML
+    private PasswordField newpassword;
+    
             // for menu action
       @FXML
     private MenuButton menuactions;
@@ -277,12 +357,17 @@ private Tooltip toolTip1 = new Tooltip();
     private MenuButton menuactions9;
               @FXML
     public void initialize() {
-  
+     TabPanesel.getSelectionModel().select(Enroll);
+     
         // for the passwordfield and confirmpasswordfield
         passwordfield.setTooltip(toolTip);
     confirmpasswordfield.setTooltip(toolTip1);
     
+       System.gc();
     // set value for the combobox
+     Selectedsection.setValue("Select a section");
+    Selectedstarttime.setValue("Select a time");
+                      Selectedendtime.setValue("Select a time");
        selecttable.setValue("Select an Option");
        selecttable1.setValue("Select an Option");
        selecttable2.setValue("Select an Option");
@@ -295,7 +380,8 @@ private Tooltip toolTip1 = new Tooltip();
        Age.setValue("Select age");
        year.setValue("Select a year");
        gender.setValue("Select a gender");
-        month.setValue("Select a month");       
+        month.setValue("Select a month"); 
+        
 
         // This are the assigned vale for comboBox
         // Add items to the ComboBox
@@ -387,6 +473,26 @@ private Tooltip toolTip1 = new Tooltip();
                 // Add more items as needed
         );
                   Role.setItems(items3);
+                  
+                       ObservableList<String> time = FXCollections.observableArrayList(
+                "Select a time",
+                "08:00 AM",
+                "09:00 AM",
+                "10:00 AM",
+                "11:00 AM",
+                "12:00 PM",
+                "01:00 PM",
+                "02:00 PM",
+                "03:00 PM"
+                // Add more items as needed
+        );
+                      Selectedstarttime.setItems(time);
+                      Selectedendtime.setItems(time);
+                                     ObservableList<String> sec = FXCollections.observableArrayList(
+                "Select a section",
+                "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"                // Add more items as needed
+        );
+               Selectedsection.setItems(sec);                      
       
         AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
@@ -552,20 +658,109 @@ Birthcolumn .setOnEditCommit(event -> {
 
         
 // Set column resize policy
-   EnrollTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+EnrollTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
 
 // Autoresize columns
  EnrollTable.getColumns().forEach(column -> {
             if (column.isResizable()) {
-                column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
+                column.setPrefWidth(EnrollTable.getWidth() / EnrollTable.getColumns().size());
             }
         });
- 
+ EnrollTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+    EnrollTable.getColumns().forEach(column -> {
+        if (column.isResizable()) {
+            column.setPrefWidth(newValue.doubleValue() / EnrollTable.getColumns().size());
+        }
+    });
+});
         enroll_loadDataFromDatabase();
-               
-              
-                      
+    SubjectTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
+   TableColumn<Subject, Integer> subjectid = new TableColumn<>("SubjectID");
+subjectid.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
+subjectid.setCellFactory(CustomTableCellFactory3::cellFactoryForInteger);
+
+      
+TableColumn<Subject, String> subname = new TableColumn<>("SubjectName");
+       subname.setCellValueFactory(new PropertyValueFactory<>("SubjectName"));
+        subname.setCellFactory(column -> CustomTableCellFactory3.createCenteredStringCell(column));
+         subname.setCellFactory(TextFieldTableCell.forTableColumn());
+         subname.setOnEditCommit(event -> {
+ 
+});
+         
+       TableColumn<Subject, String> section = new TableColumn<>("Section");
+section.setCellValueFactory(new PropertyValueFactory<>("section"));
+section.setCellFactory(TextFieldTableCell.forTableColumn());
+section.setOnEditCommit(event -> {
+    Subject subject = event.getRowValue();
+    subject.setSection(event.getNewValue());
+    // You may want to update your database or perform other actions here
+});
+
+TableColumn<Subject, String> timestart = new TableColumn<>("TimeStart");
+timestart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
+timestart.setCellFactory(TextFieldTableCell.forTableColumn());
+timestart.setOnEditCommit(event -> {
+    Subject subject = event.getRowValue();
+    subject.setTimeStart(event.getNewValue());
+    // Update your database or perform other actions
+});
+
+ 
+     TableColumn<Subject, String> timeended = new TableColumn<>("TimeEnded");
+     timeended.setCellValueFactory(new PropertyValueFactory<>("TimeEnded"));
+     timeended.setCellFactory(CustomTableCellFactory3::createCenteredStringCell);
+    timeended.setCellFactory(TextFieldTableCell.forTableColumn());
+    timeended.setOnEditCommit(event -> {
+ 
+});
+
+
+        TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList));
+        deleteColumn2.setOnEditCommit(event -> {
+    Subject selectedSubject= event.getRowValue();
+    String subjectName = selectedSubject.getSubjectName();
+    System.out.println("Clicked Edit for student: " + subjectName );
+           EnrollTable.getItems().remove( selectedSubject);
+    // Add your logic to handle the Edit action for this student
+});
+
+        TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
+        editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList));
+        editColumn2.setOnEditCommit(event -> {
+      Subject selectedSubject= event.getRowValue();
+    String subjectName = selectedSubject.getSubjectName();
+    System.out.println("Clicked Edit for student: " + subjectName );
+
+    // For example, you can create a method like editStudent(Student student) and call it here
+    // This method would then handle opening the editing interface and updating the student details
+    // You may also want to refresh the table after editing to reflect changes
+});
+
+        // Add columns to the table
+       SubjectTable.getColumns().addAll(subjectid, subname, section,timestart,timeended,deleteColumn2,editColumn2);
+
+        
+// Set column resize policy
+SubjectTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+ SubjectTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(SubjectTable.getWidth() / SubjectTable.getColumns().size());
+            }
+        });
+ SubjectTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+    SubjectTable.getColumns().forEach(column -> {
+        if (column.isResizable()) {
+            column.setPrefWidth(newValue.doubleValue() / SubjectTable.getColumns().size());
+        }
+    });
+});           
+                       subjectloaddb();
 }
     
     
@@ -661,6 +856,29 @@ Birthcolumn .setOnEditCommit(event -> {
         e.printStackTrace();
     }
 }
+   public void seepassword1(ActionEvent event) {
+    if ( checkpassword1.isSelected()) {
+            // Show password
+                showPassword2(passwordfield1);
+     
+        
+        } else {
+           hidePassword();
+        
+        }
+   }
+   
+   public void seepassword2(ActionEvent event) {
+    if (checkpassword11.isSelected()) {
+            // Show password
+            showPassword3(oldpassword);
+            showPassword4(newpassword);
+        
+        } else {
+           hidePassword();
+        
+        }
+   }
   
   // this function serve to show password
   private void showPassword(PasswordField passwordfield) {
@@ -671,7 +889,17 @@ Birthcolumn .setOnEditCommit(event -> {
             p.getY() + passwordfield.getScene().getY() + passwordfield.getScene().getWindow().getY());
    
 }
-  private void showPassword1( PasswordField confirmpasswordfield) {
+  private void showPassword1( PasswordField passwordfield1) {
+  
+    // this is for confirmpasswordfield
+    Point2D p1 = passwordfield1.localToScene(passwordfield1.getBoundsInLocal().getMaxX(), passwordfield1.getBoundsInLocal().getMaxY());
+    toolTip1.setText(passwordfield1.getText());
+    toolTip1.show(passwordfield1,
+            p1.getX() + passwordfield1.getScene().getX() + passwordfield1.getScene().getWindow().getX(),
+            p1.getY() + passwordfield1.getScene().getY() + passwordfield1.getScene().getWindow().getY());
+}
+  
+  private void showPassword2( PasswordField confirmpasswordfield) {
   
     // this is for confirmpasswordfield
     Point2D p1 = confirmpasswordfield.localToScene(confirmpasswordfield.getBoundsInLocal().getMaxX(), confirmpasswordfield.getBoundsInLocal().getMaxY());
@@ -681,6 +909,24 @@ Birthcolumn .setOnEditCommit(event -> {
             p1.getY() + confirmpasswordfield.getScene().getY() + confirmpasswordfield.getScene().getWindow().getY());
 }
 
+  private void showPassword3( PasswordField oldpassword) {
+  
+    // this is for confirmpasswordfield
+    Point2D p1 = oldpassword.localToScene(oldpassword.getBoundsInLocal().getMaxX(), oldpassword.getBoundsInLocal().getMaxY());
+    toolTip2.setText(oldpassword.getText());
+    toolTip2.show(oldpassword,
+            p1.getX() + oldpassword.getScene().getX() + oldpassword.getScene().getWindow().getX(),
+            p1.getY() + oldpassword.getScene().getY() + oldpassword.getScene().getWindow().getY());
+}
+  private void showPassword4( PasswordField newpassword) {
+  
+    // this is for confirmpasswordfield
+    Point2D p1 = newpassword.localToScene(newpassword.getBoundsInLocal().getMaxX(), newpassword.getBoundsInLocal().getMaxY());
+    toolTip3.setText(newpassword.getText());
+    toolTip3.show(newpassword,
+            p1.getX() + newpassword.getScene().getX() + newpassword.getScene().getWindow().getX(),
+            p1.getY() + newpassword.getScene().getY() + newpassword.getScene().getWindow().getY());
+}
   // this void serve to hide password
 private void hidePassword() {
     toolTip.setText("");
@@ -688,6 +934,14 @@ private void hidePassword() {
     
       toolTip1.setText("");
     toolTip1.hide();
+    
+ toolTip2.setText("");
+    toolTip2.hide();
+    
+        
+ toolTip3.setText("");
+    toolTip3.hide();
+
 }
 
 // for sidepanel navbar function buttons
@@ -845,23 +1099,116 @@ TabPanesel.getSelectionModel().select(Subject);
     // to clear the enrollment form
       @FXML
     void clearbuttonaction1(ActionEvent event) {
- Studentname.setText("");       
- Address.setText("");    
- phonenumber.setText("");       
-Age.setValue("Select age");
-year.setValue("Select a year"); 
-gender.setValue("Select a gender"); 
-month.setValue("Select a month");
+    Studentname.setText("");       
+    Address.setText("");    
+    phonenumber.setText("");       
+    Age.setValue("Select age");
+    year.setValue("Select a year"); 
+    gender.setValue("Select a gender"); 
+    month.setValue("Select a month");
+    }
+    
+    
+       
+     @FXML
+            // this function will add the subject
+       void addsubjectaction(ActionEvent event) throws SQLException {
+        String sub = subjectfield.getText();
+        String sec = Selectedsection.getSelectionModel().getSelectedItem();
+        String time_start =Selectedstarttime.getSelectionModel().getSelectedItem();
+       String  time_end =Selectedstarttime.getSelectionModel().getSelectedItem();
+       if(sub.isEmpty()){
+          Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill all the blanks");
+                alert.showAndWait();
+       } else {
+                if(time_start =="Select a time" || time_end=="Select a time" || sec=="Select a section"){
+                     Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a time");
+                alert.showAndWait();
+                } else{
+                        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end , SubjectTable,subjectList);
+                        cs.create_subjects();
+                }
+       }
+             
+    }
+   
+     @FXML
+            // to clear the subject form
+    void clearbuttonaction3(ActionEvent event) {
+    Selectedstarttime.setValue("Select a time");
+    Selectedendtime.setValue("Select a time");
+     Selectedsection.setValue("Select a section");
+    subjectfield.setText("");
+    }
+    
+    
+    // For change username form
+     @FXML
+    void changeuseraction (ActionEvent event) {
+        String currentuser = currentusernamefield.getText();
+        String newuser = newusernamefield.getText();
+        String confirmation_password =passwordfield1.getText();
+        
+        if(currentuser.isEmpty() || newuser.isEmpty() || confirmation_password.isEmpty()){
+             Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Please fill all the blanks");
+        alert.showAndWait();
+        } else {
+             Changecredentials ce = new Changecredentials ();
+             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver  );
+        }
+        
+    }
+       @FXML
+    void clearbuttonaction4 (ActionEvent event) {
+        currentusernamefield.setText("");
+        newusernamefield.setText("");
+        passwordfield1.setText("");
+    }
+    
+         @FXML
+    void changepasswordaction   (ActionEvent event) throws NoSuchAlgorithmException, InvalidKeySpecException{ 
+        
+String username1 =enterusername.getText();
+String passwordold =oldpassword.getText();
+String passwordnew =newpassword.getText();
+             if(username1.isEmpty() || passwordold.isEmpty()|| passwordnew.isEmpty()){
+                       Alert alert = new Alert(Alert.AlertType.ERROR);
+                       alert.setTitle("System Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Please fill all the empty blanks");
+                        alert.showAndWait();
+             }
+             else {
+                    Changecredentials ce = new Changecredentials ();
+             ce.ChangePassword(username1,passwordold,passwordnew );
+             }
+
+    }
+    
+    @FXML
+    void clearbuttonaction5 (ActionEvent event) {
+                enterusername.setText("");
+        oldpassword.setText("");
+        newpassword.setText("");
     }
     
     // for sidepanel navbar function
     @FXML
     void Enroll_Action(ActionEvent event) {
-TabPanesel.getSelectionModel().select(Enroll);
+    TabPanesel.getSelectionModel().select(Enroll);
     }  
     @FXML
     void dashboard_Action(ActionEvent event) {
-TabPanesel.getSelectionModel().select(DASHB);
+    TabPanesel.getSelectionModel().select(DASHB);
     }
    @FXML
     void grades_Action(ActionEvent event) {
@@ -877,8 +1224,7 @@ TabPanesel.getSelectionModel().select(DASHB);
     void admin_action(ActionEvent event) {
    TabPanesel.getSelectionModel().select(Admin);
     }
-    
-    
+      
 public void setuserlabel(String user){
 
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
@@ -892,16 +1238,37 @@ if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null || 
      setUserLabel7.setText("User:" + user);
      setUserLabel8.setText("User:" + user);
        setLabelUser9.setText("User:" + user);
+       setUserLabel10.setText("User:" + user);
+       setUserLabel11.setText("User:" + user);
+       setUserLabel12.setText("User:" + user);
+       user_receiver = user;
+       System.out.println("The value of user receiver" + user_receiver);
   }
 else {
     System.out.println("username is null");
 }
 } 
     
-
+// Log out actions
     @FXML
     void logoutaction(ActionEvent event) {
 showLogoutConfirmation();
+ 
+    }
+        // these are the MenuButton actions
+    @FXML
+    void changeaction(ActionEvent event) {
+TabPanesel.getSelectionModel().select(changeCredentials);
+    }
+    
+
+       @FXML
+    void gotochangeusername1(ActionEvent event) {
+TabPanesel.getSelectionModel().select(Changeusername);
+    }
+ @FXML
+    void gotopassword (ActionEvent event) {
+        TabPanesel.getSelectionModel().select(Changepassword);
     }
     
     private void showLogoutConfirmation() {
@@ -959,6 +1326,7 @@ private void performLogout() throws IOException {
     loginStage.show();
 }
 
+// Load admin table
     private void loadDataFromDatabase() {
     // Clear existing data in the table
         AdminTable.getItems().clear();
@@ -968,7 +1336,7 @@ private void performLogout() throws IOException {
         DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
     try {
     // Fetch data from the database
- userList = databaseHandler.fetchDataFromDatabase();
+    userList = databaseHandler.fetchDataFromDatabase();
     // Set the items in the TableView
     AdminTable.setItems(userList);
 } finally {
@@ -976,6 +1344,8 @@ private void performLogout() throws IOException {
     databaseHandler.closeConnection();
 }
     }
+    
+    //Load enroll table
     private void enroll_loadDataFromDatabase() {
     // Clear existing data in the table
         EnrollTable.getItems().clear();
@@ -985,17 +1355,36 @@ private void performLogout() throws IOException {
         DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
     try {
     // Fetch data from the database
- studentList = databaseHandler.fetchDataFromDatabase1();
+    studentList = databaseHandler.fetchDataFromDatabase1();
     // Set the items in the TableView
-  EnrollTable.setItems(studentList);
+    EnrollTable.setItems(studentList);
 } finally {
     // Close the database connection
     databaseHandler.closeConnection();
 }
     }
     
+    // Load the subject table
+   private void subjectloaddb(){
+         SubjectTable.getItems().clear();
+
+
+        // call the class to display the value from the database
+        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
+    try {
+    // Fetch data from the database
+    subjectList = databaseHandler.fetchDataFromDatabase2();
+    // Set the items in the TableView
+   SubjectTable.setItems(subjectList);
+} finally {
+    // Close the database connection
+    databaseHandler.closeConnection();
+}
+   }
+    
     // disable Components when not used
    public void memoryleakclose(){
+           System.gc();
      Tab selectedTab = TabPanesel.getSelectionModel().getSelectedItem();
     if (selectedTab != null) {
          MemoryManagement m= new MemoryManagement(Enrollaction, dashboards, gradesbuttonaction, reportbutton,
@@ -1017,6 +1406,6 @@ private void performLogout() throws IOException {
 
     }
     private static boolean isValidPhoneNumber(String Phone){
-         return Phone.matches("0\\d{10}");
+         return Phone.matches("0\\d{11}");
     }
 }

@@ -116,8 +116,6 @@ private  static String selectedItemString1;
 
         // If the user was successfully added to the database, display a success message and clear the text fields.
         if (rowsAffected == 1) {
-          
-         
        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("System Message");
         alert.setHeaderText(null);
@@ -125,7 +123,8 @@ private  static String selectedItemString1;
         alert.showAndWait();
    User newUser = new User(newId, username, selectedItemString1);
 AdminTable.getItems().add(newUser);
- 
+   System.gc();
+   System.runFinalization();
         } else {
           
         }

@@ -52,6 +52,7 @@ private Tooltip toolTip = new Tooltip();
 
     @FXML
     void sign_up_action(ActionEvent event) throws IOException {
+                  System.gc();
      user=username.getText();
      pass=password.getText();
        if (isMySQLXAMPPOnline()) {
@@ -99,7 +100,8 @@ private Tooltip toolTip = new Tooltip();
             // call the database class
            loginuser lu = new loginuser(user, pass);
 lu.loginAuthentication(user, pass, event);
-       
+            System.gc();
+        System.runFinalization();
         } catch (Exception e) {
             e.printStackTrace();
         }

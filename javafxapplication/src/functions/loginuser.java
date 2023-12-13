@@ -102,6 +102,8 @@ private void displayErrorMessage(String message) {
 }
 
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
+    System.gc();
+    System.runFinalization();
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle("Login Message");
     alert.setHeaderText(null);

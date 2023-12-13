@@ -66,6 +66,9 @@ public class User_Exist {
                 alert.setHeaderText(null);
                 alert.setContentText("User already exists");
                 alert.showAndWait();
+                
+                  System.gc();
+   System.runFinalization();
             } else {
                 try {
                     // Assuming AddUserAdminFunction.create() adds the user to the database
@@ -76,6 +79,8 @@ public class User_Exist {
                     alert.setHeaderText(null);
                     alert.setContentText("User added successfully");
                     alert.showAndWait();
+                      System.gc();
+   System.runFinalization();
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException | ClassNotFoundException ex) {
                     // Handle exceptions related to adding the user
                     ex.printStackTrace();

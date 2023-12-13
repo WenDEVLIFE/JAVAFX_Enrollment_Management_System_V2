@@ -9,6 +9,7 @@ package userinteraction;
  * @author Administrator
  */
 import functions.Student;
+import functions.Subject;
 import functions.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,6 +73,8 @@ private Connection connection;
             String phoneNumber = resultSet.getString("PhoneNum");
 
            studentList.add(new Student(id, name, address, gender, age, birthYear, phoneNumber));
+                  System.gc();
+                   System.runFinalization();
         }
 
     } catch (SQLException e) {
@@ -81,6 +84,33 @@ private Connection connection;
     return studentList;
 }
 
+     public ObservableList<Subject> fetchDataFromDatabase2() {
+    ObservableList<Subject> subjectList = FXCollections.observableArrayList();
+
+    try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
+         Statement statement = connection.createStatement();
+     ResultSet resultSet = statement.executeQuery("SELECT SubjectID, SubjectName, Section, TimeStart, TimeEnded FROM subjecttable")){
+
+        // Populate the ObservableList with data from the ResultSet
+        while (resultSet.next()) {
+             int subjectid = resultSet.getInt("SubjectID");
+            String subname = resultSet.getString("SubjectName");
+             String subsec = resultSet.getString("Section");
+            String timestart = resultSet.getString("TimeStart");
+            String timeend= resultSet.getString("TimeEnded");
+      
+
+          subjectList.add(new Subject(subjectid, subname, subsec, timestart, timeend));
+          
+          System.gc();
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return subjectList;
+}
     void closeConnection() {
     try {
         if (connection != null && !connection.isClosed()) {

@@ -46,6 +46,7 @@ public class CustomTableCellFactory {
                 super.updateItem(item, empty);
                 setText(empty ? null : item);
                 setAlignment(Pos.CENTER);
+ 
             }
         };
     }

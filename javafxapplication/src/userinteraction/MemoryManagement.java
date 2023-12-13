@@ -107,5 +107,7 @@ public class MemoryManagement {
         selecttable6.setDisable(true);
 
         Role.setDisable(true);
+        System.gc();
+        System.runFinalization();
     }
 }

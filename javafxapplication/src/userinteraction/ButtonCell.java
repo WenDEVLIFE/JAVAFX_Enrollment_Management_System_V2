@@ -46,6 +46,7 @@ public class ButtonCell extends TableCell<User, Void> {
                         db.deleteuser(user);
                           userList.remove(user);
 
+                                 System.gc();
                         
                     }
                 });

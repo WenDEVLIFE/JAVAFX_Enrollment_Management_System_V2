@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class User {
+    
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty username;
     private final SimpleStringProperty role;
@@ -24,6 +25,7 @@ public class User {
 
     public int getId() {
         return id.get();
+        
     }
 
     public String getUsername() {

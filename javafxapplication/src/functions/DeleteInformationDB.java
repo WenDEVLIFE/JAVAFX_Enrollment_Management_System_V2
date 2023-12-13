@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import javafx.scene.control.Alert;
 public class DeleteInformationDB {
     String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     String username1 = "root";
@@ -25,7 +26,11 @@ public class DeleteInformationDB {
                 int rowsDeleted = preparedStatement.executeUpdate();
                 if (rowsDeleted > 0) {
                     System.out.println("User deleted successfully");
-                      
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("User deletion successfully");
+                alert.showAndWait();
 
                 } else {
                     System.out.println("User deletion failed");
@@ -43,8 +48,13 @@ public class DeleteInformationDB {
                 int rowsDeleted = preparedStatement.executeUpdate();
                 if (rowsDeleted > 0) {
                     System.out.println("Student deleted successfully");
-    
-                    
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Student deletion successfully");
+                alert.showAndWait();
+                      System.gc();
+   System.runFinalization();
 
                 } else {
                     System.out.println("Student deletion failed");
@@ -54,4 +64,31 @@ public class DeleteInformationDB {
             e.printStackTrace();
         }
     }
+     public void deletesubject(Subject selectedSubject){
+           try (Connection connection = DriverManager.getConnection(jdbcUrl, username1, password)) {
+            String deleteQuery = "DELETE FROM subjecttable WHERE SubjectID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setInt(1, selectedSubject.getSubjectId()); // Assuming there's a method named getId() in your User class
+                int rowsDeleted = preparedStatement.executeUpdate();
+                if (rowsDeleted > 0) {
+                    System.out.println("Student deleted successfully");
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Subject deletion successfully");
+                alert.showAndWait();
+                      System.gc();
+   System.runFinalization();
+
+                } else {
+                    System.out.println("Subject deletion failed");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     }
+     public void deletegrades(){
+         
+     }
 }

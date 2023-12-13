@@ -10,10 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -32,7 +28,8 @@ public class Main extends Application {
 
  public void start(Stage stage) {
   try {
-   
+   System.gc();
+     System.runFinalization();
    Parent root = FXMLLoader.load(getClass().getResource("mainfxml.fxml"));
    Scene scene = new Scene(root);
  Image icon = new Image(getClass().getResourceAsStream("/pictures/mabini.png"));
