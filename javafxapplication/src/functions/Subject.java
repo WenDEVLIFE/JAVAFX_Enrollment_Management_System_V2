@@ -49,7 +49,19 @@ public class Subject {
         return timeended.get();
     }
 
+public void setTimeStart(String newValue) {
+    timestarted.set(newValue);
+}
 
+public void setTimeEnded(String newValue) {
+    timeended.set(newValue);
+}
+public void setSubjectID(int newSubjectID) {
+        SubjectID.set(newSubjectID);
+    }
+    int getSubjectId() {
+      return SubjectID.get();
+    }
     public SimpleIntegerProperty getProperty(String propertyName) {
         switch (propertyName) {
             case "SubjectID":
@@ -71,17 +83,11 @@ public class Subject {
     Section.set(newValue);
 }
 
-public void setTimeStart(String newValue) {
-    timestarted.set(newValue);
-}
 
-public void setTimeEnded(String newValue) {
-    timeended.set(newValue);
-}
-public void setSubjectID(int newSubjectID) {
-        SubjectID.set(newSubjectID);
-    }
-    int getSubjectId() {
-      return SubjectID.get();
+
+
+
+    public String getStudentName() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -67,7 +67,7 @@
                <content>
                   <Pane fx:id="tabbedpanemenu" prefHeight="200.0" prefWidth="200.0" styleClass="\\root" stylesheets="@../javafxapplication/mainfxml.css">
                      <children>
-                        <Label layoutX="41.0" layoutY="100.0" prefHeight="55.0" prefWidth="595.0" text="DASHBOARD" textFill="#364694">
+                        <Label layoutX="41.0" layoutY="100.0" prefHeight="55.0" prefWidth="595.0" text="DASHBOARD1" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="34.0" />
                            </font>
@@ -466,46 +466,52 @@
                               <GlyphsStack layoutX="84.0" layoutY="326.0" />
                               <GlyphsStack layoutX="21.0" layoutY="105.0" />
                               <GlyphsStack layoutX="65.0" layoutY="335.0" />
-                              <TextField layoutX="188.0" layoutY="265.0" prefHeight="40.0" prefWidth="420.0" />
-                              <Label layoutX="188.0" layoutY="90.0" prefHeight="20.0" prefWidth="88.0" text="Gender" textFill="WHITE">
+                              <TextField fx:id="seciondgrading" layoutX="188.0" layoutY="293.0" prefHeight="33.0" prefWidth="420.0" />
+                              <Label layoutX="188.0" layoutY="68.0" prefHeight="37.0" prefWidth="165.0" text="StudentName" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="188.0" layoutY="8.0" prefHeight="37.0" prefWidth="165.0" text="Select Student" textFill="WHITE">
-                                 <font>
-                                    <Font name="Gill Sans MT Condensed" size="24.0" />
-                                 </font>
-                              </Label>
-                              <Button id="enrollbutton" fx:id="Adduser1" layoutX="271.0" layoutY="467.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add Grades" />
-                              <Button id="clearbutton1" layoutX="410.0" layoutY="467.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <Button id="enrollbutton" fx:id="Adduser1" layoutX="271.0" layoutY="467.0" mnemonicParsing="false" onAction="#addgradesaction" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Add Grades" />
+                              <Button id="clearbutton1" layoutX="410.0" layoutY="467.0" mnemonicParsing="false" onAction="#clearbuttonaction6" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
                               <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="442.0" layoutY="495.0" />
                               <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="286.0" layoutY="495.0" selectionStart="1" />
-                              <ComboBox layoutX="188.0" layoutY="45.0" prefHeight="41.0" prefWidth="324.0" />
-                              <Label layoutX="189.0" layoutY="157.0" prefHeight="20.0" prefWidth="164.0" text="1st Grading" textFill="WHITE">
+                              <Label layoutX="188.0" layoutY="201.0" prefHeight="20.0" prefWidth="164.0" text="1st Grading" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="188.0" layoutY="187.0" prefHeight="40.0" prefWidth="420.0" />
-                              <ComboBox layoutX="188.0" layoutY="120.0" prefHeight="31.0" prefWidth="116.0" />
-                              <Label layoutX="189.0" layoutY="227.0" prefHeight="20.0" prefWidth="164.0" text="2nd Grading" textFill="WHITE">
+                              <TextField fx:id="firstgrading" layoutX="188.0" layoutY="231.0" prefHeight="34.0" prefWidth="420.0" />
+                              <Label layoutX="188.0" layoutY="265.0" prefHeight="20.0" prefWidth="164.0" text="2nd Grading" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="189.0" layoutY="311.0" prefHeight="20.0" prefWidth="164.0" text="3rd Grading" textFill="WHITE">
+                              <Label layoutX="189.0" layoutY="326.0" prefHeight="20.0" prefWidth="164.0" text="3rd Grading" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="188.0" layoutY="341.0" prefHeight="40.0" prefWidth="420.0" />
+                              <TextField fx:id="thirdgrading" layoutX="188.0" layoutY="354.0" prefHeight="33.0" prefWidth="420.0" />
                               <Label layoutX="188.0" layoutY="387.0" prefHeight="30.0" prefWidth="103.0" text="4th Grading" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField layoutX="188.0" layoutY="417.0" prefHeight="40.0" prefWidth="420.0" />
+                              <TextField fx:id="fourthgrading" layoutX="188.0" layoutY="423.0" prefHeight="34.0" prefWidth="420.0" />
+                              <TextField fx:id="entersection" layoutX="188.0" layoutY="168.0" prefHeight="33.0" prefWidth="420.0" />
+                              <TextField fx:id="enterstudentname" layoutX="189.0" layoutY="105.0" prefHeight="36.0" prefWidth="420.0" />
+                              <Label layoutX="188.0" layoutY="138.0" prefHeight="20.0" prefWidth="165.0" text="Section" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="enter_subjectname" layoutX="188.0" layoutY="42.0" prefHeight="34.0" prefWidth="420.0" />
+                              <Label layoutX="188.0" layoutY="5.0" prefHeight="37.0" prefWidth="200.0" text="Enter the Subject Name" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </Pane>
                         <Label layoutX="36.0" layoutY="99.0" prefHeight="55.0" prefWidth="595.0" text="GRADING SYSTEM FORM" textFill="#364694">

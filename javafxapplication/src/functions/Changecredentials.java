@@ -4,6 +4,8 @@
  */
 package functions;
 
+import static functions.loginuser.stage1;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -12,90 +14,123 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.swing.JOptionPane;
 import userinteraction.DashboardController;
 /**
  *
  * @author Administrator
  */
 public class Changecredentials {
-
+public static Stage stage2;
     private static final String DB_URL = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public void ChangeUsername(String currentuser, String newuser, String confirmation_password, String user_receiver) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            // Check if the current username exists in the database
-            String query = "SELECT * FROM usertable WHERE username = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, currentuser);
+    public void ChangeUsername(String currentuser, String newuser, String confirmation_password, String user_receiver, ActionEvent event) throws IOException {
+    try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        // Check if the current username exists in the database
+        String query = "SELECT * FROM usertable WHERE username = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, currentuser);
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        // Validate the current password
-                        String storedPasswordHash = resultSet.getString("password");
-                        byte[] storedSalt = resultSet.getBytes("salt");
-                        String hashedPassword = hashPasswordPBKDF2(confirmation_password, storedSalt);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Validate the current password
+                    String storedPasswordHash = resultSet.getString("password");
+                    byte[] storedSalt = resultSet.getBytes("salt");
+                    String hashedPassword = hashPasswordPBKDF2(confirmation_password, storedSalt);
 
-                        if (hashedPassword.equals(storedPasswordHash)) {
-                            // Update the username
-                            String updateQuery = "UPDATE usertable SET username = ? WHERE username = ?";
-                            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                                updateStatement.setString(1, newuser);
-                                updateStatement.setString(2, currentuser);
+                    if (hashedPassword.equals(storedPasswordHash)) {
+                        // Update the username
+                        String updateQuery = "UPDATE usertable SET username = ? WHERE username = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, newuser);
+                            updateStatement.setString(2, currentuser);
 
-                                // Execute the update statement
-                                int rowsUpdated = updateStatement.executeUpdate();
+                            // Execute the update statement
+                            int rowsUpdated = updateStatement.executeUpdate();
 
-                                if (rowsUpdated > 0) {
-                                    Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
-                                   alert1.setTitle("System Message");
-                                   alert1.setHeaderText(null);
-                                   alert1.setContentText("User changed successfully");
-                                   alert1.showAndWait();
-                                    System.out.println("Username changed successfully.");
-                                 System.runFinalization();
-                                 
-                                    if(newuser==user_receiver){
-                                          DashboardController dashboardController = new DashboardController();
-                                          dashboardController.setuserlabel(newuser);
-                                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                   alert.setTitle("System Message");
-                                   alert.setHeaderText(null);
-                                   alert.setContentText("User changed successfully");
-                                   alert.showAndWait();
-                                    System.out.println("Username changed successfully.");
-                                 System.runFinalization();
-                                    }
-             
-                                    // Message the user that it sucess change the username
-                                   Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                   alert.setTitle("System Message");
-                                   alert.setHeaderText(null);
-                                   alert.setContentText("User changed successfully");
-                                   alert.showAndWait();
-                                    System.out.println("Username changed successfully.");
-                                 System.runFinalization();
-                                } else {
-                                    System.out.println("Failed to change username.");
+                            if (rowsUpdated > 0) {
+                                // Notify the user about the successful username change
+                                // If the current user is the receiver, update the label and open the dashboard
+                                if (currentuser.equals(user_receiver)) {
+                                  if (stage2 == null) {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
+
+                                 // Set the controller factory before loading the FXML
+                                    loader.setControllerFactory(controller -> new DashboardController());
+
+                                 Parent root = loader.load();
+
+                                stage2 = new Stage();
+
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("System Message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("User changed successfully");
+                                alert.showAndWait();
+
+                                System.out.println("Username changed successfully.");
+
+                                Scene scene = new Scene(root);
+                                javafx.scene.image.Image icon1 = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
+
+                                // Retrieve the controller instance from the loader
+                                DashboardController dashboardController1 = loader.getController();
+
+                                String user = newuser;
+                  
+
+                                // Use the retrieved controller instance to call setuserlabel
+                                dashboardController1.setuserlabel(user);
+
+                                stage2.setScene(scene);
+                                stage2.getIcons().add(icon1);
+                                stage2.setTitle("Mabini National High School Management System Dashboard");
+                                stage2.show();
+                                stage2.setResizable(false);
+
+                                // Close the current stage
+                                Node sourceNode = (Node) event.getSource();
+                                Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+                                currentStage.close();
+    }
+                            
                                 }
+
+                                // Display a success message
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("System Message");
+                                alert.setHeaderText(null);
+                                alert.setContentText("User changed successfully");
+                                alert.showAndWait();
+
+                                System.out.println("Username changed successfully.");
+                                System.runFinalization();
+                            } else {
+                                System.out.println("Failed to change username.");
                             }
-                        } else {
-                            System.out.println("Incorrect current password.");
                         }
                     } else {
-                        System.out.println("User not found.");
+                        System.out.println("Incorrect current password.");
                     }
+                } else {
+                    System.out.println("User not found.");
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
 
     private String hashPasswordPBKDF2(String password, byte[] salt) {
         try {

@@ -102,27 +102,29 @@ private void displayErrorMessage(String message) {
 }
 
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-    System.gc();
-    System.runFinalization();
+
+
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle("Login Message");
     alert.setHeaderText(null);
     alert.setContentText("You successfully login, Good day and Welcome " + user);
     alert.showAndWait();
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
-    Parent root = loader.load();
+    FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
+    Parent root = loader1.load();
 
-    System.out.println("DashboardController instance: " + loader.getController());
+    System.out.println("DashboardController instance: " + loader1.getController());
     System.out.println("User value: " + user);
+    
 
-    DashboardController dashboardController = loader.getController();
+    DashboardController dashboardController = loader1.getController();
     dashboardController.setuserlabel(user);
     
     // Initialize stage1 if it is null
     // to close the current scene
     if (stage1 == null) {
         stage1 = new Stage();
+         System.runFinalization();
     }
 
     dashboardController.setStage(stage1);

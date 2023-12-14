@@ -10,17 +10,20 @@ package userinteraction;
  */
 import functions.Subject;
 import functions.DeleteInformationDB;
+import functions.Grading;
+import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 public class ButtonCell2 extends TableCell<Subject, Void> {
     private final Button button;
     private final ObservableList<Subject> subjectList;
     
-    public ButtonCell2(String buttonText, ObservableList<Subject> subjectList) {
+    public ButtonCell2(String buttonText, ObservableList<Subject> subjectList, TableView<Grading> GradingTable) {
         this.button = new Button(buttonText);
         this.subjectList = subjectList;
 
@@ -53,9 +56,20 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
                     });
                 } else if (buttonText.equals("Open")) {
                       System.out.println("Open subject");
-                    // Code for editing user
-                    // Open a dialog or a new scene for editing user details
-                    // You can create a method to handle this or use a different class for editing
+                       System.out.println("Open subject");
+
+ SubjectDatabase subjectDatabase = new SubjectDatabase();
+                    List<Grading> gradingList = subjectDatabase.getGradingBySubjectName(selectedSubject.getSubjectName());
+
+                        System.out.println("Subject Name: " + selectedSubject.getSubjectName());
+    System.out.println("Grading List: " + gradingList);
+
+                    // Update the TableView with the fetched details
+                    GradingTable.getItems().clear();
+                    GradingTable.getItems().addAll(gradingList);
+    // Update the TableView with the fetched details
+    
+      
                 }
             }
         });
@@ -70,6 +84,11 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
         } else {
             setGraphic(button);
         }
+        
     }
+
+  
+
 }
+
 

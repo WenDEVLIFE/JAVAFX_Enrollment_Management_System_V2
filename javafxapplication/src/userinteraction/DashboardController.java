@@ -4,10 +4,12 @@
  */
 package userinteraction;
 
+import functions.Addgrades;
 import functions.Changecredentials;
 import functions.CreateStudent;
 import functions.CreateSubject;
 import functions.DeleteInformationDB;
+import functions.Grading;
 import functions.Student;
 import functions.Subject;
 import functions.User;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -48,11 +49,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DashboardController {
 
     
     private static ObservableList<User> userList;
+    private  static ObservableList<Grading> gradingList;
    ObservableList<Student> studentList = FXCollections.observableArrayList();
     ObservableList<Subject> subjectList = FXCollections.observableArrayList();
    
@@ -61,6 +70,7 @@ public class DashboardController {
         public   String password1 = "";
        
         private static String user_receiver;
+        private static String newuser;
         
     private WeakReference<Button> buttonRef;
     
@@ -105,6 +115,9 @@ public class DashboardController {
     private Label  setUserLabel12;
           @FXML
            private Label  setUserLabel112;
+          
+          @FXML
+           private Label SubjectName;
          
     public static String password;
     public static String confirmpass;
@@ -237,6 +250,7 @@ private Tooltip toolTip3 = new Tooltip();
     
        @FXML
     private TableView<Subject> SubjectTable;
+    private TableView<Grading>  GradingTable;
     
     // combolist
     @FXML
@@ -276,9 +290,26 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private ComboBox<String> Selectedsection;
     
+    
         @FXML
     private TextField usernamefield;
+          @FXML
+    private TextField SubjectName1;
+          
+           @FXML
+    private TextField firstfield;
                 
+                 @FXML
+    private TextField secondfield;
+                 
+                       @FXML
+    private TextField thirdfield;
+                       
+                             @FXML
+    private TextField fourthfield;
+                             
+                                @FXML
+    private  PasswordField  selectstudent;
             @FXML
     private PasswordField passwordfield;
             
@@ -319,6 +350,26 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private TextField enterusername;
     
+     @FXML
+    private TextField entersection;
+     @FXML
+    private TextField enter_subjectname;
+
+    @FXML
+    private TextField enterstudentname;
+
+    @FXML
+    private TextField firstgrading;
+    
+     @FXML
+    private TextField seciondgrading;
+
+      @FXML
+    private TextField thirdgrading;
+      
+    @FXML
+    private TextField fourthgrading;
+    
     @FXML
     private PasswordField  oldpassword;
     
@@ -357,8 +408,10 @@ private Tooltip toolTip3 = new Tooltip();
     private MenuButton menuactions9;
               @FXML
     public void initialize() {
+
+
      TabPanesel.getSelectionModel().select(Enroll);
-     
+       
         // for the passwordfield and confirmpasswordfield
         passwordfield.setTooltip(toolTip);
     confirmpasswordfield.setTooltip(toolTip1);
@@ -367,7 +420,7 @@ private Tooltip toolTip3 = new Tooltip();
     // set value for the combobox
      Selectedsection.setValue("Select a section");
     Selectedstarttime.setValue("Select a time");
-                      Selectedendtime.setValue("Select a time");
+      Selectedendtime.setValue("Select a time");
        selecttable.setValue("Select an Option");
        selecttable1.setValue("Select an Option");
        selecttable2.setValue("Select an Option");
@@ -490,9 +543,14 @@ private Tooltip toolTip3 = new Tooltip();
                       Selectedendtime.setItems(time);
                                      ObservableList<String> sec = FXCollections.observableArrayList(
                 "Select a section",
-                "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"                // Add more items as needed
+                "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"        
+                                             // Add more items as needed
         );
-               Selectedsection.setItems(sec);                      
+                 Selectedsection.setItems(sec);
+
+                      
+              
+                     
       
         AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
@@ -718,7 +776,7 @@ timestart.setOnEditCommit(event -> {
 
 
         TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
-        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList));
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable));
         deleteColumn2.setOnEditCommit(event -> {
     Subject selectedSubject= event.getRowValue();
     String subjectName = selectedSubject.getSubjectName();
@@ -727,12 +785,33 @@ timestart.setOnEditCommit(event -> {
     // Add your logic to handle the Edit action for this student
 });
 
-        TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
-        editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList));
-        editColumn2.setOnEditCommit(event -> {
-      Subject selectedSubject= event.getRowValue();
+   TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
+editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable));
+editColumn2.setOnEditCommit(event -> {
+    Subject selectedSubject = event.getRowValue();
     String subjectName = selectedSubject.getSubjectName();
-    System.out.println("Clicked Edit for student: " + subjectName );
+
+    System.out.println("Clicked Edit for student: " + subjectName);
+    SubjectName.setText(subjectName);
+    System.out.println("Clicked Edit for student: " + subjectName);
+    SubjectDatabase subjectDatabase = new SubjectDatabase();
+    List<Grading> gradingList = subjectDatabase.getGradingBySubjectName(subjectName);
+    SubjectName = new Label(Integer.toString(gradingList.get(0).getSubjectID()));
+    TabPanesel.getSelectionModel().select(Grading);
+    if (!gradingList.isEmpty()) {
+        // Subject exists, update the TableView and set the subject ID to a label
+        GradingTable.getItems().clear();
+        GradingTable.getItems().addAll(gradingList);
+
+        // Assuming you have a label called subjectIDLabel
+
+        // Set the label text wherever you need it in your application
+
+    } else {
+        System.out.println("Subject not found in the database.");
+    }
+    
+    
 
     // For example, you can create a method like editStudent(Student student) and call it here
     // This method would then handle opening the editing interface and updating the student details
@@ -761,7 +840,88 @@ SubjectTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     });
 });           
                        subjectloaddb();
+                       
+ GradingTable = new TableView<>();
+  GradingTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
+   TableColumn<Grading, Integer> subjectid1 = new TableColumn<>("SubjectID");
+subjectid1.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
+subjectid1.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+      
+TableColumn<Grading, String> studentNameColumn = new TableColumn<>("Student Name");
+        studentNameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+        studentNameColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
+         studentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+         studentNameColumn.setOnEditCommit(event -> {
+ 
+});
+         
+      TableColumn<Grading, String> sectionColumn = new TableColumn<>("Section");
+sectionColumn.setCellValueFactory(new PropertyValueFactory<>("section"));
+sectionColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
+
+// Create TableColumn for First Grading
+TableColumn<Grading, Integer> firstGradingColumn = new TableColumn<>("First Grading");
+firstGradingColumn.setCellValueFactory(new PropertyValueFactory<>("firstGrading"));
+firstGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Second Grading
+TableColumn<Grading, Integer> secondGradingColumn = new TableColumn<>("Second Grading");
+secondGradingColumn.setCellValueFactory(new PropertyValueFactory<>("secondGrading"));
+secondGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Third Grading
+TableColumn<Grading, Integer> thirdGradingColumn = new TableColumn<>("Third Grading");
+thirdGradingColumn.setCellValueFactory(new PropertyValueFactory<>("thirdGrading"));
+thirdGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Fourth Grading
+TableColumn<Grading, Integer> forthGradingColumn = new TableColumn<>("Fourth Grading");
+forthGradingColumn.setCellValueFactory(new PropertyValueFactory<>("forthGrading"));
+forthGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Total
+TableColumn<Grading, Integer> totalColumn = new TableColumn<>("Total");
+totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+
+        TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
+        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList));
+     
+
+        TableColumn<Grading, Void> editColumn3 = new TableColumn<>("Edit");
+        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList));
+        
+
+        // Add columns to the table
+      GradingTable.getColumns().addAll(subjectid1, studentNameColumn, sectionColumn,
+        firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3);
+
+        
+// Set column resize policy
+  GradingTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+  GradingTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(  GradingTable.getWidth() /   GradingTable.getColumns().size());
+            }
+        });
+  GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+      GradingTable.getColumns().forEach(column -> {
+        if (column.isResizable()) {
+            column.setPrefWidth(newValue.doubleValue() /   GradingTable.getColumns().size());
+        }
+    });
+
+});           
+           
 }
+
+    
+    
     
     
     // this are the action events
@@ -1150,7 +1310,7 @@ TabPanesel.getSelectionModel().select(Subject);
     
     // For change username form
      @FXML
-    void changeuseraction (ActionEvent event) {
+    void changeuseraction (ActionEvent event) throws IOException {
         String currentuser = currentusernamefield.getText();
         String newuser = newusernamefield.getText();
         String confirmation_password =passwordfield1.getText();
@@ -1163,7 +1323,7 @@ TabPanesel.getSelectionModel().select(Subject);
         alert.showAndWait();
         } else {
              Changecredentials ce = new Changecredentials ();
-             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver  );
+             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver, event );
         }
         
     }
@@ -1201,6 +1361,38 @@ String passwordnew =newpassword.getText();
         newpassword.setText("");
     }
     
+    @FXML
+     void addgradesaction(){
+            String entersub= enter_subjectname.getText();
+       String enterstudent =enterstudentname.getText();
+      String entersectione = entersection.getText();
+       String firstG=firstgrading.getText();
+       int grade1 = Integer.parseInt(firstG);
+      String secondG= seciondgrading.getText();
+         int grade2 = Integer.parseInt(secondG);
+        String thirdG =thirdgrading.getText();
+           int grade3 = Integer.parseInt(thirdG);
+        String fourthG=fourthgrading.getText();
+           int grade4 = Integer.parseInt(fourthG);
+           if (entersub.isEmpty()|| enterstudent.isEmpty() || entersectione.isEmpty()){
+               
+           } else {
+               
+               Addgrades g = new Addgrades();
+           g.AddGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4);
+           }
+          
+     }
+      @FXML
+     void clearbuttonaction6(){
+        enter_subjectname.setText("");
+       enterstudentname.setText("");
+       entersection.setText("");
+       firstgrading.setText("");
+       seciondgrading.setText("");
+        thirdgrading.setText("");
+        fourthgrading.setText("");
+     }
     // for sidepanel navbar function
     @FXML
     void Enroll_Action(ActionEvent event) {
@@ -1228,27 +1420,29 @@ String passwordnew =newpassword.getText();
 public void setuserlabel(String user){
 
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
-   setLabelUser.setText("User:"+ user);
-    setLabelUser1.setText("User:" + user);
-    setLabelUser2.setText("User:" + user);
-    setLabelUser3.setText("User:" + user);
-    setLabelUser4.setText("User:" + user);
-    setLabelUser5.setText("User:" + user);
-    setLabelUser6.setText("User:" + user);
-     setUserLabel7.setText("User:" + user);
-     setUserLabel8.setText("User:" + user);
-       setLabelUser9.setText("User:" + user);
-       setUserLabel10.setText("User:" + user);
-       setUserLabel11.setText("User:" + user);
-       setUserLabel12.setText("User:" + user);
-       user_receiver = user;
-       System.out.println("The value of user receiver" + user_receiver);
+    
+    user_receiver = user;
+   setLabelUser.setText("User:"+ user_receiver);
+    setLabelUser1.setText("User:" + user_receiver);
+    setLabelUser2.setText("User:" + user_receiver);
+    setLabelUser3.setText("User:" + user_receiver);
+    setLabelUser4.setText("User:" + user_receiver);
+    setLabelUser5.setText("User:" +user_receiver);
+    setLabelUser6.setText("User:" +user_receiver);
+     setUserLabel7.setText("User:" + user_receiver);
+     setUserLabel8.setText("User:" + user_receiver);
+       setLabelUser9.setText("User:" + user_receiver);
+       setUserLabel10.setText("User:" + user_receiver);
+       setUserLabel11.setText("User:" + user_receiver);
+       setUserLabel12.setText("User:" + user_receiver);
+
+       System.out.println( user_receiver);
   }
 else {
     System.out.println("username is null");
 }
 } 
-    
+  
 // Log out actions
     @FXML
     void logoutaction(ActionEvent event) {
@@ -1380,8 +1574,9 @@ private void performLogout() throws IOException {
     // Close the database connection
     databaseHandler.closeConnection();
 }
-   }
-    
+   }    
+   
+ 
     // disable Components when not used
    public void memoryleakclose(){
            System.gc();
@@ -1408,4 +1603,6 @@ private void performLogout() throws IOException {
     private static boolean isValidPhoneNumber(String Phone){
          return Phone.matches("0\\d{11}");
     }
+
+   
 }

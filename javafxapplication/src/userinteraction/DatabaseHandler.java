@@ -8,6 +8,7 @@ package userinteraction;
  *
  * @author Administrator
  */
+import functions.Grading;
 import functions.Student;
 import functions.Subject;
 import functions.User;
@@ -111,6 +112,37 @@ private Connection connection;
 
     return subjectList;
 }
+     
+      public ObservableList<Grading> fetchDataFromDatabase3() {
+    ObservableList<Grading> gradingList  = FXCollections.observableArrayList();
+
+    try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
+         Statement statement = connection.createStatement();
+     ResultSet resultSet = statement.executeQuery("SELECT SubjectID, SubjectName, Section, FirstG, SecondG, ThirdG, FourthG, Total FROM gradingtable")){
+
+        // Populate the ObservableList with data from the ResultSet
+        while (resultSet.next()) {
+             int subjectid = resultSet.getInt("SubjectID");
+            String subname = resultSet.getString("SubjectName");
+             String subsec = resultSet.getString("Section");
+            int   FirstG = resultSet.getInt("TimeStart");
+            int secondG= resultSet.getInt("TimeStart");
+            int  thirdG= resultSet.getInt("TimeStart");
+            int  fourthG= resultSet.getInt("TimeStart");
+           int total= resultSet.getInt("TimeStart");
+
+         gradingList.add(new Grading(subjectid, subname, subsec, FirstG, secondG, thirdG, fourthG, total));
+          
+          System.gc();
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return gradingList;
+}
+   
     void closeConnection() {
     try {
         if (connection != null && !connection.isClosed()) {
