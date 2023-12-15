@@ -22,12 +22,13 @@ public class SubjectDatabase {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
+    
   public List<Grading> getGradingBySubjectName(String subjectName) {
     List<Grading> gradingList = new ArrayList<>();
 
     try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
         // Select SubjectID and other fields based on SubjectName
-        String sql = "SELECT SubjectID, StudentName, Section, FirstG, SecondG, ThirdG, FourthG, Total FROM gradingtable WHERE SubjectID IN (SELECT SubjectID FROM subjecttable WHERE SubjectName = ?)";
+        String sql = "SELECT SubjectID, StudentName, Section, FirstG, SecondG, ThirdG, FourthG, Total, StudentID FROM gradingtable WHERE SubjectID IN (SELECT SubjectID FROM subjecttable WHERE SubjectName = ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, subjectName);
 
@@ -37,14 +38,15 @@ public class SubjectDatabase {
                     int subjectID = resultSet.getInt("SubjectID");
                     String studentName = resultSet.getString("StudentName");
                     String section = resultSet.getString("Section");
-                    int firstGrading = resultSet.getInt("FirstGrading");
-                    int secondGrading = resultSet.getInt("SecondGrading");
-                    int thirdGrading = resultSet.getInt("ThirdGrading");
-                    int forthGrading = resultSet.getInt("ForthGrading");
+                    int firstGrading = resultSet.getInt("FirstG");
+                    int secondGrading = resultSet.getInt("SecondG");
+                    int thirdGrading = resultSet.getInt("ThirdG");
+                    int forthGrading = resultSet.getInt("FourthG");
                     int total = resultSet.getInt("Total");
+                    int studentid =resultSet.getInt("StudentID");
 
                     // Create Grading instance
-                    Grading grading = new Grading(subjectID, studentName, section, firstGrading, secondGrading, thirdGrading, forthGrading, total);
+                    Grading grading = new Grading(subjectID, studentName, section, firstGrading, secondGrading, thirdGrading, forthGrading, total, studentid);
                     gradingList.add(grading);
                 }
             }

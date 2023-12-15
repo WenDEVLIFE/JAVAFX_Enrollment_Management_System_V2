@@ -49,17 +49,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import javafx.event.EventHandler;
 
 public class DashboardController {
 
-    
+    private static  String subjectName;
     private static ObservableList<User> userList;
     private  static ObservableList<Grading> gradingList;
    ObservableList<Student> studentList = FXCollections.observableArrayList();
@@ -157,7 +153,7 @@ private Tooltip toolTip3 = new Tooltip();
     private Tab EnrollTableForm;
     
        @FXML
-    private Tab Grading;
+    private Tab Grading1;
 
     @FXML
     private Tab Report;
@@ -185,9 +181,9 @@ private Tooltip toolTip3 = new Tooltip();
              
                         @FXML
     private Tab Changepassword;
-    @FXML
        
         // my tabpane
+        @FXML
     private TabPane TabPanesel;
         
     @FXML
@@ -250,6 +246,8 @@ private Tooltip toolTip3 = new Tooltip();
     
        @FXML
     private TableView<Subject> SubjectTable;
+       
+       @FXML
     private TableView<Grading>  GradingTable;
     
     // combolist
@@ -462,8 +460,8 @@ private Tooltip toolTip3 = new Tooltip();
             ObservableList<String> items2 = FXCollections.observableArrayList(
                 "Select an option",
                 "Subject Table",
-                "Grading System form",
-                "Grade result form",
+                "Create Grades form",
+                "Grading table",
                 "Create Subject"
                 // Add more items as needed
         );
@@ -549,8 +547,7 @@ private Tooltip toolTip3 = new Tooltip();
                  Selectedsection.setItems(sec);
 
                       
-              
-                     
+
       
         AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
@@ -606,10 +603,13 @@ roleColumn.setOnEditCommit(event -> {
 });
 
         TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
-        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList ));
+        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList, TabPanesel , changeCredentials));
 
         TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
-        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList ));
+        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList, TabPanesel, changeCredentials));
+      editColumn.setOnEditCommit(event -> {
+    TabPanesel.getSelectionModel().select(changeCredentials);
+});
 
         // Add columns to the table
         AdminTable.getColumns().addAll(idColumn, usernameColumn, roleColumn, deleteColumn, editColumn);
@@ -776,7 +776,7 @@ timestart.setOnEditCommit(event -> {
 
 
         TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
-        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable));
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName));
         deleteColumn2.setOnEditCommit(event -> {
     Subject selectedSubject= event.getRowValue();
     String subjectName = selectedSubject.getSubjectName();
@@ -786,37 +786,34 @@ timestart.setOnEditCommit(event -> {
 });
 
    TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
-editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable));
-editColumn2.setOnEditCommit(event -> {
+   
+editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName));
+editColumn2.setOnEditCommit((TableColumn.CellEditEvent<Subject, Void> event) -> {
     Subject selectedSubject = event.getRowValue();
-    String subjectName = selectedSubject.getSubjectName();
-
-    System.out.println("Clicked Edit for student: " + subjectName);
+    subjectName = selectedSubject.getSubjectName();
+    System.out.println("Clicked Edit for subject: " + subjectName);
     SubjectName.setText(subjectName);
-    System.out.println("Clicked Edit for student: " + subjectName);
     SubjectDatabase subjectDatabase = new SubjectDatabase();
-    List<Grading> gradingList = subjectDatabase.getGradingBySubjectName(subjectName);
-    SubjectName = new Label(Integer.toString(gradingList.get(0).getSubjectID()));
-    TabPanesel.getSelectionModel().select(Grading);
-    if (!gradingList.isEmpty()) {
-        // Subject exists, update the TableView and set the subject ID to a label
-        GradingTable.getItems().clear();
-        GradingTable.getItems().addAll(gradingList);
-
-        // Assuming you have a label called subjectIDLabel
-
-        // Set the label text wherever you need it in your application
-
-    } else {
-        System.out.println("Subject not found in the database.");
-    }
-    
-    
-
-    // For example, you can create a method like editStudent(Student student) and call it here
-    // This method would then handle opening the editing interface and updating the student details
-    // You may also want to refresh the table after editing to reflect changes
-});
+    List<Grading> gradingList1 = subjectDatabase.getGradingBySubjectName(subjectName);
+         // Assuming Grading is the Tab instance for the Grading tab
+         if (Grading1 != null) {
+             TabPanesel.getSelectionModel().select(Grading1);
+             if (!gradingList1.isEmpty()) {
+                 // Subject exists, update the TableView and set the subject ID to a label
+                 GradingTable.getItems().clear();
+                 GradingTable.getItems().addAll(gradingList1);
+                 // Assuming you have a label called subjectIDLabel
+                 SubjectName.setText(Integer.toString(gradingList1.get(0).getSubjectID()));
+             } else {
+                 System.out.println("Subject not found in the database.");
+             }
+         } else {
+             System.out.println("Grading Tab not found.");
+         }
+         // For example, you can create a method like editStudent(Student student) and call it here
+         // This method would then handle opening the editing interface and updating the student details
+         // You may also want to refresh the table after editing to reflect changes
+     });
 
         // Add columns to the table
        SubjectTable.getColumns().addAll(subjectid, subname, section,timestart,timeended,deleteColumn2,editColumn2);
@@ -840,8 +837,7 @@ SubjectTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     });
 });           
                        subjectloaddb();
-                       
- GradingTable = new TableView<>();
+      
   GradingTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
    TableColumn<Grading, Integer> subjectid1 = new TableColumn<>("SubjectID");
 subjectid1.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
@@ -855,7 +851,7 @@ TableColumn<Grading, String> studentNameColumn = new TableColumn<>("Student Name
          studentNameColumn.setOnEditCommit(event -> {
  
 });
-         
+        
       TableColumn<Grading, String> sectionColumn = new TableColumn<>("Section");
 sectionColumn.setCellValueFactory(new PropertyValueFactory<>("section"));
 sectionColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
@@ -885,6 +881,10 @@ TableColumn<Grading, Integer> totalColumn = new TableColumn<>("Total");
 totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
 totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
 
+TableColumn<Grading, Integer> forthGradingColumn11 = new TableColumn<>("StudentID");
+forthGradingColumn11.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
+forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
 
         TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
         deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList));
@@ -896,7 +896,7 @@ totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteg
 
         // Add columns to the table
       GradingTable.getColumns().addAll(subjectid1, studentNameColumn, sectionColumn,
-        firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3);
+        firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3, forthGradingColumn11);
 
         
 // Set column resize policy
@@ -910,13 +910,16 @@ totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteg
             }
         });
   GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
-      GradingTable.getColumns().forEach(column -> {
-        if (column.isResizable()) {
-            column.setPrefWidth(newValue.doubleValue() /   GradingTable.getColumns().size());
-        }
-    });
+        GradingTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(newValue.doubleValue() / GradingTable.getColumns().size());
+            }
+        });
+
 
 });           
+  
+  
            
 }
 
@@ -1167,10 +1170,11 @@ TabPanesel.getSelectionModel().select(Admin);
         // Check the selected item and switch to the corresponding tab
         if (selectedItem3.equals("Subject Table")) {
 TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Grading System form")) {
+        } else if (selectedItem3.equals("Create Grades form")) {
   TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grade result form")) {
-  TabPanesel.getSelectionModel().select(Grading);
+        } else if (selectedItem3.equals("Grading table")) {
+  TabPanesel.getSelectionModel().select(Grading1);
+    System.out.println("grading");
         }
         else if (selectedItem3.equals("Create Subject")) {
 TabPanesel.getSelectionModel().select(CreateSubject);
@@ -1186,10 +1190,11 @@ TabPanesel.getSelectionModel().select(CreateSubject);
         // Check the selected item and switch to the corresponding tab
         if (selectedItem3.equals("Subject Table")) {
 TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Grading System form")) {
+        } else if (selectedItem3.equals("Create Grades form")) {
   TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grade result form")) {
-  TabPanesel.getSelectionModel().select(Grading);
+        } else if (selectedItem3.equals("Grading table")) {
+  TabPanesel.getSelectionModel().select(Grading1);  
+  System.out.println("grading");
         }
         else if (selectedItem3.equals("Create Subject")) {
  TabPanesel.getSelectionModel().select(CreateSubject);
@@ -1204,10 +1209,11 @@ TabPanesel.getSelectionModel().select(Subject);
         // Check the selected item and switch to the corresponding tab
         if (selectedItem3.equals("Subject Table")) {
 TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Grading System form")) {
+        } else if (selectedItem3.equals("Create Grades form")) {
   TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grade result form")) {
-  TabPanesel.getSelectionModel().select(Grading);
+        } else if (selectedItem3.equals("Grading table")) {
+  TabPanesel.getSelectionModel().select(Grading1);
+  System.out.println("grading");
         }
         else if (selectedItem3.equals("Create Subject")) {
  TabPanesel.getSelectionModel().select(CreateSubject);
@@ -1379,7 +1385,7 @@ String passwordnew =newpassword.getText();
            } else {
                
                Addgrades g = new Addgrades();
-           g.AddGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4);
+           g.addGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4);
            }
           
      }
@@ -1576,6 +1582,11 @@ private void performLogout() throws IOException {
 }
    }    
    
+    public void switchToGradingTab() {
+      if (TabPanesel != null && changeCredentials != null) {
+        TabPanesel.getSelectionModel().select(changeCredentials);
+    }
+    }
  
     // disable Components when not used
    public void memoryleakclose(){

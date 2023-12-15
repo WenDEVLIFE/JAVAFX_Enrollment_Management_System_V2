@@ -11,6 +11,9 @@ package userinteraction;
 import functions.Subject;
 import functions.DeleteInformationDB;
 import functions.Grading;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Alert;
@@ -42,12 +45,15 @@ public class ButtonCell3 extends TableCell<Grading, Void> {
 
                     alert.showAndWait().ifPresent(response -> {
                         if (response == buttonTypeYes) {
-                            System.out.println(selectedGrading);
-                            // Code to delete grading from the database and update the list
-                            DeleteInformationDB db = new DeleteInformationDB();
-                       
-                            gradingList.remove(selectedGrading);
-                            System.gc();
+                            try {
+                                System.out.println(selectedGrading);
+                                // Code to delete grading from the database and update the list
+                                DeleteInformationDB db = new DeleteInformationDB();
+                                db.deletegrades( selectedGrading);
+                                System.gc();
+                            } catch (SQLException ex) {
+                                Logger.getLogger(ButtonCell3.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                     });
                 } else if (buttonText.equals("Edit")) {

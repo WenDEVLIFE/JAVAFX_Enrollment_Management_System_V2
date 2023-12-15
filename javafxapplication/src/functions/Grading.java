@@ -20,8 +20,9 @@ public class Grading {
     private final SimpleIntegerProperty thirdGrading;
     private final SimpleIntegerProperty forthGrading;
     private final SimpleIntegerProperty total;
+    private final SimpleIntegerProperty StudentID;
 
-     public Grading(int subjectID, String studentName, String section, int firstGrading, int secondGrading, int thirdGrading, int forthGrading, int total) {
+    public Grading(int subjectID, String studentName, String section, int firstGrading, int secondGrading, int thirdGrading, int forthGrading, int total, int StudentID) {
         this.subjectID = new SimpleIntegerProperty(subjectID);
         this.studentName = new SimpleStringProperty(studentName);
         this.section = new SimpleStringProperty(section);
@@ -29,6 +30,7 @@ public class Grading {
         this.secondGrading = new SimpleIntegerProperty(secondGrading);
         this.thirdGrading = new SimpleIntegerProperty(thirdGrading);
         this.forthGrading = new SimpleIntegerProperty(forthGrading);
+        this.StudentID = new SimpleIntegerProperty(StudentID);
         this.total = new SimpleIntegerProperty(calculateTotal(firstGrading, secondGrading, thirdGrading, forthGrading));
     }
 
@@ -93,12 +95,14 @@ public class Grading {
     }
 
     private int calculateTotal(int first, int second, int third, int forth) {
-    return first + second + third + forth;
-}
+        return (first + second + third + forth) / 4;
+    }
 
     private void updateTotal() {
         total.set(calculateTotal(firstGrading.get(), secondGrading.get(), thirdGrading.get(), forthGrading.get()));
     }
 
-  
+   public int getStudentID() {
+    return StudentID.get();
+}
 }

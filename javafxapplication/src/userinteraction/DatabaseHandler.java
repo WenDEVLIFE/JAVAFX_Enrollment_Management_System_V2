@@ -118,7 +118,7 @@ private Connection connection;
 
     try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
          Statement statement = connection.createStatement();
-     ResultSet resultSet = statement.executeQuery("SELECT SubjectID, SubjectName, Section, FirstG, SecondG, ThirdG, FourthG, Total FROM gradingtable")){
+     ResultSet resultSet = statement.executeQuery("SELECT SubjectID, SubjectName, Section, FirstG, SecondG, ThirdG, FourthG, Total ,StudentID FROM gradingtable")){
 
         // Populate the ObservableList with data from the ResultSet
         while (resultSet.next()) {
@@ -130,8 +130,9 @@ private Connection connection;
             int  thirdG= resultSet.getInt("TimeStart");
             int  fourthG= resultSet.getInt("TimeStart");
            int total= resultSet.getInt("TimeStart");
+                          int studentid =resultSet.getInt("StudentID");
 
-         gradingList.add(new Grading(subjectid, subname, subsec, FirstG, secondG, thirdG, fourthG, total));
+         gradingList.add(new Grading(subjectid, subname, subsec, FirstG, secondG, thirdG, fourthG, total,studentid));
           
           System.gc();
         }

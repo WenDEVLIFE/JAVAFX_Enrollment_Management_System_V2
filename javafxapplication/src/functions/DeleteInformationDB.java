@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 public class DeleteInformationDB {
     String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
@@ -66,7 +67,7 @@ public class DeleteInformationDB {
     }
      public void deletesubject(Subject selectedSubject){
            try (Connection connection = DriverManager.getConnection(jdbcUrl, username1, password)) {
-            String deleteQuery = "DELETE FROM subjecttable WHERE SubjectID = ?";
+            String deleteQuery = "DELETE FROM gradingtable WHERE StudentID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
                 preparedStatement.setInt(1, selectedSubject.getSubjectId()); // Assuming there's a method named getId() in your User class
                 int rowsDeleted = preparedStatement.executeUpdate();
@@ -88,7 +89,25 @@ public class DeleteInformationDB {
             e.printStackTrace();
         }
      }
-     public void deletegrades(){
-         
-     }
+    public void deletegrades(Grading selectedGrading) throws SQLException {
+    try (Connection connection = DriverManager.getConnection(jdbcUrl, username1, password)) {
+        String deleteQuery = "DELETE FROM gradingtable WHERE StudentID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+            preparedStatement.setInt(1, selectedGrading.getStudentID()); // Assuming there's a method named getStudentID() in your Grading class
+            int rowsDeleted = preparedStatement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Grading deleted successfully");
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Grading deletion successfully");
+                alert.showAndWait();
+                System.gc();
+                System.runFinalization();
+            } else {
+                System.out.println("Grading deletion failed");
+            }
+        }
+    }
+}
 }

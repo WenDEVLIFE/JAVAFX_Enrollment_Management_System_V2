@@ -425,12 +425,12 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab fx:id="Grading" text="Grades">
+            <Tab fx:id="Grading1" text="Grades">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="SubjectTable1" layoutX="14.0" layoutY="176.0" prefHeight="480.0" prefWidth="771.0" />
-                        <Label layoutX="20.0" layoutY="95.0" prefHeight="55.0" prefWidth="418.0" text="SUBJECT NAME:" textFill="#364694">
+                        <TableView fx:id="GradingTable" layoutX="14.0" layoutY="176.0" prefHeight="480.0" prefWidth="793.0" />
+                        <Label fx:id="SubjectName" layoutX="20.0" layoutY="95.0" prefHeight="55.0" prefWidth="418.0" text="SUBJECT NAME:" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="34.0" />
                            </font>
@@ -453,6 +453,11 @@
                               <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
+                        <Button id="enrollbutton" layoutX="365.0" layoutY="659.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" stylesheets="@../javafxapplication/mainfxml.css" text="Print the table">
+                           <graphic>
+                              <FontAwesomeIcon fill="WHITE" glyphName="FILE" />
+                           </graphic>
+                        </Button>
                      </children>
                   </AnchorPane>
               </content>

@@ -14,6 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 
 
@@ -21,7 +23,7 @@ public class ButtonCell extends TableCell<User, Void> {
     private final Button button;
     private final ObservableList<User> userList ;
     
-   public ButtonCell(String buttonText,ObservableList<User>userList ) {
+   public ButtonCell(String buttonText, ObservableList<User> userList, TabPane TabPanesel, Tab changeCredentials) {
     this.button = new Button(buttonText);
        this.userList   = userList ;
     this.button.setOnAction(event -> {
@@ -52,7 +54,9 @@ public class ButtonCell extends TableCell<User, Void> {
                 });
             } else if (buttonText.equals("Edit")) {
                 // Code for editing user
-                System.out.println("Button clicked for editing user: " + user.getUsername());
+                   TabPanesel.getSelectionModel().select(changeCredentials);
+             
+
                 // Open a dialog or a new scene for editing user details
                 // You can create a method to handle this, or use a different class for editing
             }

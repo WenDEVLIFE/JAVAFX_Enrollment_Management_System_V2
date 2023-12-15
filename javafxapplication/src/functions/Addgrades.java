@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javafx.scene.control.Alert;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -23,29 +24,21 @@ public class Addgrades {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public void AddGrades(String entersub, String enterstudent, String entersection, int grade1, int grade2, int grade3, int grade4) {
+      public void addGrades(String enterSub, String enterStudent, String enterSection, int grade1, int grade2, int grade3, int grade4) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
-            // Find subjectID based on entersub (subject name)
-            int subjectID = findSubjectID(connection, entersub);
+            // Find subjectID based on enterSub (subject name)
+            int subjectID = findSubjectID(connection, enterSub);
 
             if (subjectID != -1) {
-                // Find or create studentID based on enterstudent (student name)
-           Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT MAX(SubjectID) FROM gradingtable");
+                // Find or create newId based on the highest SubjectID in the gradingtable
+                int newId = findHighestId(connection);
 
-            int highestId = 0;
-            if (resultSet.next()) {
-                highestId = resultSet.getInt(1);
-            }
-
-            // Increment the highest ID value by 1 to get the new ID value.
-      
-            int newId = highestId + 1;
+                // Increment the highest ID value by 1 to get the new ID value.
 
                 // Insert grades into the grades table
-                insertGrades(connection,entersection, enterstudent, subjectID, newId , grade1, grade2, grade3, grade4);
+                insertGrades(connection, enterSection, enterStudent, subjectID, newId, grade1, grade2, grade3, grade4);
             } else {
-                System.out.println("Subject not found: " + entersub);
+                System.out.println("Subject not found: " + enterSub);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,25 +62,45 @@ public class Addgrades {
         }
     }
 
+    private int findHighestId(Connection connection) throws SQLException {
+        // Find the highest SubjectID in the gradingtable
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT MAX(SubjectID) FROM gradingtable");
 
-    private void insertGrades(Connection connection, String entersection, String enterstudent, int subjectID, int newId, int grade1, int grade2, int grade3, int grade4) throws SQLException {
-        String insertGrades = "INSERT INTO gradingtable (SubjectID, StudentName, FirstG, SecondG, ThirdG, FourthG, Total,StudentID) VALUES (?, ?, ?, ?, ?, ?,? ,? ,?)";
+            int highestId = 0;
+            if (resultSet.next()) {
+                highestId = resultSet.getInt(1);
+            }
+
+            return highestId + 1; // Increment the highest ID value by 1 to get the new ID value
+        }
+    }
+
+    private void insertGrades(Connection connection, String enterSection, String enterStudent, int subjectID, int newId, int grade1, int grade2, int grade3, int grade4) throws SQLException {
+        String insertGrades = "INSERT INTO gradingtable (SubjectID, StudentName, Section, FirstG, SecondG, ThirdG, FourthG, Total, StudentID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertGrades)) {
             preparedStatement.setInt(1, subjectID);
-            preparedStatement.setString(2,  enterstudent);
-            preparedStatement.setString(3,  entersection);
+            preparedStatement.setString(2, enterStudent);
+            preparedStatement.setString(3, enterSection);
             preparedStatement.setInt(4, grade1);
             preparedStatement.setInt(5, grade2);
             preparedStatement.setInt(6, grade3);
             preparedStatement.setInt(7, grade4);
 
             // Calculate and set the average
-            int average = (grade1 + grade2 + grade3 + grade4) / 4;
-            preparedStatement.setInt(8, average);
-               preparedStatement.setInt(9, newId);
+                int totalgrade = grade1 + grade2 + grade3 + grade4;
+             double average = (double) totalgrade / 4;
+            preparedStatement.setDouble(8, average);
+            preparedStatement.setInt(9, newId);
 
             preparedStatement.executeUpdate();
-            
+ Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Grades added successfully");
+                alert.showAndWait();
+                      System.gc();
+   System.runFinalization();
             System.out.println("Done");
         }
     }

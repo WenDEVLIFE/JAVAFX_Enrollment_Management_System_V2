@@ -52,9 +52,7 @@ public class ButtonCell1 extends TableCell<Student, Void> {
                         }
                     });
                 } else if (buttonText.equals("Edit")) {
-                    // Code for editing user
-                    // Open a dialog or a new scene for editing user details
-                    // You can create a method to handle this or use a different class for editing
+      
                 }
             }
         });
