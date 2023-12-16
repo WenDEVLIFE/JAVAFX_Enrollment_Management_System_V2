@@ -604,7 +604,7 @@
                               <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
-                        <ComboBox fx:id="selecttable7" layoutX="625.0" layoutY="112.0" onAction="#comboaction6" prefWidth="150.0" />
+                        <ComboBox fx:id="selecttable7" layoutX="625.0" layoutY="112.0" onAction="#comboaction7" prefWidth="150.0" />
                         <Label layoutX="445.0" layoutY="97.0" prefHeight="55.0" prefWidth="180.0" text="Select to go on next form" textFill="#364694">
                            <font>
                               <Font name="Gill Sans MT Condensed" size="22.0" />
@@ -766,6 +766,67 @@
                               <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
                            </items>
                         </MenuButton>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="Changestudentinfo" text="Change Student Information">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="17.0" layoutY="177.0" prefHeight="529.0" prefWidth="782.0" styleClass="roots" stylesheets="@../javafxapplication/mainfxml.css">
+                           <children>
+                              <GlyphsStack layoutX="84.0" layoutY="326.0" />
+                              <GlyphsStack layoutX="21.0" layoutY="105.0" />
+                              <GlyphsStack layoutX="65.0" layoutY="335.0" />
+                              <TextField fx:id="seciondgrading1" layoutX="188.0" layoutY="271.0" prefHeight="33.0" prefWidth="420.0" />
+                              <Label layoutX="189.0" layoutY="87.0" prefHeight="3.0" prefWidth="165.0" text="StudentName" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Button id="enrollbutton" fx:id="Adduser11" layoutX="254.0" layoutY="467.0" mnemonicParsing="false" onAction="#UpdateGradeAction" prefHeight="47.0" prefWidth="138.0" stylesheets="@../javafxapplication/mainfxml.css" text="Update grades" />
+                              <Button id="clearbutton1" layoutX="410.0" layoutY="467.0" mnemonicParsing="false" onAction="#clearbuttonaction7" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="TRASH" layoutX="442.0" layoutY="495.0" />
+                              <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="267.0" layoutY="494.0" selectionStart="1" />
+                              <Label layoutX="190.0" layoutY="167.0" prefHeight="30.0" prefWidth="309.0" text="Enter the new grades for 1st Grading" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="firstgrading1" layoutX="188.0" layoutY="197.0" prefHeight="34.0" prefWidth="420.0" />
+                              <Label layoutX="189.0" layoutY="241.0" prefHeight="30.0" prefWidth="292.0" text="Enter the new grades for 2nd Grading" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="190.0" layoutY="311.0" prefHeight="30.0" prefWidth="299.0" text="Enter the new grades for 3rd Grading" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="thirdgrading1" layoutX="188.0" layoutY="341.0" prefHeight="33.0" prefWidth="420.0" />
+                              <Label layoutX="190.0" layoutY="381.0" prefHeight="30.0" prefWidth="320.0" text="Enter the new grades for 4th Grading" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="fourthgrading1" layoutX="188.0" layoutY="411.0" prefHeight="34.0" prefWidth="420.0" />
+                              <TextField fx:id="enterstudentname1" layoutX="188.0" layoutY="117.0" prefHeight="36.0" prefWidth="420.0" />
+                              <TextField fx:id="enter_subjectname1" layoutX="188.0" layoutY="42.0" prefHeight="34.0" prefWidth="420.0" />
+                              <Label layoutX="188.0" layoutY="5.0" prefHeight="37.0" prefWidth="200.0" text="Enter the Subject Name" textFill="WHITE">
+                                 <font>
+                                    <Font name="Gill Sans MT Condensed" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Label layoutX="36.0" layoutY="99.0" prefHeight="0.0" prefWidth="193.0" text="Change Grades" textFill="#364694">
+                           <font>
+                              <Font name="Gill Sans MT Condensed" size="34.0" />
+                           </font>
+                        </Label>
+                        <Line endX="644.0" layoutX="136.0" layoutY="140.0" startX="-100.0" />
                      </children>
                   </AnchorPane>
               </content>

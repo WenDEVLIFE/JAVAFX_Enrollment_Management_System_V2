@@ -19,12 +19,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 public class ButtonCell3 extends TableCell<Grading, Void> {
     private final Button button;
     private final ObservableList<Grading> gradingList;
     
-    public ButtonCell3(String buttonText, ObservableList<Grading> gradingList) {
+    public ButtonCell3(String buttonText, ObservableList<Grading> gradingList, TabPane TabPanesel, Tab Changestudentinfo) {
         this.button = new Button(buttonText);
         this.gradingList = gradingList;
 
@@ -58,6 +60,8 @@ public class ButtonCell3 extends TableCell<Grading, Void> {
                     });
                 } else if (buttonText.equals("Edit")) {
                     System.out.println("Edit Grades");
+                    
+                            TabPanesel.getSelectionModel().select(Changestudentinfo);
                     // Code for editing grading
                     // Open a dialog or a new scene for editing grading details
                     // You can create a method to handle this or use a different class for editing

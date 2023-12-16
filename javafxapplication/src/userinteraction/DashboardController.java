@@ -5,6 +5,7 @@
 package userinteraction;
 
 import functions.Addgrades;
+import functions.Alter_Information;
 import functions.Changecredentials;
 import functions.CreateStudent;
 import functions.CreateSubject;
@@ -51,7 +52,6 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.List;
-import javafx.event.EventHandler;
 
 public class DashboardController {
 
@@ -181,6 +181,11 @@ private Tooltip toolTip3 = new Tooltip();
              
                         @FXML
     private Tab Changepassword;
+                        
+                              
+                        @FXML
+    private Tab Changestudentinfo;
+       
        
         // my tabpane
         @FXML
@@ -253,6 +258,7 @@ private Tooltip toolTip3 = new Tooltip();
     // combolist
     @FXML
     private ComboBox<String> selecttable;
+    
       @FXML
      private ComboBox<String> selecttable1;
       
@@ -368,6 +374,25 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private TextField fourthgrading;
     
+    // This are connected to update or change grade tab
+        @FXML
+    private TextField enter_subjectname1;
+
+    @FXML
+    private TextField enterstudentname1;
+
+    @FXML
+    private TextField firstgrading1;
+    
+     @FXML
+    private TextField seciondgrading1;
+
+      @FXML
+    private TextField thirdgrading1;
+      
+    @FXML
+    private TextField fourthgrading1;
+    
     @FXML
     private PasswordField  oldpassword;
     
@@ -404,6 +429,8 @@ private Tooltip toolTip3 = new Tooltip();
             
         @FXML
     private MenuButton menuactions9;
+        
+        // To initialize the function when the dashboard fxml is opened
               @FXML
     public void initialize() {
 
@@ -887,11 +914,11 @@ forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactor
 
 
         TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
-        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList));
+        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList, TabPanesel,  Changestudentinfo));
      
 
         TableColumn<Grading, Void> editColumn3 = new TableColumn<>("Edit");
-        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList));
+        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList ,TabPanesel ,Changestudentinfo));
         
 
         // Add columns to the table
@@ -923,10 +950,6 @@ forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactor
            
 }
 
-    
-    
-    
-    
     // this are the action events
       @FXML
      void AdduserAction(ActionEvent event) {
@@ -1168,16 +1191,22 @@ TabPanesel.getSelectionModel().select(Admin);
          String selectedItem3 = selecttable4.getSelectionModel().getSelectedItem();
 
         // Check the selected item and switch to the corresponding tab
-        if (selectedItem3.equals("Subject Table")) {
-TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Create Grades form")) {
-  TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grading table")) {
-  TabPanesel.getSelectionModel().select(Grading1);
-    System.out.println("grading");
-        }
-        else if (selectedItem3.equals("Create Subject")) {
-TabPanesel.getSelectionModel().select(CreateSubject);
+        switch (selectedItem3) {
+            case "Subject Table":
+                TabPanesel.getSelectionModel().select(Subject);
+                break;
+            case "Create Grades form":
+                TabPanesel.getSelectionModel().select(CreateGrades);
+                break;
+            case "Grading table":
+                TabPanesel.getSelectionModel().select(Grading1);
+                System.out.println("grading");
+                break;
+            case "Create Subject":
+                TabPanesel.getSelectionModel().select(CreateSubject);
+                break;
+            default:
+                break;
         }
     
     }
@@ -1188,39 +1217,75 @@ TabPanesel.getSelectionModel().select(CreateSubject);
     String selectedItem3 = selecttable5.getSelectionModel().getSelectedItem();
 
         // Check the selected item and switch to the corresponding tab
-        if (selectedItem3.equals("Subject Table")) {
-TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Create Grades form")) {
-  TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grading table")) {
-  TabPanesel.getSelectionModel().select(Grading1);  
-  System.out.println("grading");
-        }
-        else if (selectedItem3.equals("Create Subject")) {
- TabPanesel.getSelectionModel().select(CreateSubject);
+        switch (selectedItem3) {
+            case "Subject Table":
+                TabPanesel.getSelectionModel().select(Subject);
+                break;
+            case "Create Grades form":
+                TabPanesel.getSelectionModel().select(CreateGrades);
+                break;
+            case "Grading table":
+                TabPanesel.getSelectionModel().select(Grading1);
+                System.out.println("grading");
+                break;
+            case "Create Subject":
+                TabPanesel.getSelectionModel().select(CreateSubject);
+                break;
+            default:
+                break;
         }
     }
 
-    @FXML
+     @FXML
     void comboaction6(ActionEvent event) {
 
             String selectedItem3 = selecttable6.getSelectionModel().getSelectedItem();
 
         // Check the selected item and switch to the corresponding tab
-        if (selectedItem3.equals("Subject Table")) {
-TabPanesel.getSelectionModel().select(Subject);
-        } else if (selectedItem3.equals("Create Grades form")) {
-  TabPanesel.getSelectionModel().select(CreateGrades);
-        } else if (selectedItem3.equals("Grading table")) {
-  TabPanesel.getSelectionModel().select(Grading1);
-  System.out.println("grading");
+        switch (selectedItem3) {
+            case "Subject Table":
+                TabPanesel.getSelectionModel().select(Subject);
+                break;
+            case "Create Grades form":
+                TabPanesel.getSelectionModel().select(CreateGrades);
+                break;
+            case "Grading table":
+                TabPanesel.getSelectionModel().select(Grading1);
+                System.out.println("grading");
+                break;
+            case "Create Subject":
+                TabPanesel.getSelectionModel().select(CreateSubject);
+                break;
+            default:
+                break;
         }
-        else if (selectedItem3.equals("Create Subject")) {
- TabPanesel.getSelectionModel().select(CreateSubject);
+    }
+    @FXML
+    void comboaction7(ActionEvent event) {
+
+            String selectedItem3 = selecttable7.getSelectionModel().getSelectedItem();
+
+        // Check the selected item and switch to the corresponding tab
+        switch (selectedItem3) {
+            case "Subject Table":
+                TabPanesel.getSelectionModel().select(Subject);
+                break;
+            case "Create Grades form":
+                TabPanesel.getSelectionModel().select(CreateGrades);
+                break;
+            case "Grading table":
+                TabPanesel.getSelectionModel().select(Grading1);
+                System.out.println("grading");
+                break;
+            case "Create Subject":
+                TabPanesel.getSelectionModel().select(CreateSubject);
+                break;
+            default:
+                break;
         }
     }
     
-    // to enroll student function
+    // To enroll student function
      @FXML
     void EnrollStudent(ActionEvent event) throws SQLException, ClassNotFoundException {
          String studentname = Studentname.getText();
@@ -1262,7 +1327,7 @@ TabPanesel.getSelectionModel().select(Subject);
          
     }
     
-    // to clear the enrollment form
+    // To clear the enrollment form
       @FXML
     void clearbuttonaction1(ActionEvent event) {
     Studentname.setText("");       
@@ -1277,7 +1342,7 @@ TabPanesel.getSelectionModel().select(Subject);
     
        
      @FXML
-            // this function will add the subject
+            // This function will add the subject
        void addsubjectaction(ActionEvent event) throws SQLException {
         String sub = subjectfield.getText();
         String sec = Selectedsection.getSelectionModel().getSelectedItem();
@@ -1305,7 +1370,7 @@ TabPanesel.getSelectionModel().select(Subject);
     }
    
      @FXML
-            // to clear the subject form
+            // To clear the subject form
     void clearbuttonaction3(ActionEvent event) {
     Selectedstarttime.setValue("Select a time");
     Selectedendtime.setValue("Select a time");
@@ -1329,7 +1394,9 @@ TabPanesel.getSelectionModel().select(Subject);
         alert.showAndWait();
         } else {
              Changecredentials ce = new Changecredentials ();
-             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver, event );
+             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver, event,currentusernamefield, newusernamefield, passwordfield1 ,
+             setLabelUser,setLabelUser1, setLabelUser2,setLabelUser3, setLabelUser4,setLabelUser5,setLabelUser6, setUserLabel7,setUserLabel8,
+             setLabelUser9,setUserLabel10,setUserLabel11,setUserLabel12);
         }
         
     }
@@ -1399,6 +1466,42 @@ String passwordnew =newpassword.getText();
         thirdgrading.setText("");
         fourthgrading.setText("");
      }
+     
+      @FXML
+    void UpdateGradeAction(ActionEvent event) {
+      String find_entersub= enter_subjectname1.getText();
+       String find_enterstudent =enterstudentname1.getText();
+
+       String firstG=firstgrading1.getText();
+       int update_grade1 = Integer.parseInt(firstG);
+      String secondG= seciondgrading1.getText();
+         int update_grade2 = Integer.parseInt(secondG);
+        String thirdG =thirdgrading1.getText();
+           int update_grade3 = Integer.parseInt(thirdG);
+        String fourthG=fourthgrading1.getText();
+           int update_grade4 = Integer.parseInt(fourthG);
+           if (find_entersub.isEmpty()|| find_enterstudent.isEmpty()){
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("System Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill the subject name and the student name");
+                alert.showAndWait();
+           } else {
+              Alter_Information update = new Alter_Information();
+              update.altergrades(find_entersub, find_enterstudent,update_grade1, update_grade2, update_grade3, update_grade4);
+               
+           }
+    }
+     @FXML
+    void clearbuttonaction7(ActionEvent event) {
+  enter_subjectname1.setText("");
+       enterstudentname1.setText("");
+       firstgrading1.setText("");
+       seciondgrading1.setText("");
+        thirdgrading1.setText("");
+        fourthgrading1.setText("");
+    }
+    
     // for sidepanel navbar function
     @FXML
     void Enroll_Action(ActionEvent event) {
@@ -1423,6 +1526,8 @@ String passwordnew =newpassword.getText();
    TabPanesel.getSelectionModel().select(Admin);
     }
       
+    
+    // to set the Username label
 public void setuserlabel(String user){
 
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
@@ -1497,6 +1602,8 @@ TabPanesel.getSelectionModel().select(Changeusername);
         });
 }
 
+    
+    // This will perform an logout
 private void performLogout() throws IOException {
     System.out.println("Logging out...");
 
@@ -1611,6 +1718,8 @@ private void performLogout() throws IOException {
     }
 
     }
+   
+   // To validate the phone number digits
     private static boolean isValidPhoneNumber(String Phone){
          return Phone.matches("0\\d{11}");
     }

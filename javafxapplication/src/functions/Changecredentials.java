@@ -4,7 +4,6 @@
  */
 package functions;
 
-import static functions.loginuser.stage1;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -15,15 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import userinteraction.DashboardController;
 /**
  *
  * @author Administrator
@@ -34,7 +31,7 @@ public static Stage stage2;
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public void ChangeUsername(String currentuser, String newuser, String confirmation_password, String user_receiver, ActionEvent event) throws IOException {
+    public void ChangeUsername(String currentuser, String newuser, String confirmation_password, String user_receiver, ActionEvent event, TextField currentusernamefield, TextField newusernamefield, PasswordField passwordfield1, Label setLabelUser, Label setLabelUser1, Label setLabelUser2, Label setLabelUser3, Label setLabelUser4, Label setLabelUser5, Label setLabelUser6, Label setUserLabel7, Label setUserLabel8, Label setLabelUser9, Label setUserLabel10, Label setUserLabel11, Label setUserLabel12) throws IOException {
     try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
         // Check if the current username exists in the database
         String query = "SELECT * FROM usertable WHERE username = ?";
@@ -62,50 +59,21 @@ public static Stage stage2;
                                 // Notify the user about the successful username change
                                 // If the current user is the receiver, update the label and open the dashboard
                                 if (currentuser.equals(user_receiver)) {
-                                  if (stage2 == null) {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
-
-                                 // Set the controller factory before loading the FXML
-                                    loader.setControllerFactory(controller -> new DashboardController());
-
-                                 Parent root = loader.load();
-
-                                stage2 = new Stage();
-
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                alert.setTitle("System Message");
-                                alert.setHeaderText(null);
-                                alert.setContentText("User changed successfully");
-                                alert.showAndWait();
-
-                                System.out.println("Username changed successfully.");
-
-                                Scene scene = new Scene(root);
-                                javafx.scene.image.Image icon1 = new javafx.scene.image.Image(getClass().getResourceAsStream("/pictures/mabini.png"));
-
-                                // Retrieve the controller instance from the loader
-                                DashboardController dashboardController1 = loader.getController();
-
-                                String user = newuser;
-                  
-
-                                // Use the retrieved controller instance to call setuserlabel
-                                dashboardController1.setuserlabel(user);
-
-                                stage2.setScene(scene);
-                                stage2.getIcons().add(icon1);
-                                stage2.setTitle("Mabini National High School Management System Dashboard");
-                                stage2.show();
-                                stage2.setResizable(false);
-
-                                // Close the current stage
-                                Node sourceNode = (Node) event.getSource();
-                                Stage currentStage = (Stage) sourceNode.getScene().getWindow();
-                                currentStage.close();
-    }
-                            
+                                    user_receiver = newuser;
+                                setLabelUser.setText("User:"+ user_receiver);
+                                setLabelUser1.setText("User:" + user_receiver);
+                                setLabelUser2.setText("User:" + user_receiver);
+                                setLabelUser3.setText("User:" + user_receiver);
+                                setLabelUser4.setText("User:" + user_receiver);
+                                setLabelUser5.setText("User:" +user_receiver);
+                                setLabelUser6.setText("User:" +user_receiver);
+                                setUserLabel7.setText("User:" + user_receiver);
+                                setUserLabel8.setText("User:" + user_receiver);
+                                setLabelUser9.setText("User:" + user_receiver);
+                                setUserLabel10.setText("User:" + user_receiver);
+                                setUserLabel11.setText("User:" + user_receiver);
+                                setUserLabel12.setText("User:" + user_receiver);
                                 }
-
                                 // Display a success message
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("System Message");
