@@ -47,10 +47,12 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
             String subjectName = selectedSubject.getSubjectName();
             if (selectedSubject != null) {
                 if (buttonText.equals("Delete")) {
+               
                     // Code for deleting subject
                     handleDeleteSubject(selectedSubject);
                 } else if (buttonText.equals("Open")) {
                     // Code for opening grading tab
+                
                     handleOpenGradingTab(selectedSubject);
                     SubjectName.setText("Subject Name:"+subjectName);
                 }
@@ -99,13 +101,24 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
     }
 
     @Override
-    protected void updateItem(Void item, boolean empty) {
+   protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
 
         if (empty) {
             setGraphic(null);
         } else {
+            // Set style class for the button based on buttonText
+            String buttonText = getButton().getText();
+            if ("Delete".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-delete");
+            } else if ("Open".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-open");
+            }
+
             setGraphic(button);
         }
+    }
+public Button getButton() {
+        return button;
     }
 }

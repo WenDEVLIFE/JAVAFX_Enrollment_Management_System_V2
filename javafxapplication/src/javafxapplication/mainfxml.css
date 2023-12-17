@@ -139,3 +139,64 @@
 .table-view-skin .virtual-flow {
   -fx-focus-color: transparent;
 }
+
+#AdminTable {
+    -fx-text-overrun: ellipsis;
+    -fx-white-space: nowrap;
+    -fx-overflow: hidden;
+      -fx-border-radius: 0.5em;
+       -fx-font-size: 1.25rem;
+        -fx-position: -fx-sticky;
+    -fx-top: 0;
+}
+
+/* This is how to cuztomize tables */
+.table-view{
+    -fx-background-color:transparent;
+    -fx-padding:0px;
+    -fx-border-color:linear-gradient(to bottom right, #2d658c, #2ca772);
+    -fx-border-width:2px;
+    -fx-border-radius:8px;
+}
+.table-view .table-column{
+    -fx-alignment: CENTER;
+}
+.table-view .column-header-background{
+-fx-background-color: linear-gradient(to top, #007FFF 0%, #e3eeff 99%, #e3eeff 100%);
+    -fx-background-radius:8px 8px 0px 0px;
+    -fx-background-inset: 0 0 0 0;
+}
+.table-view .column-header, .filter{
+    -fx-background-color:transparent;
+    -fx-size:40px;
+}
+.table-view .column-header .label{
+    -fx-text-fill:#fff;
+    -fx-font-family:"Arial";
+}
+.custom-button-cell2-delete,
+.custom-button-cell2-open {
+  -fx-background-radius: 5px; /* Rounded corners like in the image */
+  -fx-padding: 5px 10px; /* Padding to match the image */
+  -fx-border-width: 1px; /* Border around the button */
+  -fx-border-color: #ddd; /* Gray border color */
+  -fx-font-weight: bold; /* Bold text to match the image */
+}
+
+.custom-button-cell2-delete {
+  -fx-background-color: #ff0000; /* Red background color */
+  -fx-text-fill: white; /* White text color */
+}
+
+.custom-button-cell2-delete:hover {
+  -fx-background-color: #d35400; /* Darker orange background color on hover */
+}
+
+.custom-button-cell2-open {
+  -fx-background-color: #3498db; /* Blue background color */
+  -fx-text-fill: white; /* White text color */
+}
+
+.custom-button-cell2-open:hover {
+  -fx-background-color: #2980b9; /* Darker blue background color on hover */
+}

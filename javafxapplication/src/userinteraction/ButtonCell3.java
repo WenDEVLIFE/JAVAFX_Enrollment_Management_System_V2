@@ -71,13 +71,24 @@ public class ButtonCell3 extends TableCell<Grading, Void> {
     }
 
     @Override
-    protected void updateItem(Void item, boolean empty) {
+     protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
 
         if (empty) {
             setGraphic(null);
         } else {
+            // Set style class for the button based on buttonText
+            String buttonText = getButton().getText();
+            if ("Delete".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-delete");
+            } else if ("Edit".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-open");
+            }
+
             setGraphic(button);
         }
+    }
+public Button getButton() {
+        return button;
     }
 }

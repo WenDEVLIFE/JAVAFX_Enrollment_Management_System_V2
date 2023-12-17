@@ -102,7 +102,7 @@ private void displayErrorMessage(String message) {
 }
 
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
-
+ String user_receiver = user;
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle("Login Message");
@@ -118,7 +118,7 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
     
 
     DashboardController dashboardController = loader1.getController();
-    dashboardController.setuserlabel(user);
+    dashboardController.setuserlabel(user, user_receiver);
     
     // Initialize stage1 if it is null
     // to close the current scene

@@ -4,6 +4,7 @@
  */
 package userinteraction;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import functions.Addgrades;
 import functions.Alter_Information;
 import functions.Changecredentials;
@@ -15,10 +16,15 @@ import functions.Student;
 import functions.Subject;
 import functions.User;
 import functions.User_Exist;
+import functions.verification_info;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -66,7 +72,7 @@ public class DashboardController {
         public   String password1 = "";
        
         private static String user_receiver;
-        private static String newuser;
+        private static String user1;
         
     private WeakReference<Button> buttonRef;
     
@@ -109,11 +115,24 @@ public class DashboardController {
     private Label setUserLabel11;
          @FXML
     private Label  setUserLabel12;
+         
           @FXML
-           private Label  setUserLabel112;
+    private Label  setUserLabel112;
           
           @FXML
-           private Label SubjectName;
+     private Label SubjectName;
+          
+   @FXML
+    private Label displayinfo;
+    @FXML
+    private Label displayinfo1;
+    @FXML
+    private Label displayinfo2;
+    @FXML
+    private Label displayinfo3;;
+   @FXML
+
+          
          
     public static String password;
     public static String confirmpass;
@@ -186,7 +205,8 @@ private Tooltip toolTip3 = new Tooltip();
                         @FXML
     private Tab Changestudentinfo;
        
-       
+                      @FXML
+    private Tab  changestudentinformation;
         // my tabpane
         @FXML
     private TabPane TabPanesel;
@@ -194,8 +214,6 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private Button Enrollaction;
 
-    @FXML
-    private Button dashboards;
 
     @FXML
     private Button gradesbuttonaction;
@@ -215,13 +233,17 @@ private Tooltip toolTip3 = new Tooltip();
              
     @FXML
     private Button Adddsubject;
-    
+   
+    @FXML
+    private Button adminbutton;
     
     @FXML
     private Button clearbutton3;
      @FXML
     private Button changepasswordbutton;
-             
+     
+            @FXML
+    private Button dashboardbs;
     @FXML
     private Pane tabbedpanemenu;
     
@@ -254,6 +276,8 @@ private Tooltip toolTip3 = new Tooltip();
        
        @FXML
     private TableView<Grading>  GradingTable;
+       @FXML
+    private TableView<?>  ReportTable;
     
     // combolist
     @FXML
@@ -430,526 +454,16 @@ private Tooltip toolTip3 = new Tooltip();
         @FXML
     private MenuButton menuactions9;
         
-        // To initialize the function when the dashboard fxml is opened
-              @FXML
-    public void initialize() {
-
-
-     TabPanesel.getSelectionModel().select(Enroll);
-       
-        // for the passwordfield and confirmpasswordfield
-        passwordfield.setTooltip(toolTip);
-    confirmpasswordfield.setTooltip(toolTip1);
+  
+    @FXML
+    private FontAwesomeIcon adminicon;
     
-       System.gc();
-    // set value for the combobox
-     Selectedsection.setValue("Select a section");
-    Selectedstarttime.setValue("Select a time");
-      Selectedendtime.setValue("Select a time");
-       selecttable.setValue("Select an Option");
-       selecttable1.setValue("Select an Option");
-       selecttable2.setValue("Select an Option");
-       selecttable3.setValue("Select an Option");
-       selecttable4.setValue("Select an Option");
-       selecttable5.setValue("Select an Option");
-       selecttable6.setValue("Select an Option");
-       selecttable7.setValue("Select an Option");
-       Role.setValue("Select an Role");
-       Age.setValue("Select age");
-       year.setValue("Select a year");
-       gender.setValue("Select a gender");
-        month.setValue("Select a month"); 
-        
+        @FXML
+    private FontAwesomeIcon dashicon;
 
-        // This are the assigned vale for comboBox
-        // Add items to the ComboBox
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Select an option",
-                "Enrollment Form",
-                "Enrollment Table"
-                // Add more items as needed
-        );
-
-        selecttable1.setItems(items);
-    
-          selecttable.setItems(items);
-          
-          
-            ObservableList<String> items1 = FXCollections.observableArrayList(
-                "Select an option",
-                "User Table",
-                "Add User Form"
-                // Add more items as needed
-        );
-          selecttable2.setItems(items1);
-          selecttable3.setItems(items1);
-
-            ObservableList<String> items2 = FXCollections.observableArrayList(
-                "Select an option",
-                "Subject Table",
-                "Create Grades form",
-                "Grading table",
-                "Create Subject"
-                // Add more items as needed
-        );
-     
-             selecttable4.setItems(items2);
-             selecttable5.setItems(items2);
-             selecttable6.setItems(items2);
-               selecttable7.setItems(items2);
-               
-                   ObservableList<String> items4 = FXCollections.observableArrayList(
-                "Select age"
-                // Add more items as needed
-        );
-                    for (int i = 1; i <= 50; i++) {
-            items4.add(String.valueOf(i));
-        }
-                Age.setItems(items4);
-                    
-                
-                    ObservableList<String> items5 = FXCollections.observableArrayList(
-                "Select gender",
-                "Male" ,"Female"
-                // Add more items as needed
-        );
-                        gender.setItems(items5);
-                      
-                   ObservableList<String> items6 = FXCollections.observableArrayList(
-                "Select a month",
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-        );
-             
-                   month.setItems(items6);
-                   
-                        ObservableList<String> items7 = FXCollections.observableArrayList(
-                "Select a day"
-              
-        );
-             
-                    for (int i = 1; i <= 31; i++) {
-            items7.add(String.valueOf(i));
-        }
-                    day.setItems(items7);
-                    
-                     ObservableList<String> items8 = FXCollections.observableArrayList(
-                "Select a day"
-              
-        );
-               int startYear = 1990;
-        int endYear = 2024;
-                    for (int year = startYear; year <= endYear; year++) {
-            items8.add(String.valueOf(year));
-        }
-                     year.setItems(items8);
-                   
-                ObservableList<String> items3 = FXCollections.observableArrayList(
-                "Select an Role",
-                "Admin",
-                "Teacher"
-                // Add more items as needed
-        );
-                  Role.setItems(items3);
-                  
-                       ObservableList<String> time = FXCollections.observableArrayList(
-                "Select a time",
-                "08:00 AM",
-                "09:00 AM",
-                "10:00 AM",
-                "11:00 AM",
-                "12:00 PM",
-                "01:00 PM",
-                "02:00 PM",
-                "03:00 PM"
-                // Add more items as needed
-        );
-                      Selectedstarttime.setItems(time);
-                      Selectedendtime.setItems(time);
-                                     ObservableList<String> sec = FXCollections.observableArrayList(
-                "Select a section",
-                "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"        
-                                             // Add more items as needed
-        );
-                 Selectedsection.setItems(sec);
-
-                      
-
-      
-        AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
-    TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idColumn.setCellFactory(CustomTableCellFactory::cellFactoryForInteger);
-
-TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        usernameColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
-
-usernameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-usernameColumn.setOnEditCommit(event -> {
-    User user = event.getRowValue();
-    user.setUsername(event.getNewValue());
-    // Handle database update or other logic
-
-       Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Delete Confirmation");
-    alert.setHeaderText(null);
-    alert.setContentText("Are you sure you want to Delete this user?");
-
-    // Add "Yes" and "No" buttons
-    ButtonType buttonTypeYes = new ButtonType("Yes");
-    ButtonType buttonTypeNo = new ButtonType("No");
-
-    alert.showAndWait().ifPresent((ButtonType response) -> {
-        if (response == buttonTypeYes) {
-            // Get the selected item
-            User selectedUser = AdminTable.getSelectionModel().getSelectedItem();
-
-            if (selectedUser != null) {
-                // Delete the user from the database
-                DeleteInformationDB db = new DeleteInformationDB();
-                db.deleteuser(selectedUser);
-
-                // Remove the selected user from the TableView
-                AdminTable.getItems().remove(selectedUser);
-            }
-        } else if (response == buttonTypeNo) {
-            // User clicked "No," do nothing or handle accordingly
-        }
-    });
-});
-
-TableColumn<User, String> roleColumn = new TableColumn<>("Role");
-        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
-        roleColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
-roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-roleColumn.setOnEditCommit(event -> {
-    User user = event.getRowValue();
-    user.setRole(event.getNewValue());
-    // Handle database update or other logic
-});
-
-        TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
-        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList, TabPanesel , changeCredentials));
-
-        TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
-        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList, TabPanesel, changeCredentials));
-      editColumn.setOnEditCommit(event -> {
-    TabPanesel.getSelectionModel().select(changeCredentials);
-});
-
-        // Add columns to the table
-        AdminTable.getColumns().addAll(idColumn, usernameColumn, roleColumn, deleteColumn, editColumn);
-
-// Set column resize policy
-   AdminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-
-// Autoresize columns
- AdminTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
-            }
-        });
-
-        // Load data from the database
-        loadDataFromDatabase();
-        
-        
-       
-    EnrollTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
-    TableColumn<Student, Integer> idColumn1 = new TableColumn<>("ID");
-        idColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
-        idColumn1.setCellFactory(CustomTableCellFactory1::cellFactoryForInteger);
-
-TableColumn<Student, String> usernameColumn1 = new TableColumn<>("Name");
-        usernameColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
-        usernameColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
-
-usernameColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
-usernameColumn1.setOnEditCommit(event -> {
-    Student user1 = event.getRowValue();
-     user1.setUsername(event.getNewValue());
-  
-
-    
-});
-TableColumn<Student, String> Agecolumn = new TableColumn<>("Age");
-      Agecolumn.setCellValueFactory(new PropertyValueFactory<>("Age"));
-        Agecolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
-         Agecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
-         Agecolumn.setOnEditCommit(event -> {
- 
-});
-      
-TableColumn<Student, String> AddressColumn1 = new TableColumn<>("Address");
-       AddressColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentAddress"));
-        AddressColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
-         AddressColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
-         AddressColumn1.setOnEditCommit(event -> {
- 
-});
-         
-         
-        TableColumn<Student, String> Gendercolumn = new TableColumn<>("Gender");
-       Gendercolumn.setCellValueFactory(new PropertyValueFactory<>("Gender"));
-        Gendercolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
-  Gendercolumn.setCellFactory(TextFieldTableCell.forTableColumn());
-   Gendercolumn.setOnEditCommit(event -> {
- 
-});
-  
-          TableColumn<Student, String> Birthcolumn = new TableColumn<>("Born");
-       Birthcolumn.setCellValueFactory(new PropertyValueFactory<>("BirthYear"));
-       Birthcolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
- Birthcolumn .setCellFactory(TextFieldTableCell.forTableColumn());
-Birthcolumn .setOnEditCommit(event -> {
- 
-});
- 
-     TableColumn<Student, String> PhoneNumbercolumn = new TableColumn<>("Phone Number");
-     PhoneNumbercolumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNum"));
-       PhoneNumbercolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
- PhoneNumbercolumn .setCellFactory(TextFieldTableCell.forTableColumn());
-  PhoneNumbercolumn.setOnEditCommit(event -> {
- 
-});
-
-
-        TableColumn<Student, Void> deleteColumn1 = new TableColumn<>("Delete");
-        deleteColumn1.setCellFactory(param -> new ButtonCell1("Delete", studentList ));
-        deleteColumn1.setOnEditCommit(event -> {
-    Student selectedStudent = event.getRowValue();
-    String studentName = selectedStudent.getStudentName();
-    System.out.println("Clicked Edit for student: " + studentName);
-           EnrollTable.getItems().remove( selectedStudent);
-    // Add your logic to handle the Edit action for this student
-});
-
-        TableColumn<Student, Void> editColumn1 = new TableColumn<>("Edit");
-        editColumn1.setCellFactory(param -> new ButtonCell1("Edit", studentList));
-        editColumn1.setOnEditCommit(event -> {
-    Student selectedStudent = event.getRowValue();
-    String studentName = selectedStudent.getStudentName();
-    System.out.println("Clicked Edit for student: " + studentName);
-
-    // For example, you can create a method like editStudent(Student student) and call it here
-    // This method would then handle opening the editing interface and updating the student details
-    // You may also want to refresh the table after editing to reflect changes
-});
-
-        // Add columns to the table
-        EnrollTable.getColumns().addAll(idColumn1, usernameColumn1, Agecolumn,AddressColumn1,Gendercolumn,PhoneNumbercolumn, Birthcolumn,deleteColumn1, editColumn1);
-
-        
-// Set column resize policy
-EnrollTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
-
-// Autoresize columns
- EnrollTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(EnrollTable.getWidth() / EnrollTable.getColumns().size());
-            }
-        });
- EnrollTable.widthProperty().addListener((observable, oldValue, newValue) -> {
-    EnrollTable.getColumns().forEach(column -> {
-        if (column.isResizable()) {
-            column.setPrefWidth(newValue.doubleValue() / EnrollTable.getColumns().size());
-        }
-    });
-});
-        enroll_loadDataFromDatabase();
-    SubjectTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
-   TableColumn<Subject, Integer> subjectid = new TableColumn<>("SubjectID");
-subjectid.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
-subjectid.setCellFactory(CustomTableCellFactory3::cellFactoryForInteger);
-
-      
-TableColumn<Subject, String> subname = new TableColumn<>("SubjectName");
-       subname.setCellValueFactory(new PropertyValueFactory<>("SubjectName"));
-        subname.setCellFactory(column -> CustomTableCellFactory3.createCenteredStringCell(column));
-         subname.setCellFactory(TextFieldTableCell.forTableColumn());
-         subname.setOnEditCommit(event -> {
- 
-});
-         
-       TableColumn<Subject, String> section = new TableColumn<>("Section");
-section.setCellValueFactory(new PropertyValueFactory<>("section"));
-section.setCellFactory(TextFieldTableCell.forTableColumn());
-section.setOnEditCommit(event -> {
-    Subject subject = event.getRowValue();
-    subject.setSection(event.getNewValue());
-    // You may want to update your database or perform other actions here
-});
-
-TableColumn<Subject, String> timestart = new TableColumn<>("TimeStart");
-timestart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
-timestart.setCellFactory(TextFieldTableCell.forTableColumn());
-timestart.setOnEditCommit(event -> {
-    Subject subject = event.getRowValue();
-    subject.setTimeStart(event.getNewValue());
-    // Update your database or perform other actions
-});
-
- 
-     TableColumn<Subject, String> timeended = new TableColumn<>("TimeEnded");
-     timeended.setCellValueFactory(new PropertyValueFactory<>("TimeEnded"));
-     timeended.setCellFactory(CustomTableCellFactory3::createCenteredStringCell);
-    timeended.setCellFactory(TextFieldTableCell.forTableColumn());
-    timeended.setOnEditCommit(event -> {
- 
-});
-
-
-        TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
-        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName));
-        deleteColumn2.setOnEditCommit(event -> {
-    Subject selectedSubject= event.getRowValue();
-    String subjectName = selectedSubject.getSubjectName();
-    System.out.println("Clicked Edit for student: " + subjectName );
-           EnrollTable.getItems().remove( selectedSubject);
-    // Add your logic to handle the Edit action for this student
-});
-
-   TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
-   
-editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName));
-editColumn2.setOnEditCommit((TableColumn.CellEditEvent<Subject, Void> event) -> {
-    Subject selectedSubject = event.getRowValue();
-    subjectName = selectedSubject.getSubjectName();
-    System.out.println("Clicked Edit for subject: " + subjectName);
-    SubjectName.setText(subjectName);
-    SubjectDatabase subjectDatabase = new SubjectDatabase();
-    List<Grading> gradingList1 = subjectDatabase.getGradingBySubjectName(subjectName);
-         // Assuming Grading is the Tab instance for the Grading tab
-         if (Grading1 != null) {
-             TabPanesel.getSelectionModel().select(Grading1);
-             if (!gradingList1.isEmpty()) {
-                 // Subject exists, update the TableView and set the subject ID to a label
-                 GradingTable.getItems().clear();
-                 GradingTable.getItems().addAll(gradingList1);
-                 // Assuming you have a label called subjectIDLabel
-                 SubjectName.setText(Integer.toString(gradingList1.get(0).getSubjectID()));
-             } else {
-                 System.out.println("Subject not found in the database.");
-             }
-         } else {
-             System.out.println("Grading Tab not found.");
-         }
-         // For example, you can create a method like editStudent(Student student) and call it here
-         // This method would then handle opening the editing interface and updating the student details
-         // You may also want to refresh the table after editing to reflect changes
-     });
-
-        // Add columns to the table
-       SubjectTable.getColumns().addAll(subjectid, subname, section,timestart,timeended,deleteColumn2,editColumn2);
-
-        
-// Set column resize policy
-SubjectTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
-
-// Autoresize columns
- SubjectTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(SubjectTable.getWidth() / SubjectTable.getColumns().size());
-            }
-        });
- SubjectTable.widthProperty().addListener((observable, oldValue, newValue) -> {
-    SubjectTable.getColumns().forEach(column -> {
-        if (column.isResizable()) {
-            column.setPrefWidth(newValue.doubleValue() / SubjectTable.getColumns().size());
-        }
-    });
-});           
-                       subjectloaddb();
-      
-  GradingTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
-   TableColumn<Grading, Integer> subjectid1 = new TableColumn<>("SubjectID");
-subjectid1.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
-subjectid1.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-      
-TableColumn<Grading, String> studentNameColumn = new TableColumn<>("Student Name");
-        studentNameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
-        studentNameColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
-         studentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-         studentNameColumn.setOnEditCommit(event -> {
- 
-});
-        
-      TableColumn<Grading, String> sectionColumn = new TableColumn<>("Section");
-sectionColumn.setCellValueFactory(new PropertyValueFactory<>("section"));
-sectionColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
-
-// Create TableColumn for First Grading
-TableColumn<Grading, Integer> firstGradingColumn = new TableColumn<>("First Grading");
-firstGradingColumn.setCellValueFactory(new PropertyValueFactory<>("firstGrading"));
-firstGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-// Create TableColumn for Second Grading
-TableColumn<Grading, Integer> secondGradingColumn = new TableColumn<>("Second Grading");
-secondGradingColumn.setCellValueFactory(new PropertyValueFactory<>("secondGrading"));
-secondGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-// Create TableColumn for Third Grading
-TableColumn<Grading, Integer> thirdGradingColumn = new TableColumn<>("Third Grading");
-thirdGradingColumn.setCellValueFactory(new PropertyValueFactory<>("thirdGrading"));
-thirdGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-// Create TableColumn for Fourth Grading
-TableColumn<Grading, Integer> forthGradingColumn = new TableColumn<>("Fourth Grading");
-forthGradingColumn.setCellValueFactory(new PropertyValueFactory<>("forthGrading"));
-forthGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-// Create TableColumn for Total
-TableColumn<Grading, Integer> totalColumn = new TableColumn<>("Total");
-totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
-totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-TableColumn<Grading, Integer> forthGradingColumn11 = new TableColumn<>("StudentID");
-forthGradingColumn11.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
-forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
-
-
-        TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
-        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList, TabPanesel,  Changestudentinfo));
-     
-
-        TableColumn<Grading, Void> editColumn3 = new TableColumn<>("Edit");
-        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList ,TabPanesel ,Changestudentinfo));
-        
-
-        // Add columns to the table
-      GradingTable.getColumns().addAll(subjectid1, studentNameColumn, sectionColumn,
-        firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3, forthGradingColumn11);
-
-        
-// Set column resize policy
-  GradingTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
-
-// Autoresize columns
-  GradingTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(  GradingTable.getWidth() /   GradingTable.getColumns().size());
-            }
-        });
-  GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
-        GradingTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(newValue.doubleValue() / GradingTable.getColumns().size());
-            }
-        });
-
-
-});           
-  
-  
-           
-}
-
+            @FXML
+    private FontAwesomeIcon reporticon;
+            
     // this are the action events
       @FXML
      void AdduserAction(ActionEvent event) {
@@ -1528,7 +1042,7 @@ String passwordnew =newpassword.getText();
       
     
     // to set the Username label
-public void setuserlabel(String user){
+public void setuserlabel(String user, String user_receiver){
 
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
     
@@ -1548,6 +1062,8 @@ if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null || 
        setUserLabel12.setText("User:" + user_receiver);
 
        System.out.println( user_receiver);
+      verification_info roles = new verification_info();
+      roles.checkroles(user_receiver, adminbutton, reportbutton, dashboardbs, adminicon, reporticon, dashicon);
   }
 else {
     System.out.println("username is null");
@@ -1699,30 +1215,571 @@ private void performLogout() throws IOException {
    public void memoryleakclose(){
            System.gc();
      Tab selectedTab = TabPanesel.getSelectionModel().getSelectedItem();
-    if (selectedTab != null) {
-         MemoryManagement m= new MemoryManagement(Enrollaction, dashboards, gradesbuttonaction, reportbutton,
-            tabbedpanemenu,
-            EnrollTable, AdminTable,
-            selecttable, selecttable1,
-            selecttable2, selecttable3,
-            selecttable4, selecttable5,
-            selecttable6, Role,
-            menuactions, menuactions1,
-            menuactions2, menuactions3,
-            menuactions4, menuactions5,
-            menuactions6, menuactions7,
-            menuactions8,  menuactions9);
-     m.disableLeaks();
+    Enrollaction.setOnAction(null);
+        gradesbuttonaction.setOnAction(null);
+         reportbutton.setOnAction(null);
+
+        menuactions.setOnAction(null);
+        menuactions1.setOnAction(null);
+        menuactions2.setOnAction(null);
+        menuactions3.setOnAction(null);
+        menuactions4.setOnAction(null);
+        menuactions5.setOnAction(null);
+        menuactions6.setOnAction(null);
+        menuactions7.setOnAction(null);
+        menuactions8.setOnAction(null);
+        menuactions9.setOnAction(null);
+
+        selecttable.setDisable(true);
+        selecttable1.setDisable(true);
+        selecttable2.setDisable(true);
+        selecttable3.setDisable(true);
+        selecttable4.setDisable(true);
+        selecttable5.setDisable(true);
+        selecttable6.setDisable(true);
+
+        Role.setDisable(true);
+        System.gc();
+        System.runFinalization();
      LogoView = null;
       TabPanesel.getTabs().remove(selectedTab);
-    }
+ 
 
     }
+   
    
    // To validate the phone number digits
     private static boolean isValidPhoneNumber(String Phone){
          return Phone.matches("0\\d{11}");
     }
+     
+      // To initialize the function when the dashboard fxml is opened
+              @FXML
+    public void initialize() throws ClassNotFoundException, SQLException {
+ReportTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainfxml.css").toExternalForm());
 
+AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainfxml.css").toExternalForm());
+// When dashboard is load it will set to enroll tab
+     TabPanesel.getSelectionModel().select(Enroll);
+       
+        // For the passwordfield and confirmpasswordfield to see the password
+        passwordfield.setTooltip(toolTip);
+    confirmpasswordfield.setTooltip(toolTip1);
+    
+    verification_info ver = new verification_info();
+    ver.teachers(displayinfo);
+    ver.student(displayinfo1);
+    ver.grades(displayinfo2);
+    ver.reports();
+  
+    
+       System.gc();
+    // Set value for the combobox
+      Selectedsection.setValue("Select a section");
+      Selectedstarttime.setValue("Select a time");
+      Selectedendtime.setValue("Select a time");
+       selecttable.setValue("Select an Option");
+       selecttable1.setValue("Select an Option");
+       selecttable2.setValue("Select an Option");
+       selecttable3.setValue("Select an Option");
+       selecttable4.setValue("Select an Option");
+       selecttable5.setValue("Select an Option");
+       selecttable6.setValue("Select an Option");
+       selecttable7.setValue("Select an Option");
+       Role.setValue("Select an Role");
+       Age.setValue("Select age");
+       year.setValue("Select a year");
+       gender.setValue("Select a gender");
+        month.setValue("Select a month"); 
+        
+
+        // This are the assigned vale for comboBox
+        // Add items to the ComboBox
+        ObservableList<String> items = FXCollections.observableArrayList(
+                "Select an option",
+                "Enrollment Form",
+                "Enrollment Table"
+                // Add more items as needed
+        );
+
+        selecttable1.setItems(items);
+    
+          selecttable.setItems(items);
+          
+          
+            ObservableList<String> items1 = FXCollections.observableArrayList(
+                "Select an option",
+                "User Table",
+                "Add User Form"
+                // Add more items as needed
+        );
+          selecttable2.setItems(items1);
+          selecttable3.setItems(items1);
+
+            ObservableList<String> items2 = FXCollections.observableArrayList(
+                "Select an option",
+                "Subject Table",
+                "Create Grades form",
+                "Grading table",
+                "Create Subject"
+                // Add more items as needed
+        );
+     
+             selecttable4.setItems(items2);
+             selecttable5.setItems(items2);
+             selecttable6.setItems(items2);
+               selecttable7.setItems(items2);
+               
+                   ObservableList<String> items4 = FXCollections.observableArrayList(
+                "Select age"
+                // Add more items as needed
+        );
+                    for (int i = 1; i <= 50; i++) {
+            items4.add(String.valueOf(i));
+        }
+                Age.setItems(items4);
+                    
+                
+                    ObservableList<String> items5 = FXCollections.observableArrayList(
+                "Select gender",
+                "Male" ,"Female"
+                // Add more items as needed
+        );
+                        gender.setItems(items5);
+                      
+                   ObservableList<String> items6 = FXCollections.observableArrayList(
+                "Select a month",
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+        );
+             
+                   month.setItems(items6);
+                   
+                        ObservableList<String> items7 = FXCollections.observableArrayList(
+                "Select a day"
+              
+        );
+             
+                    for (int i = 1; i <= 31; i++) {
+            items7.add(String.valueOf(i));
+        }
+                    day.setItems(items7);
+                    
+                     ObservableList<String> items8 = FXCollections.observableArrayList(
+                "Select a day"
+              
+        );
+               int startYear = 1990;
+        int endYear = 2024;
+                    for (int year = startYear; year <= endYear; year++) {
+            items8.add(String.valueOf(year));
+        }
+                     year.setItems(items8);
+                   
+                ObservableList<String> items3 = FXCollections.observableArrayList(
+                "Select an Role",
+                "Admin",
+                "Teacher"
+                // Add more items as needed
+        );
+                  Role.setItems(items3);
+                  
+                       ObservableList<String> time = FXCollections.observableArrayList(
+                "Select a time",
+                "08:00 AM",
+                "09:00 AM",
+                "10:00 AM",
+                "11:00 AM",
+                "12:00 PM",
+                "01:00 PM",
+                "02:00 PM",
+                "03:00 PM"
+                // Add more items as needed
+        );
+                      Selectedstarttime.setItems(time);
+                      Selectedendtime.setItems(time);
+                                     ObservableList<String> sec = FXCollections.observableArrayList(
+                "Select a section",
+                "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"        
+                                             // Add more items as needed
+        );
+                 Selectedsection.setItems(sec);
+
+                      
+
+      
+        AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
+    TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idColumn.setCellFactory(CustomTableCellFactory::cellFactoryForInteger);
+
+TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
+
+usernameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+usernameColumn.setOnEditCommit(event -> {
+    User user = event.getRowValue();
+    user.setUsername(event.getNewValue());
+    // Handle database update or other logic
+
+       Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Delete Confirmation");
+    alert.setHeaderText(null);
+    alert.setContentText("Are you sure you want to Delete this user?");
+
+    // Add "Yes" and "No" buttons
+    ButtonType buttonTypeYes = new ButtonType("Yes");
+    ButtonType buttonTypeNo = new ButtonType("No");
+
+    alert.showAndWait().ifPresent((ButtonType response) -> {
+        if (response == buttonTypeYes) {
+            // Get the selected item
+            User selectedUser = AdminTable.getSelectionModel().getSelectedItem();
+
+            if (selectedUser != null) {
+                // Delete the user from the database
+                DeleteInformationDB db = new DeleteInformationDB();
+                db.deleteuser(selectedUser);
+
+                // Remove the selected user from the TableView
+                AdminTable.getItems().remove(selectedUser);
+            }
+        } else if (response == buttonTypeNo) {
+            // User clicked "No," do nothing or handle accordingly
+        }
+    });
+});
+
+TableColumn<User, String> roleColumn = new TableColumn<>("Role");
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        roleColumn.setCellFactory(CustomTableCellFactory::createCenteredStringCell);
+roleColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+roleColumn.setOnEditCommit(event -> {
+    User user = event.getRowValue();
+    user.setRole(event.getNewValue());
+    // Handle database update or other logic
+});
+
+        TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
+        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList, TabPanesel , changeCredentials));
+
+        TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
+        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList, TabPanesel, changeCredentials));
+      editColumn.setOnEditCommit(event -> {
+    TabPanesel.getSelectionModel().select(changeCredentials);
+});
+
+        // Add columns to the table
+        AdminTable.getColumns().addAll(idColumn, usernameColumn, roleColumn, deleteColumn, editColumn);
+
+// Set column resize policy
+   AdminTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+ AdminTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(AdminTable.getWidth() / AdminTable.getColumns().size());
+            }
+        });
+
+        // Load data from the database
+        loadDataFromDatabase();
+        
+        
+       
+    EnrollTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
+    TableColumn<Student, Integer> idColumn1 = new TableColumn<>("ID");
+        idColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
+        idColumn1.setCellFactory(CustomTableCellFactory1::cellFactoryForInteger);
+
+TableColumn<Student, String> usernameColumn1 = new TableColumn<>("Name");
+        usernameColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentName"));
+        usernameColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+
+usernameColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
+usernameColumn1.setOnEditCommit(event -> {
+    Student user1 = event.getRowValue();
+     user1.setUsername(event.getNewValue());
+  
+
+    
+});
+TableColumn<Student, String> Agecolumn = new TableColumn<>("Age");
+      Agecolumn.setCellValueFactory(new PropertyValueFactory<>("Age"));
+        Agecolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+         Agecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+         Agecolumn.setOnEditCommit(event -> {
+ 
+});
+      
+TableColumn<Student, String> AddressColumn1 = new TableColumn<>("Address");
+       AddressColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentAddress"));
+        AddressColumn1.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+         AddressColumn1.setCellFactory(TextFieldTableCell.forTableColumn());
+         AddressColumn1.setOnEditCommit(event -> {
+ 
+});
+         
+         
+        TableColumn<Student, String> Gendercolumn = new TableColumn<>("Gender");
+       Gendercolumn.setCellValueFactory(new PropertyValueFactory<>("Gender"));
+        Gendercolumn.setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+  Gendercolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+   Gendercolumn.setOnEditCommit(event -> {
+ 
+});
+  
+          TableColumn<Student, String> Birthcolumn = new TableColumn<>("Born");
+       Birthcolumn.setCellValueFactory(new PropertyValueFactory<>("BirthYear"));
+       Birthcolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+ Birthcolumn .setCellFactory(TextFieldTableCell.forTableColumn());
+Birthcolumn .setOnEditCommit(event -> {
+ 
+});
+ 
+     TableColumn<Student, String> PhoneNumbercolumn = new TableColumn<>("Phone Number");
+     PhoneNumbercolumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNum"));
+       PhoneNumbercolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
+ PhoneNumbercolumn .setCellFactory(TextFieldTableCell.forTableColumn());
+  PhoneNumbercolumn.setOnEditCommit(event -> {
+ 
+});
+
+
+        TableColumn<Student, Void> deleteColumn1 = new TableColumn<>("Delete");
+        deleteColumn1.setCellFactory(param -> new ButtonCell1("Delete", studentList, TabPanesel, changestudentinformation ));
+        deleteColumn1.setOnEditCommit(event -> {
+    Student selectedStudent = event.getRowValue();
+    String studentName = selectedStudent.getStudentName();
+    System.out.println("Clicked Edit for student: " + studentName);
+           EnrollTable.getItems().remove( selectedStudent);
+    // Add your logic to handle the Edit action for this student
+});
+
+        TableColumn<Student, Void> editColumn1 = new TableColumn<>("Edit");
+        editColumn1.setCellFactory(param -> new ButtonCell1("Edit", studentList ,TabPanesel, changestudentinformation));
+        editColumn1.setOnEditCommit(event -> {
+    Student selectedStudent = event.getRowValue();
+    String studentName = selectedStudent.getStudentName();
+    System.out.println("Clicked Edit for student: " + studentName);
+
+    // For example, you can create a method like editStudent(Student student) and call it here
+    // This method would then handle opening the editing interface and updating the student details
+    // You may also want to refresh the table after editing to reflect changes
+});
+
+        // Add columns to the table
+        EnrollTable.getColumns().addAll(idColumn1, usernameColumn1, Agecolumn,AddressColumn1,Gendercolumn,PhoneNumbercolumn, Birthcolumn,deleteColumn1, editColumn1);
+
+        
+// Set column resize policy
+EnrollTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+ EnrollTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(EnrollTable.getWidth() / EnrollTable.getColumns().size());
+            }
+        });
+ EnrollTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+    EnrollTable.getColumns().forEach(column -> {
+        if (column.isResizable()) {
+            column.setPrefWidth(newValue.doubleValue() / EnrollTable.getColumns().size());
+        }
+    });
+});
+        enroll_loadDataFromDatabase();
+    SubjectTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
+   TableColumn<Subject, Integer> subjectid = new TableColumn<>("SubjectID");
+subjectid.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
+subjectid.setCellFactory(CustomTableCellFactory3::cellFactoryForInteger);
+
+      
+TableColumn<Subject, String> subname = new TableColumn<>("SubjectName");
+       subname.setCellValueFactory(new PropertyValueFactory<>("SubjectName"));
+        subname.setCellFactory(column -> CustomTableCellFactory3.createCenteredStringCell(column));
+         subname.setCellFactory(TextFieldTableCell.forTableColumn());
+         subname.setOnEditCommit(event -> {
+ 
+});
+         
+       TableColumn<Subject, String> section = new TableColumn<>("Section");
+section.setCellValueFactory(new PropertyValueFactory<>("section"));
+section.setCellFactory(TextFieldTableCell.forTableColumn());
+section.setOnEditCommit(event -> {
+    Subject subject = event.getRowValue();
+    subject.setSection(event.getNewValue());
+    // You may want to update your database or perform other actions here
+});
+
+TableColumn<Subject, String> timestart = new TableColumn<>("TimeStart");
+timestart.setCellValueFactory(new PropertyValueFactory<>("timeStart"));
+timestart.setCellFactory(TextFieldTableCell.forTableColumn());
+timestart.setOnEditCommit(event -> {
+    Subject subject = event.getRowValue();
+    subject.setTimeStart(event.getNewValue());
+    // Update your database or perform other actions
+});
+
+ 
+     TableColumn<Subject, String> timeended = new TableColumn<>("TimeEnded");
+     timeended.setCellValueFactory(new PropertyValueFactory<>("TimeEnded"));
+     timeended.setCellFactory(CustomTableCellFactory3::createCenteredStringCell);
+    timeended.setCellFactory(TextFieldTableCell.forTableColumn());
+    timeended.setOnEditCommit(event -> {
+ 
+});
+
+
+        TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName));
+        deleteColumn2.setOnEditCommit(event -> {
+    Subject selectedSubject= event.getRowValue();
+    String subjectName = selectedSubject.getSubjectName();
+    System.out.println("Clicked Edit for student: " + subjectName );
+           EnrollTable.getItems().remove( selectedSubject);
+    // Add your logic to handle the Edit action for this student
+});
+
+   TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
+   
+editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName));
+editColumn2.setOnEditCommit((TableColumn.CellEditEvent<Subject, Void> event) -> {
+    Subject selectedSubject = event.getRowValue();
+    subjectName = selectedSubject.getSubjectName();
+    System.out.println("Clicked Edit for subject: " + subjectName);
+    SubjectName.setText(subjectName);
+    SubjectDatabase subjectDatabase = new SubjectDatabase();
+    List<Grading> gradingList1 = subjectDatabase.getGradingBySubjectName(subjectName);
+         // Assuming Grading is the Tab instance for the Grading tab
+         if (Grading1 != null) {
+             TabPanesel.getSelectionModel().select(Grading1);
+             if (!gradingList1.isEmpty()) {
+                 // Subject exists, update the TableView and set the subject ID to a label
+                 GradingTable.getItems().clear();
+                 GradingTable.getItems().addAll(gradingList1);
+                 // Assuming you have a label called subjectIDLabel
+                 SubjectName.setText(Integer.toString(gradingList1.get(0).getSubjectID()));
+             } else {
+                 System.out.println("Subject not found in the database.");
+             }
+         } else {
+             System.out.println("Grading Tab not found.");
+         }
+         // For example, you can create a method like editStudent(Student student) and call it here
+         // This method would then handle opening the editing interface and updating the student details
+         // You may also want to refresh the table after editing to reflect changes
+     });
+
+        // Add columns to the table
+       SubjectTable.getColumns().addAll(subjectid, subname, section,timestart,timeended,deleteColumn2,editColumn2);
+
+        
+// Set column resize policy
+SubjectTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+ SubjectTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(SubjectTable.getWidth() / SubjectTable.getColumns().size());
+            }
+        });
+ SubjectTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+    SubjectTable.getColumns().forEach(column -> {
+        if (column.isResizable()) {
+            column.setPrefWidth(newValue.doubleValue() / SubjectTable.getColumns().size());
+        }
+    });
+});           
+                       subjectloaddb();
+      
+  GradingTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
+   TableColumn<Grading, Integer> subjectid1 = new TableColumn<>("SubjectID");
+subjectid1.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
+subjectid1.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+      
+TableColumn<Grading, String> studentNameColumn = new TableColumn<>("Student Name");
+        studentNameColumn.setCellValueFactory(new PropertyValueFactory<>("studentName"));
+        studentNameColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
+         studentNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+         studentNameColumn.setOnEditCommit(event -> {
+ 
+});
+        
+      TableColumn<Grading, String> sectionColumn = new TableColumn<>("Section");
+sectionColumn.setCellValueFactory(new PropertyValueFactory<>("section"));
+sectionColumn.setCellFactory(column -> CustomTableCellFactory4.createCenteredStringCell(column));
+
+// Create TableColumn for First Grading
+TableColumn<Grading, Integer> firstGradingColumn = new TableColumn<>("First Grading");
+firstGradingColumn.setCellValueFactory(new PropertyValueFactory<>("firstGrading"));
+firstGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Second Grading
+TableColumn<Grading, Integer> secondGradingColumn = new TableColumn<>("Second Grading");
+secondGradingColumn.setCellValueFactory(new PropertyValueFactory<>("secondGrading"));
+secondGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Third Grading
+TableColumn<Grading, Integer> thirdGradingColumn = new TableColumn<>("Third Grading");
+thirdGradingColumn.setCellValueFactory(new PropertyValueFactory<>("thirdGrading"));
+thirdGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Fourth Grading
+TableColumn<Grading, Integer> forthGradingColumn = new TableColumn<>("Fourth Grading");
+forthGradingColumn.setCellValueFactory(new PropertyValueFactory<>("forthGrading"));
+forthGradingColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+// Create TableColumn for Total
+TableColumn<Grading, Integer> totalColumn = new TableColumn<>("Total");
+totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+totalColumn.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+TableColumn<Grading, Integer> forthGradingColumn11 = new TableColumn<>("StudentID");
+forthGradingColumn11.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
+forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactoryForInteger(column));
+
+
+        TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
+        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList, TabPanesel,  Changestudentinfo));
+     
+
+        TableColumn<Grading, Void> editColumn3 = new TableColumn<>("Edit");
+        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList ,TabPanesel ,Changestudentinfo));
+        
+
+        // Add columns to the table
+      GradingTable.getColumns().addAll(subjectid1, studentNameColumn, sectionColumn,
+        firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3, forthGradingColumn11);
+
+        
+// Set column resize policy
+  GradingTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+  GradingTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(  GradingTable.getWidth() /   GradingTable.getColumns().size());
+            }
+        });
+  GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+        GradingTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(newValue.doubleValue() / GradingTable.getColumns().size());
+            }
+        });
+
+
+});           
+  
+  
+           
+}
    
 }

@@ -15,12 +15,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 
 public class ButtonCell1 extends TableCell<Student, Void> {
     private final Button button;
     private final ObservableList<Student> studentList;
     
-    public ButtonCell1(String buttonText, ObservableList<Student> studentList) {
+    public ButtonCell1(String buttonText, ObservableList<Student> studentList, TabPane TabPanesel, Tab changestudentinformation) {
         this.button = new Button(buttonText);
         this.studentList = studentList;
 
@@ -52,20 +54,32 @@ public class ButtonCell1 extends TableCell<Student, Void> {
                         }
                     });
                 } else if (buttonText.equals("Edit")) {
-      
+                    
+                               TabPanesel.getSelectionModel().select(changestudentinformation);
                 }
             }
         });
     }
 
     @Override
-    protected void updateItem(Void item, boolean empty) {
+     protected void updateItem(Void item, boolean empty) {
         super.updateItem(item, empty);
 
         if (empty) {
             setGraphic(null);
         } else {
+            // Set style class for the button based on buttonText
+            String buttonText = getButton().getText();
+            if ("Delete".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-delete");
+            } else if ("Edit".equals(buttonText)) {
+                button.getStyleClass().setAll("custom-button-cell2-open");
+            }
+
             setGraphic(button);
         }
+    }
+public Button getButton() {
+        return button;
     }
 }
