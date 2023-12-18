@@ -9,7 +9,7 @@ package userinteraction;
  * @author Administrator
  */
 // CustomTableCellFactory.java
-import functions.User;
+import com.javafx.functions.User;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

@@ -200,3 +200,120 @@
 .custom-button-cell2-open:hover {
   -fx-background-color: #2980b9; /* Darker blue background color on hover */
 }
+
+.combo-box .list-cell 
+{
+     -fx-position: absolute;
+    -fx-top: 50%;
+    -fx-left: 50%;
+    -fx-translate-x: -50%;
+    -fx-translate-y: -50%;
+    -fx-background: white;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+}
+.combo-box {
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+    -fx-text-fill: #60666d;
+    -fx-padding: 5px;
+    -fx-font-size: 12px;
+    -fx-border-color: transparent;
+    -fx-position: absolute;
+    -fx-top: 50%;
+    -fx-left: 50%;
+    -fx-translate-x: -50%;
+    -fx-translate-y: -50%;
+}
+
+/* Combo Box Popup */
+.combo-box-popup .list-view {
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+    -fx-text-fill: #60666d;
+    -fx-padding: 12px;
+    -fx-pref-width: 150px;
+    -fx-border-color: transparent;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(0 5px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Combo Box List Cell */
+.combo-box-popup .list-view .list-cell {
+    -fx-padding: 4 0 4 5;
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+    -fx-font-size: 12px;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected,
+.combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+    -fx-text-fill: -fx-selection-bar-text;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: #fbfbfb;
+    -fx-text-fill: #546c84;
+    -fx-padding: 12px;
+    -fx-pref-width: 150px;
+    -fx-border-color: transparent;
+  -fx-font-size: 12px;
+    -fx-effect: dropshadow(0 5px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Combo Box Base */
+.combo-box-base {
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.combo-box-base:hover {
+    -fx-fill: #ffffff;
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.combo-box-base:showing {
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.combo-box-base:focused {
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-radius: 6.4, 4, 5, 3;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-fill: #ffffff;
+    -fx-background-color: linear-gradient(to right, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+}
+.text-field {
+    -fx-background: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+    -fx-font-size: 1.5em;
+    -fx-transition: padding 0.3s 0.2s ease;
+    -fx-max-width: 400px;
+}
+
+.text-field:focused {
+    -fx-padding-bottom: 5px;
+}
+
+/* Line */
+.line {
+    -fx-background-color: #bdc3c7;
+    -fx-pref-height: 3px;
+    -fx-translate-y: -8px;
+    -fx-alignment: BOTTOM_LEFT;
+
+    /* Sibling Magic */
+    -fx-shape: "M 0 0 L 100 0";
+    -fx-stroke: #1abc9c;
+    -fx-stroke-width: 3px;
+    -fx-scale-y: 0;
+    -fx-transition: -fx-scale-y 0.3s ease;
+}

@@ -12,17 +12,17 @@ package userinteraction;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-import functions.Student;
+import com.javafx.functions.Student;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 
-import functions.Student;
+import com.javafx.functions.Student;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 
-import functions.Subject;
+import com.javafx.functions.Subject;
 
 /**
  *

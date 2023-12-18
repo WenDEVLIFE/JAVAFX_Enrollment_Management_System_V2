@@ -4,8 +4,8 @@
  */
 package userinteraction;
 
-import functions.Grading;
-import functions.Student;
+import com.javafx.functions.Grading;
+import com.javafx.functions.Student;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

@@ -8,8 +8,8 @@ package userinteraction;
  *
  * @author Administrator
  */
-import functions.DeleteInformationDB;
-import functions.Student;
+import com.javafx.functions.DeleteInformationDB;
+import com.javafx.functions.Student;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Alert;
@@ -21,10 +21,11 @@ import javafx.scene.control.TabPane;
 public class ButtonCell1 extends TableCell<Student, Void> {
     private final Button button;
     private final ObservableList<Student> studentList;
-    
-    public ButtonCell1(String buttonText, ObservableList<Student> studentList, TabPane TabPanesel, Tab changestudentinformation) {
+    private String user1;
+    public ButtonCell1(String buttonText, ObservableList<Student> studentList, TabPane TabPanesel, Tab changestudentinformation, String user1) {
         this.button = new Button(buttonText);
         this.studentList = studentList;
+        this.user1 = user1;
 
         this.button.setOnAction(event -> {
               Student selectedStudent = getTableRow().getItem();
@@ -45,7 +46,7 @@ public class ButtonCell1 extends TableCell<Student, Void> {
                         if (response == buttonTypeYes) {
                             System.out.println(selectedStudent);
                                 DeleteInformationDB db = new DeleteInformationDB();
-                                db.deleteStudent(selectedStudent);
+                                db.deleteStudent(selectedStudent,user1);
                                 
                                 // remove the student from the table and to the database
                                     studentList.remove(selectedStudent);

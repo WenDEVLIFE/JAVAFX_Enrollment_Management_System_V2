@@ -4,7 +4,7 @@
  */
 package userinteraction;
 
-import functions.Student;
+import com.javafx.functions.Student;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

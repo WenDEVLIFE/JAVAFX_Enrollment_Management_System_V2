@@ -8,10 +8,11 @@ package userinteraction;
  *
  * @author Administrator
  */
-import functions.Grading;
-import functions.Student;
-import functions.Subject;
-import functions.User;
+import com.javafx.functions.Grading;
+import com.javafx.functions.Reports;
+import com.javafx.functions.Student;
+import com.javafx.functions.Subject;
+import com.javafx.functions.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -143,7 +144,34 @@ private Connection connection;
 
     return gradingList;
 }
-   
+   public ObservableList<Reports> fetchDataFromDatabase4() {
+    ObservableList<Reports> reportList = FXCollections.observableArrayList();
+
+    try (Connection connection= DriverManager.getConnection(jdbcUrl, username1, password1);
+         Statement statement = connection.createStatement();
+     ResultSet resultSet = statement.executeQuery("SELECT ReportID,username, date, activity FROM reports")){
+
+        // Populate the ObservableList with data from the ResultSet
+        while (resultSet.next()) {
+             int reportid = resultSet.getInt("ReportID");
+            String username = resultSet.getString("username");
+             String date = resultSet.getString("date");
+            String activity = resultSet.getString("activity");
+            
+         
+
+         reportList.add(new Reports(reportid , username, date ,  activity));
+          
+          System.gc();
+        }
+
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return reportList;
+}
     void closeConnection() {
     try {
         if (connection != null && !connection.isClosed()) {

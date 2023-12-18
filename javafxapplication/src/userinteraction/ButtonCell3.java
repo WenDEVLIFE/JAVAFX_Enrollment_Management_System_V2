@@ -8,9 +8,9 @@ package userinteraction;
  *
  * @author Administrator
  */
-import functions.Subject;
-import functions.DeleteInformationDB;
-import functions.Grading;
+import com.javafx.functions.Subject;
+import com.javafx.functions.DeleteInformationDB;
+import com.javafx.functions.Grading;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +25,11 @@ import javafx.scene.control.TabPane;
 public class ButtonCell3 extends TableCell<Grading, Void> {
     private final Button button;
     private final ObservableList<Grading> gradingList;
-    
-    public ButtonCell3(String buttonText, ObservableList<Grading> gradingList, TabPane TabPanesel, Tab Changestudentinfo) {
+    private static String user1;
+    public ButtonCell3(String buttonText, ObservableList<Grading> gradingList, TabPane TabPanesel, Tab Changestudentinfo,String user1) {
         this.button = new Button(buttonText);
         this.gradingList = gradingList;
+        this.user1 = user1;
 
         this.button.setOnAction(event -> {
             Grading selectedGrading = getTableRow().getItem();
@@ -51,7 +52,7 @@ public class ButtonCell3 extends TableCell<Grading, Void> {
                                 System.out.println(selectedGrading);
                                 // Code to delete grading from the database and update the list
                                 DeleteInformationDB db = new DeleteInformationDB();
-                                db.deletegrades( selectedGrading);
+                                db.deletegrades( selectedGrading, user1);
                                 System.gc();
                             } catch (SQLException ex) {
                                 Logger.getLogger(ButtonCell3.class.getName()).log(Level.SEVERE, null, ex);

@@ -13,7 +13,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -30,8 +29,8 @@
    <children>
       <Pane layoutX="-1.0" layoutY="82.0" prefHeight="631.0" prefWidth="153.0" styleClass="sidepanel" stylesheets="@../javafxapplication/mainfxml.css">
          <children>
-            <Button id="customebutton1" fx:id="dashboardbs" layoutY="140.0" mnemonicParsing="false" onAction="#dashboard_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Dashboard" textFill="WHITE" />
-            <Button id="customebutton1" fx:id="Enrollaction" mnemonicParsing="false" onAction="#Enroll_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll a student" textFill="WHITE">
+            <Button id="customebutton1" fx:id="dashboardbs" layoutY="281.0" mnemonicParsing="false" onAction="#dashboard_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Dashboard" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="Enrollaction" layoutY="70.0" mnemonicParsing="false" onAction="#Enroll_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Enroll a student" textFill="WHITE">
                <graphic>
                   <FontAwesomeIcon fill="WHITE" glyphName="USER" selectionStart="0" size="20" text="" />
                </graphic>
@@ -39,13 +38,20 @@
             <GlyphsStack layoutX="84.0" layoutY="326.0" />
             <GlyphsStack layoutX="21.0" layoutY="105.0" />
             <GlyphsStack layoutX="65.0" layoutY="335.0" />
-            <Button id="customebutton1" fx:id="gradesbuttonaction" layoutY="70.0" mnemonicParsing="false" onAction="#grades_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="GRADES" textFill="WHITE" />
-            <Button id="customebutton1" fx:id="reportbutton" layoutY="212.0" mnemonicParsing="false" onAction="#report_actionnotafuckingmousevent" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="REPORTS" textFill="WHITE" />
-            <Button id="customebutton1" fx:id="adminbutton" layoutY="281.0" mnemonicParsing="false" onAction="#admin_action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="ADMIN" textFill="WHITE" />
-  <FontAwesomeIcon fx:id="reporticon" fill="WHITE" glyphName="FILE" layoutX="24.0" layoutY="254.0" size="20" />
-            <FontAwesomeIcon fx:id="adminicon" fill="WHITE" glyphName="USER" layoutX="25.0" layoutY="320.0" selectionStart="0" size="20" text="" />
-            <FontAwesomeIcon fx:id="dashicon" fill="WHITE" glyphName="DASHBOARD" layoutX="24.0" layoutY="179.0" size="20" text="" />
-            <FontAwesomeIcon fill="WHITE" glyphName="FILE" layoutX="28.0" layoutY="115.0" size="20" />
+            <Button id="customebutton1" fx:id="gradesbuttonaction" layoutY="141.0" mnemonicParsing="false" onAction="#grades_Action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="GRADES" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="reportbutton" layoutY="421.0" mnemonicParsing="false" onAction="#report_actionnotafuckingmousevent" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="REPORTS" textFill="WHITE" />
+            <Button id="customebutton1" fx:id="adminbutton" layoutY="351.0" mnemonicParsing="false" onAction="#admin_action" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="ADMIN" textFill="WHITE" />
+  <FontAwesomeIcon fx:id="reporticon" fill="WHITE" glyphName="FILE" layoutX="22.0" layoutY="463.0" size="20" />
+            <FontAwesomeIcon fx:id="adminicon" fill="WHITE" glyphName="USER" layoutX="23.0" layoutY="393.0" selectionStart="0" size="20" text="" />
+            <FontAwesomeIcon fx:id="dashicon" fill="WHITE" glyphName="DASHBOARD" layoutX="21.0" layoutY="323.0" size="20" text="" />
+            <FontAwesomeIcon fill="WHITE" glyphName="FILE" layoutX="22.0" layoutY="183.0" size="20" />
+            <Button id="customebutton1" layoutY="211.0" mnemonicParsing="false" onAction="#changeaction" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="User preferences" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="GEAR" size="20" />
+               </graphic>
+            </Button>
+            <Button id="customebutton1" mnemonicParsing="false" onAction="#logoutaction" prefHeight="70.0" prefWidth="153.0" stylesheets="@../javafxapplication/mainfxml.css" text="Logout" textFill="WHITE" />
+            <FontAwesomeIcon fill="WHITE" glyphName="USER" layoutX="23.0" layoutY="42.0" selectionStart="0" size="20" text="" />
          </children>
       </Pane>
       <TabPane fx:id="TabPanesel" layoutX="150.0" layoutY="-36.0" prefHeight="749.0" prefWidth="816.0" tabClosingPolicy="UNAVAILABLE">
@@ -276,14 +282,7 @@
                            </font>
                         </Label>
                         <Line endX="644.0" layoutX="151.0" layoutY="139.0" startX="-100.0" />
-                        <TableView fx:id="ReportTable" layoutX="62.0" layoutY="154.0" prefHeight="464.0" prefWidth="722.0" styleClass="column-header" stylesheets="@../javafxapplication/mainfxml.css">
-                           <columns>
-                              <TableColumn editable="false" prefWidth="116.0" styleClass=".table-view" text="ReportID" />
-                              <TableColumn editable="false" prefWidth="215.0" text="Username" />
-                              <TableColumn editable="false" prefWidth="181.0" text="Date" />
-                              <TableColumn editable="false" prefWidth="209.0" text="Activity" />
-                           </columns>
-                        </TableView>
+                        <TableView fx:id="ReportTable" layoutX="62.0" layoutY="154.0" prefHeight="464.0" prefWidth="722.0" styleClass="column-header" stylesheets="@../javafxapplication/mainfxml.css" />
                         <Button id="enrollbutton" layoutX="358.0" layoutY="647.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" stylesheets="@../javafxapplication/mainfxml.css" text="Print the table">
                            <graphic>
                               <FontAwesomeIcon fill="WHITE" glyphName="FILE" />
@@ -446,12 +445,6 @@
                               <Font name="Gill Sans MT Condensed" size="22.0" />
                            </font>
                         </Label>
-                        <MenuButton fx:id="menuactions5" layoutX="574.0" layoutY="56.0" mnemonicParsing="false" text="Options">
-                           <items>
-                              <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                              <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
-                           </items>
-                        </MenuButton>
                         <Button id="enrollbutton" layoutX="365.0" layoutY="659.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="174.0" stylesheets="@../javafxapplication/mainfxml.css" text="Print the table">
                            <graphic>
                               <FontAwesomeIcon fill="WHITE" glyphName="FILE" />
@@ -839,20 +832,20 @@
                               <GlyphsStack layoutX="84.0" layoutY="326.0" />
                               <GlyphsStack layoutX="21.0" layoutY="105.0" />
                               <GlyphsStack layoutX="65.0" layoutY="335.0" />
-                              <TextField fx:id="seciondgrading11" layoutX="401.0" layoutY="134.0" prefHeight="33.0" prefWidth="371.0" />
+                              <TextField fx:id="newaddress" layoutX="401.0" layoutY="134.0" prefHeight="33.0" prefWidth="371.0" />
                               <Label layoutX="501.0" layoutY="9.0" prefHeight="3.0" prefWidth="165.0" text="New Name" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <Button id="enrollbutton" fx:id="Adduser111" layoutX="260.0" layoutY="444.0" mnemonicParsing="false" onAction="#UpdateGradeAction" prefHeight="47.0" prefWidth="138.0" stylesheets="@../javafxapplication/mainfxml.css" text="Update ">
+                              <Button id="enrollbutton" layoutX="260.0" layoutY="444.0" mnemonicParsing="false" onAction="#Update_Student" prefHeight="47.0" prefWidth="138.0" stylesheets="@../javafxapplication/mainfxml.css" text="Update ">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="USER" selectionStart="1" />
                                  </graphic>
                               </Button>
-                              <Button id="clearbutton1" layoutX="417.0" layoutY="444.0" mnemonicParsing="false" onAction="#clearbuttonaction7" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear">
+                              <Button id="clearbutton1" layoutX="417.0" layoutY="444.0" mnemonicParsing="false" onAction="#clearbuttonaction8" prefHeight="38.0" prefWidth="121.0" stylesheets="@../javafxapplication/mainfxml.css" text="Clear">
                                  <graphic>
-                                    <FontAwesomeIcon fill="WHITE" glyphName="TRASH" />
+                                    <FontAwesomeIcon fill="WHITE" glyphName="TRASH" text="" />
                                  </graphic>
                               </Button>
                               <Label layoutX="84.0" layoutY="90.0" prefHeight="30.0" prefWidth="153.0" text="New Age" textFill="WHITE">
@@ -870,29 +863,29 @@
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="thirdgrading11" layoutX="32.0" layoutY="343.0" prefHeight="33.0" prefWidth="349.0" />
+                              <TextField fx:id="newphonenumber" layoutX="32.0" layoutY="343.0" prefHeight="33.0" prefWidth="349.0" />
                               <Label layoutX="84.0" layoutY="195.0" prefHeight="30.0" prefWidth="153.0" text="New Gender" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="enterstudentname11" layoutX="398.0" layoutY="41.0" prefHeight="36.0" prefWidth="370.0" />
-                              <TextField fx:id="enter_subjectname11" layoutX="27.0" layoutY="42.0" prefHeight="34.0" prefWidth="346.0" />
+                              <TextField fx:id="newname" layoutX="398.0" layoutY="41.0" prefHeight="36.0" prefWidth="370.0" />
+                              <TextField fx:id="update_username" layoutX="27.0" layoutY="42.0" prefHeight="34.0" prefWidth="346.0" />
                               <Label layoutX="84.0" layoutY="5.0" prefHeight="37.0" prefWidth="200.0" text="Enter Current Full Name" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="65.0" layoutY="133.0" prefHeight="34.0" prefWidth="201.0" />
-                              <ComboBox layoutX="65.0" layoutY="238.0" prefHeight="34.0" prefWidth="201.0" />
+                              <ComboBox fx:id="newage" layoutX="65.0" layoutY="133.0" prefHeight="34.0" prefWidth="201.0" styleClass="combo-box" stylesheets="@../javafxapplication/mainfxml.css" />
+                              <ComboBox fx:id="newgender" layoutX="65.0" layoutY="238.0" prefHeight="34.0" prefWidth="201.0" styleClass="combo-box" stylesheets="@../javafxapplication/mainfxml.css" />
                               <Label layoutX="501.0" layoutY="210.0" prefHeight="30.0" prefWidth="153.0" text="New BirthYear" textFill="WHITE">
                                  <font>
                                     <Font name="Gill Sans MT Condensed" size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox layoutX="410.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" />
-                              <ComboBox layoutX="525.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" />
-                              <ComboBox layoutX="647.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" />
+                              <ComboBox fx:id="newmonth" layoutX="410.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" styleClass="combo-box" stylesheets="@../javafxapplication/mainfxml.css" />
+                              <ComboBox fx:id="newday1" layoutX="525.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" styleClass="combo-box" stylesheets="@../javafxapplication/mainfxml.css" />
+                              <ComboBox fx:id="newyear" layoutX="647.0" layoutY="255.0" prefHeight="34.0" prefWidth="106.0" styleClass="combo-box" stylesheets="@../javafxapplication/mainfxml.css" />
                            </children>
                         </Pane>
                         <Label layoutX="36.0" layoutY="105.0" prefHeight="41.0" prefWidth="336.0" text="Update Student Information" textFill="#364694">
@@ -919,12 +912,6 @@
                   <Font name="Gill Sans MT Condensed" size="34.0" />
                </font>
             </Label>
-            <MenuButton fx:id="menuactions3" layoutX="722.0" layoutY="51.0" mnemonicParsing="false" text="Options">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#logoutaction" text="Logout" />
-                  <MenuItem mnemonicParsing="false" onAction="#changeaction" text="Change Credentials" />
-               </items>
-            </MenuButton>
             <Label fx:id="setLabelUser3" layoutX="722.0" layoutY="28.0" prefHeight="27.0" prefWidth="244.0" text="Username:" textFill="#364694">
                <font>
                   <Font name="Gill Sans MT Condensed" size="22.0" />

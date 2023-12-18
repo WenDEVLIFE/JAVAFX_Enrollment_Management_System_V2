@@ -5,26 +5,23 @@
 package userinteraction;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import functions.Addgrades;
-import functions.Alter_Information;
-import functions.Changecredentials;
-import functions.CreateStudent;
-import functions.CreateSubject;
-import functions.DeleteInformationDB;
-import functions.Grading;
-import functions.Student;
-import functions.Subject;
-import functions.User;
-import functions.User_Exist;
-import functions.verification_info;
+import com.javafx.functions.Addgrades;
+import com.javafx.functions.Alter_Information;
+import com.javafx.functions.Changecredentials;
+import com.javafx.functions.CreateStudent;
+import com.javafx.functions.CreateSubject;
+import com.javafx.functions.DeleteInformationDB;
+import com.javafx.functions.Grading;
+import com.javafx.functions.Reports;
+import com.javafx.functions.Student;
+import com.javafx.functions.Subject;
+import com.javafx.functions.User;
+import com.javafx.functions.User_Exist;
+import com.javafx.functions.verification_info;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -64,6 +61,7 @@ public class DashboardController {
     private static  String subjectName;
     private static ObservableList<User> userList;
     private  static ObservableList<Grading> gradingList;
+        private  static ObservableList<Reports> reportList;
    ObservableList<Student> studentList = FXCollections.observableArrayList();
     ObservableList<Subject> subjectList = FXCollections.observableArrayList();
    
@@ -276,8 +274,9 @@ private Tooltip toolTip3 = new Tooltip();
        
        @FXML
     private TableView<Grading>  GradingTable;
+       
        @FXML
-    private TableView<?>  ReportTable;
+    private TableView<Reports>  ReportTable;
     
     // combolist
     @FXML
@@ -318,6 +317,20 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private ComboBox<String> Selectedsection;
     
+      @FXML
+    private ComboBox<String> newage;
+
+    @FXML
+    private ComboBox<String> newday1;
+
+    @FXML
+    private ComboBox<String> newgender;
+
+    @FXML
+    private ComboBox<String> newmonth;
+    
+    @FXML
+    private ComboBox<String> newyear;
     
         @FXML
     private TextField usernamefield;
@@ -423,37 +436,18 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private PasswordField newpassword;
     
-            // for menu action
-      @FXML
-    private MenuButton menuactions;
-
+        @FXML
+    private TextField newaddress;
+        
+        @FXML
+    private TextField update_username;
+        
     @FXML
-    private MenuButton menuactions1;
-
-    @FXML
-    private MenuButton menuactions2;
-
-    @FXML
-    private MenuButton menuactions3;
-
-    @FXML
-    private MenuButton menuactions4;
-
-    @FXML
-    private MenuButton menuactions5;
-
-    @FXML
-    private MenuButton menuactions6;
-
-    @FXML
-    private MenuButton menuactions7;       
+    private TextField newname;
     
     @FXML
-    private MenuButton menuactions8;
-            
-        @FXML
-    private MenuButton menuactions9;
-        
+    private TextField newphonenumber;
+
   
     @FXML
     private FontAwesomeIcon adminicon;
@@ -833,7 +827,7 @@ TabPanesel.getSelectionModel().select(Admin);
         alert.showAndWait();
                   }
                   else {
-                  CreateStudent s = new CreateStudent(studentname, address, Phone, selected_Age, selected_gender ,birthmonth, birthdate, birthyear ,EnrollTable, studentList);
+                  CreateStudent s = new CreateStudent(studentname, address, Phone, selected_Age, selected_gender ,birthmonth, birthdate, birthyear ,EnrollTable, studentList,    user1 ,ReportTable);
                   s.createstudent();
                   }
               }
@@ -876,7 +870,7 @@ TabPanesel.getSelectionModel().select(Admin);
                 alert.setContentText("Please select a time");
                 alert.showAndWait();
                 } else{
-                        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end , SubjectTable,subjectList);
+                        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end , SubjectTable,subjectList,    user1 );
                         cs.create_subjects();
                 }
        }
@@ -966,7 +960,7 @@ String passwordnew =newpassword.getText();
            } else {
                
                Addgrades g = new Addgrades();
-           g.addGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4);
+           g.addGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4,user_receiver);
            }
           
      }
@@ -989,9 +983,9 @@ String passwordnew =newpassword.getText();
        String firstG=firstgrading1.getText();
        int update_grade1 = Integer.parseInt(firstG);
       String secondG= seciondgrading1.getText();
-         int update_grade2 = Integer.parseInt(secondG);
+       int update_grade2 = Integer.parseInt(secondG);
         String thirdG =thirdgrading1.getText();
-           int update_grade3 = Integer.parseInt(thirdG);
+        int update_grade3 = Integer.parseInt(thirdG);
         String fourthG=fourthgrading1.getText();
            int update_grade4 = Integer.parseInt(fourthG);
            if (find_entersub.isEmpty()|| find_enterstudent.isEmpty()){
@@ -1014,6 +1008,62 @@ String passwordnew =newpassword.getText();
        seciondgrading1.setText("");
         thirdgrading1.setText("");
         fourthgrading1.setText("");
+    }
+    
+    // This function is for updating the student information
+   @FXML
+    void  Update_Student(ActionEvent event) throws SQLException { 
+       String update_studentname =   update_username.getText();
+       String new_name = newname.getText();
+       String new_address = newaddress.getText();
+       String new_phone_number = newphonenumber.getText();
+       String new_gender =newgender.getSelectionModel().getSelectedItem();
+       String update_age =  newage.getSelectionModel().getSelectedItem();
+       String update_month =  newmonth.getSelectionModel().getSelectedItem();
+       String update_day =  newday1.getSelectionModel().getSelectedItem();
+       String update_year =  newyear.getSelectionModel().getSelectedItem();
+        if(update_studentname!=null || new_name !=null || new_address!=null ||new_phone_number!=null){
+              if (isValidPhoneNumber(new_phone_number)) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("The phone number lenght should be 11");
+        alert.showAndWait();
+              }
+              else{
+                  if(new_gender =="Select a gender"&& update_age=="Select a age"&&  update_month=="Month"&& update_day=="Day" && update_year=="Year" ){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select a gender, age , month, day and year");
+        alert.showAndWait();
+                  }
+                  else{
+                      // Call the update class
+                      Alter_Information update = new Alter_Information();
+                      update.changeinformation(update_studentname, new_name, new_address, new_phone_number, new_gender, update_age,update_month,update_day,update_year);
+                  }
+              }
+        }
+        else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("System Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Please fill all the empty blanks");
+        alert.showAndWait();
+        }
+    } 
+     
+   @FXML
+    void  clearbuttonaction8 (ActionEvent event) { 
+        update_username.setText("");
+        newname.setText("");
+        newaddress.setText("");
+       newphonenumber.setText("");
+       newmonth.setValue("Month");
+    newday1.setValue("Day");
+    newyear.setValue("Year");
+    newage.setValue("Select a gender");
     }
     
     // for sidepanel navbar function
@@ -1043,10 +1093,11 @@ String passwordnew =newpassword.getText();
     
     // to set the Username label
 public void setuserlabel(String user, String user_receiver){
-
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
     
     user_receiver = user;
+    user1 = user_receiver;
+    
    setLabelUser.setText("User:"+ user_receiver);
     setLabelUser1.setText("User:" + user_receiver);
     setLabelUser2.setText("User:" + user_receiver);
@@ -1203,6 +1254,23 @@ private void performLogout() throws IOException {
     // Close the database connection
     databaseHandler.closeConnection();
 }
+   }
+   
+    private void reportloaddb() {
+         ReportTable.getItems().clear();
+
+
+        // call the class to display the value from the database
+        DatabaseHandler databaseHandler = new DatabaseHandler(jdbcUrl, username1, password1);
+    try {
+    // Fetch data from the database
+    reportList = databaseHandler.fetchDataFromDatabase4();
+    // Set the items in the TableView
+   ReportTable.setItems(reportList);
+    } finally {
+    // Close the database connection
+    databaseHandler.closeConnection();
+}
    }    
    
     public void switchToGradingTab() {
@@ -1218,17 +1286,6 @@ private void performLogout() throws IOException {
     Enrollaction.setOnAction(null);
         gradesbuttonaction.setOnAction(null);
          reportbutton.setOnAction(null);
-
-        menuactions.setOnAction(null);
-        menuactions1.setOnAction(null);
-        menuactions2.setOnAction(null);
-        menuactions3.setOnAction(null);
-        menuactions4.setOnAction(null);
-        menuactions5.setOnAction(null);
-        menuactions6.setOnAction(null);
-        menuactions7.setOnAction(null);
-        menuactions8.setOnAction(null);
-        menuactions9.setOnAction(null);
 
         selecttable.setDisable(true);
         selecttable1.setDisable(true);
@@ -1252,6 +1309,9 @@ private void performLogout() throws IOException {
     private static boolean isValidPhoneNumber(String Phone){
          return Phone.matches("0\\d{11}");
     }
+       private static boolean isValidPhoneNumber1(String new_phone_number){
+         return new_phone_number.matches("0\\d{11}");
+    }
      
       // To initialize the function when the dashboard fxml is opened
               @FXML
@@ -1270,11 +1330,17 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
     ver.teachers(displayinfo);
     ver.student(displayinfo1);
     ver.grades(displayinfo2);
-    ver.reports();
+    ver.reports(displayinfo3);
   
     
        System.gc();
     // Set value for the combobox
+    newmonth.setValue("Month");
+    newday1.setValue("Day");
+    newyear.setValue("Year");
+    newage.setValue("Select a age");
+    newgender.setValue("Select a gender");
+    
       Selectedsection.setValue("Select a section");
       Selectedstarttime.setValue("Select a time");
       Selectedendtime.setValue("Select a time");
@@ -1289,6 +1355,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
        Role.setValue("Select an Role");
        Age.setValue("Select age");
        year.setValue("Select a year");
+        day.setValue("select a day");
        gender.setValue("Select a gender");
         month.setValue("Select a month"); 
         
@@ -1338,6 +1405,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
             items4.add(String.valueOf(i));
         }
                 Age.setItems(items4);
+                newage.setItems(items4);
                     
                 
                     ObservableList<String> items5 = FXCollections.observableArrayList(
@@ -1346,6 +1414,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
                 // Add more items as needed
         );
                         gender.setItems(items5);
+                        newgender.setItems(items5);
                       
                    ObservableList<String> items6 = FXCollections.observableArrayList(
                 "Select a month",
@@ -1354,6 +1423,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
         );
              
                    month.setItems(items6);
+                   newmonth.setItems(items6);
                    
                         ObservableList<String> items7 = FXCollections.observableArrayList(
                 "Select a day"
@@ -1362,11 +1432,15 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
              
                     for (int i = 1; i <= 31; i++) {
             items7.add(String.valueOf(i));
+
         }
                     day.setItems(items7);
+                    newday1.setItems(items7);
+         
+               
                     
                      ObservableList<String> items8 = FXCollections.observableArrayList(
-                "Select a day"
+                "Select a year"
               
         );
                int startYear = 1990;
@@ -1374,7 +1448,9 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
                     for (int year = startYear; year <= endYear; year++) {
             items8.add(String.valueOf(year));
         }
+                    // To set the month
                      year.setItems(items8);
+                   newyear.setItems(items8);
                    
                 ObservableList<String> items3 = FXCollections.observableArrayList(
                 "Select an Role",
@@ -1407,7 +1483,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
 
                       
 
-      
+      // For AdminTable
         AdminTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<User, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -1440,7 +1516,7 @@ usernameColumn.setOnEditCommit(event -> {
             if (selectedUser != null) {
                 // Delete the user from the database
                 DeleteInformationDB db = new DeleteInformationDB();
-                db.deleteuser(selectedUser);
+                db.deleteuser(selectedUser,user1 );
 
                 // Remove the selected user from the TableView
                 AdminTable.getItems().remove(selectedUser);
@@ -1462,10 +1538,10 @@ roleColumn.setOnEditCommit(event -> {
 });
 
         TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
-        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList, TabPanesel , changeCredentials));
+        deleteColumn.setCellFactory(param -> new ButtonCell("Delete", userList, TabPanesel , changeCredentials,user1 ));
 
         TableColumn<User, Void> editColumn = new TableColumn<>("Edit");
-        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList, TabPanesel, changeCredentials));
+        editColumn.setCellFactory(param -> new ButtonCell("Edit", userList, TabPanesel, changeCredentials,user1 ));
       editColumn.setOnEditCommit(event -> {
     TabPanesel.getSelectionModel().select(changeCredentials);
 });
@@ -1488,7 +1564,7 @@ roleColumn.setOnEditCommit(event -> {
         loadDataFromDatabase();
         
         
-       
+       // For EnrollTable
     EnrollTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);          
     TableColumn<Student, Integer> idColumn1 = new TableColumn<>("ID");
         idColumn1.setCellValueFactory(new PropertyValueFactory<>("StudentID"));
@@ -1549,7 +1625,7 @@ Birthcolumn .setOnEditCommit(event -> {
 
 
         TableColumn<Student, Void> deleteColumn1 = new TableColumn<>("Delete");
-        deleteColumn1.setCellFactory(param -> new ButtonCell1("Delete", studentList, TabPanesel, changestudentinformation ));
+        deleteColumn1.setCellFactory(param -> new ButtonCell1("Delete", studentList, TabPanesel, changestudentinformation,user1 ));
         deleteColumn1.setOnEditCommit(event -> {
     Student selectedStudent = event.getRowValue();
     String studentName = selectedStudent.getStudentName();
@@ -1559,7 +1635,7 @@ Birthcolumn .setOnEditCommit(event -> {
 });
 
         TableColumn<Student, Void> editColumn1 = new TableColumn<>("Edit");
-        editColumn1.setCellFactory(param -> new ButtonCell1("Edit", studentList ,TabPanesel, changestudentinformation));
+        editColumn1.setCellFactory(param -> new ButtonCell1("Edit", studentList ,TabPanesel, changestudentinformation,user1));
         editColumn1.setOnEditCommit(event -> {
     Student selectedStudent = event.getRowValue();
     String studentName = selectedStudent.getStudentName();
@@ -1592,6 +1668,8 @@ EnrollTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     });
 });
         enroll_loadDataFromDatabase();
+        
+        // For SubjectTable
     SubjectTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
    TableColumn<Subject, Integer> subjectid = new TableColumn<>("SubjectID");
 subjectid.setCellValueFactory(new PropertyValueFactory<>("SubjectID"));
@@ -1635,7 +1713,7 @@ timestart.setOnEditCommit(event -> {
 
 
         TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
-        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName));
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName,user1));
         deleteColumn2.setOnEditCommit(event -> {
     Subject selectedSubject= event.getRowValue();
     String subjectName = selectedSubject.getSubjectName();
@@ -1646,7 +1724,7 @@ timestart.setOnEditCommit(event -> {
 
    TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
    
-editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName));
+editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName,user1));
 editColumn2.setOnEditCommit((TableColumn.CellEditEvent<Subject, Void> event) -> {
     Subject selectedSubject = event.getRowValue();
     subjectName = selectedSubject.getSubjectName();
@@ -1746,11 +1824,11 @@ forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactor
 
 
         TableColumn<Grading, Void> deleteColumn3 = new TableColumn<>("Delete");
-        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList, TabPanesel,  Changestudentinfo));
+        deleteColumn3.setCellFactory(param -> new ButtonCell3("Delete", gradingList, TabPanesel,  Changestudentinfo,user1));
      
 
         TableColumn<Grading, Void> editColumn3 = new TableColumn<>("Edit");
-        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList ,TabPanesel ,Changestudentinfo));
+        editColumn3.setCellFactory(param -> new ButtonCell3("Edit", gradingList ,TabPanesel ,Changestudentinfo,user1));
         
 
         // Add columns to the table
@@ -1776,8 +1854,67 @@ forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactor
         });
 
 
-});           
-  
+});         
+
+// For the report table  
+  ReportTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);               
+   TableColumn<Reports, Integer> reportid1 = new TableColumn<>("ReportID");
+reportid1.setCellValueFactory(new PropertyValueFactory<>("ReportID"));
+reportid1.setCellFactory(column -> CustomTableCellFactory5.cellFactoryForInteger(column));
+
+      
+TableColumn<Reports, String>username = new TableColumn<>("username");
+       username.setCellValueFactory(new PropertyValueFactory<>("username"));
+        username.setCellFactory(column -> CustomTableCellFactory5.createCenteredStringCell(column));
+         username.setCellFactory(TextFieldTableCell.forTableColumn());
+         username.setOnEditCommit(event -> {
+ 
+});
+               
+TableColumn<Reports, String> date= new TableColumn<>("Date");
+       date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        date.setCellFactory(column -> CustomTableCellFactory5.createCenteredStringCell(column));
+        date.setCellFactory(TextFieldTableCell.forTableColumn());
+        date.setOnEditCommit(event -> {
+ 
+});
+        TableColumn<Reports, String> activity = new TableColumn<>("Activity");
+         activity.setCellValueFactory(new PropertyValueFactory<>("activity"));
+         activity.setCellFactory(column -> CustomTableCellFactory5.createCenteredStringCell(column));
+         activity.setCellFactory(TextFieldTableCell.forTableColumn());
+        activity.setOnEditCommit(event -> {
+ 
+});
+        
+    
+        TableColumn<Reports, Void> deleteColumn4 = new TableColumn<>("Delete");
+        deleteColumn4.setCellFactory(param -> new ButtonCell4("Delete", reportList, ReportTable,user1));
+     
+
+
+        // Add columns to the table
+     ReportTable.getColumns().addAll( reportid1 ,username,date, activity,deleteColumn4 );
+
+        
+// Set column resize policy
+   ReportTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+
+// Autoresize columns
+  ReportTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(   ReportTable.getWidth() /    ReportTable.getColumns().size());
+            }
+        });
+   ReportTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+        ReportTable.getColumns().forEach(column -> {
+            if (column.isResizable()) {
+                column.setPrefWidth(newValue.doubleValue() /  ReportTable.getColumns().size());
+            }
+        });
+reportloaddb();
+
+});   
   
            
 }

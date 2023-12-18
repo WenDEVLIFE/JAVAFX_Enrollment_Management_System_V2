@@ -8,9 +8,9 @@ package userinteraction;
  *
  * @author Administrator
  */
-import functions.Subject;
-import functions.DeleteInformationDB;
-import functions.Grading;
+import com.javafx.functions.Subject;
+import com.javafx.functions.DeleteInformationDB;
+import com.javafx.functions.Grading;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
@@ -33,14 +33,15 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
     private TabPane TabPanesel;
     private Tab Grading1;
     private Label SubjectName;
-
-    public ButtonCell2(String buttonText, ObservableList<Subject> subjectList, TableView<Grading> GradingTable, TabPane TabPanesel, Tab Grading1, Label SubjectName) {
+      private String user1;
+    public ButtonCell2(String buttonText, ObservableList<Subject> subjectList, TableView<Grading> GradingTable, TabPane TabPanesel, Tab Grading1, Label SubjectName,  String user1) {
         this.button = new Button(buttonText);
         this.subjectList = subjectList;
         this.GradingTable = GradingTable;
         this.TabPanesel = TabPanesel;
         this.Grading1 = Grading1 ;
         this.SubjectName = SubjectName;
+        this.user1 = user1;
 
         this.button.setOnAction(event -> {
             Subject selectedSubject = getTableRow().getItem();
@@ -74,7 +75,7 @@ public class ButtonCell2 extends TableCell<Subject, Void> {
         alert.showAndWait().ifPresent(response -> {
             if (response == buttonTypeYes) {
                 DeleteInformationDB db = new DeleteInformationDB();
-                db.deletesubject(selectedSubject);
+                db.deletesubject(selectedSubject,user1);
 
                 // Remove the subject from the table and database
                 subjectList.remove(selectedSubject);

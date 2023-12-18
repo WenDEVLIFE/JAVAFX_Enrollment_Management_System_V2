@@ -4,7 +4,7 @@
  */
 package javafxapplication;
 
-import functions.loginuser;
+import com.javafx.functions.loginuser;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;

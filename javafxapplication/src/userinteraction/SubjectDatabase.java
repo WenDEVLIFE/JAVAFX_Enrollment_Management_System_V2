@@ -8,7 +8,7 @@ package userinteraction;
  *
  * @author Administrator
  */
-import functions.Grading;
+import com.javafx.functions.Grading;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
