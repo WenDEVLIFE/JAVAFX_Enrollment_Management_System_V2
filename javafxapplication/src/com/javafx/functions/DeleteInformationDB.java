@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 public class DeleteInformationDB {
     String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     String username1 = "root";
@@ -32,6 +34,14 @@ public class DeleteInformationDB {
                 if (rowsDeleted > 0) {
                     System.out.println("User deleted successfully");
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("User deletion successfully");
@@ -83,6 +93,14 @@ public class DeleteInformationDB {
                 if (rowsDeleted > 0) {
                     System.out.println("Student deleted successfully");
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Student deletion successfully");
@@ -137,6 +155,14 @@ public class DeleteInformationDB {
                 System.out.println("Subject deleted successfully");
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Subject deletion successfully");
@@ -215,6 +241,14 @@ public class DeleteInformationDB {
             if (rowsDeleted > 0) {
                 System.out.println("Grading deleted successfully");
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Grading deletion successfully");
@@ -264,7 +298,16 @@ public class DeleteInformationDB {
             }
             if (rowsDeleted > 0) {
                 System.out.println("Grading deleted successfully");
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                   String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Report deletion successfully");

@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
@@ -36,7 +38,15 @@ private String user1;
             if (selectedreports != null) {
                 if (buttonText.equals("Delete")) {
                     // Code for deleting grading
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                   Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    String iconPath = "pictures/deleteicon.png";
+                    // Load the PNG image
+                    Image iconImage = new Image(iconPath);
+
+                    ImageView imageView = new ImageView(iconImage);
+                    imageView.setFitWidth(128);
+                    imageView.setFitHeight(128);
+                    alert.getDialogPane().setGraphic(imageView);
                     alert.setTitle("Delete Confirmation");
                     alert.setHeaderText(null);
                     alert.setContentText("Are you sure you want to delete this grading?");

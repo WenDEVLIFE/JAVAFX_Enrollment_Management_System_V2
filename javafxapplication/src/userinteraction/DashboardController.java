@@ -12,6 +12,9 @@ import com.javafx.functions.CreateStudent;
 import com.javafx.functions.CreateSubject;
 import com.javafx.functions.DeleteInformationDB;
 import com.javafx.functions.Grading;
+import com.javafx.functions.Print_Grades;
+import com.javafx.functions.Print_Student;
+import com.javafx.functions.Printreports;
 import com.javafx.functions.Reports;
 import com.javafx.functions.Student;
 import com.javafx.functions.Subject;
@@ -39,7 +42,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -55,10 +57,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.scene.image.Image;
 
 public class DashboardController {
 
-    private static  String subjectName;
+
     private static ObservableList<User> userList;
     private  static ObservableList<Grading> gradingList;
         private  static ObservableList<Reports> reportList;
@@ -68,9 +71,12 @@ public class DashboardController {
      public String jdbcUrl = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
        public   String username1 = "root";
         public   String password1 = "";
-       
+      
         private static String user_receiver;
         private static String user1;
+        private  String subjectName;
+           private String subject_Receiver;
+         private String subjectname;
         
     private WeakReference<Button> buttonRef;
     
@@ -205,6 +211,7 @@ private Tooltip toolTip3 = new Tooltip();
        
                       @FXML
     private Tab  changestudentinformation;
+                      
         // my tabpane
         @FXML
     private TabPane TabPanesel;
@@ -377,7 +384,8 @@ private Tooltip toolTip3 = new Tooltip();
                 
               @FXML
     private TextField subjectfield;
-              
+           @FXML
+    private TextField   getsubjectname;
               
     @FXML
     private TextField currentusernamefield;
@@ -1094,7 +1102,7 @@ String passwordnew =newpassword.getText();
     // to set the Username label
 public void setuserlabel(String user, String user_receiver){
 if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null ||  setLabelUser2 !=null ){
-    
+   
     user_receiver = user;
     user1 = user_receiver;
     
@@ -1115,6 +1123,27 @@ if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null || 
        System.out.println( user_receiver);
       verification_info roles = new verification_info();
       roles.checkroles(user_receiver, adminbutton, reportbutton, dashboardbs, adminicon, reporticon, dashicon);
+      
+      
+
+
+Alert alert = new Alert(Alert.AlertType.INFORMATION);
+alert.setTitle("Login Message");
+alert.setHeaderText(null); // You can add header text if desired
+String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
+
+// Set content text with user variable
+String contentText = String.format("You successfully login, Good day and Welcome %s", user);
+alert.setContentText(contentText);
+
+alert.showAndWait();
   }
 else {
     System.out.println("username is null");
@@ -1146,6 +1175,16 @@ TabPanesel.getSelectionModel().select(Changeusername);
     private void showLogoutConfirmation() {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Logout Confirmation");
+    String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(128);
+imageView.setFitHeight(128);
+alert.getDialogPane().setGraphic(imageView);
+
     alert.setHeaderText(null);
     alert.setContentText("Are you sure you want to logout?");
 
@@ -1312,7 +1351,8 @@ private void performLogout() throws IOException {
        private static boolean isValidPhoneNumber1(String new_phone_number){
          return new_phone_number.matches("0\\d{11}");
     }
-     
+    
+ 
       // To initialize the function when the dashboard fxml is opened
               @FXML
     public void initialize() throws ClassNotFoundException, SQLException {
@@ -1713,7 +1753,7 @@ timestart.setOnEditCommit(event -> {
 
 
         TableColumn<Subject, Void> deleteColumn2 = new TableColumn<>("Delete");
-        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName,user1));
+        deleteColumn2.setCellFactory(param -> new ButtonCell2("Delete", subjectList, GradingTable, TabPanesel, Grading1, SubjectName,user1,subjectname, getsubjectname));
         deleteColumn2.setOnEditCommit(event -> {
     Subject selectedSubject= event.getRowValue();
     String subjectName = selectedSubject.getSubjectName();
@@ -1724,23 +1764,30 @@ timestart.setOnEditCommit(event -> {
 
    TableColumn<Subject, Void> editColumn2 = new TableColumn<>("Open");
    
-editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName,user1));
+editColumn2.setCellFactory(param -> new ButtonCell2("Open", subjectList, GradingTable,TabPanesel,Grading1 ,SubjectName,user1, subjectname,getsubjectname));
 editColumn2.setOnEditCommit((TableColumn.CellEditEvent<Subject, Void> event) -> {
     Subject selectedSubject = event.getRowValue();
     subjectName = selectedSubject.getSubjectName();
     System.out.println("Clicked Edit for subject: " + subjectName);
-    SubjectName.setText(subjectName);
     SubjectDatabase subjectDatabase = new SubjectDatabase();
     List<Grading> gradingList1 = subjectDatabase.getGradingBySubjectName(subjectName);
+     
          // Assuming Grading is the Tab instance for the Grading tab
+
          if (Grading1 != null) {
+        
              TabPanesel.getSelectionModel().select(Grading1);
+              
              if (!gradingList1.isEmpty()) {
                  // Subject exists, update the TableView and set the subject ID to a label
                  GradingTable.getItems().clear();
+                 
                  GradingTable.getItems().addAll(gradingList1);
                  // Assuming you have a label called subjectIDLabel
                  SubjectName.setText(Integer.toString(gradingList1.get(0).getSubjectID()));
+                 
+       
+
              } else {
                  System.out.println("Subject not found in the database.");
              }
@@ -1836,22 +1883,40 @@ forthGradingColumn11.setCellFactory(column -> CustomTableCellFactory4.cellFactor
         firstGradingColumn, secondGradingColumn, thirdGradingColumn, forthGradingColumn, totalColumn, deleteColumn3, editColumn3, forthGradingColumn11);
 
         
-// Set column resize policy
-  GradingTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+ // Set column resize policy
+    GradingTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+    // Autoresize columns
+    GradingTable.getColumns().forEach(column -> {
+        if (column.getText().equals("Delete") || column.getText().equals("Edit")) {
+            // Skip resizing for "Delete" and "Edit" columns
+            return;
+        }
 
-// Autoresize columns
-  GradingTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(  GradingTable.getWidth() /   GradingTable.getColumns().size());
+        column.setResizable(true);
+        column.setPrefWidth(GradingTable.getWidth() / (GradingTable.getColumns().size() - 2)); // Exclude "Delete" and "Edit"
+    });
+
+    GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
+        double tableWidth = newValue.doubleValue();
+        double totalResizableWidth = 0;
+
+        // Calculate the total width of resizable columns
+        for (TableColumn<Grading, ?> column : GradingTable.getColumns()) {
+            if (column.isResizable() && !column.getText().equals("Delete") && !column.getText().equals("Edit")) {
+                totalResizableWidth += column.getWidth();
             }
-        });
-  GradingTable.widthProperty().addListener((observable, oldValue, newValue) -> {
-        GradingTable.getColumns().forEach(column -> {
-            if (column.isResizable()) {
-                column.setPrefWidth(newValue.doubleValue() / GradingTable.getColumns().size());
+        }
+
+        // Calculate the new width for each resizable column
+        for (TableColumn<Grading, ?> column : GradingTable.getColumns()) {
+            if (column.isResizable() && !column.getText().equals("Delete") && !column.getText().equals("Edit")) {
+                double newWidth = (column.getWidth() / totalResizableWidth) * tableWidth;
+                column.setPrefWidth(newWidth);
             }
-        });
+        }
+    
+        
 
 
 });         
@@ -1917,6 +1982,39 @@ reportloaddb();
 });   
   
            
+}   
+    @FXML
+    // This are the print function for enrollment
+   public void Print_Enrollment_Action(ActionEvent event) {
+    try {
+        Print_Student print = new Print_Student();
+        print.create_PDF_Student(EnrollTable);
+    } catch (IOException e) {
+        e.printStackTrace();
+        // Handle the exception as needed (e.g., show an error message)
+    }
 }
-   
+      @FXML
+   // This are the print function for grades
+   public void Print_Subject_Name(ActionEvent event) {
+       String getsubjectvalues = getsubjectname.getText();
+    try {
+ 
+        Print_Grades printGrades = new Print_Grades();
+        
+        
+        // Call the create_PDF_Grades method with your TableView instance
+        printGrades.create_PDF_Grades(GradingTable,     getsubjectvalues);
+    } catch (IOException ex) {
+        Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        
+       
+    }
+}      
+      @FXML
+   // This are the print function for reports
+ public void printreport_action (ActionEvent event) throws IOException {
+    Printreports reports = new Printreports();
+    reports.create_PDF_Grades(ReportTable);
+}
 }

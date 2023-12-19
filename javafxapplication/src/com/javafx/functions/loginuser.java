@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -69,31 +72,18 @@ private final String pass;
                     if (pass.isEmpty()) {
                         displayErrorMessage("Password is required");
                     } else if (validatePassword(pass, storedSalt, storedHashedPassword)) {
-                        displayWelcomeMessage(user,event);
-                           ResultSet resultSet1 =  preparedStatement.executeQuery("SELECT MAX(ReportID) FROM reports");
-
-            int highestId1 = 0;
-            if (resultSet1.next()) {
-                highestId1 = resultSet1.getInt(1);
-            }
-
-            int newId1 = highestId1 + 1;
-
-            String insertSQL1 = "INSERT INTO reports (ReportID, username, date, activity) VALUES (?, ?, ?, ?)";
-            PreparedStatement insertStatement1 = con.prepareStatement(insertSQL1, Statement.RETURN_GENERATED_KEYS);
-
-            LocalDate currentDate = LocalDate.now();
-            String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-            insertStatement1.setInt(1, newId1);
-            insertStatement1.setString(2,     user );
-            insertStatement1.setString(3, formattedDate);
-            insertStatement1.setString(4, "Login");
-
-            int reportRowsAffected = insertStatement1.executeUpdate();
-            if( reportRowsAffected ==1){
-                System.out.println("Done recording reports");
-            }
+                         Platform.runLater(() -> {
+                             try {
+                                 displayWelcomeMessage(user,event);
+                                 recordLoginReport(user);
+                             } catch (SQLException ex) {
+                                 Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
+                             } catch (ClassNotFoundException ex) {
+                                 Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
+                             } catch (IOException ex) {
+                                 Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
+                             }
+                    });
                     } else {
                         displayErrorMessage("Incorrect username or password");
                     }
@@ -131,12 +121,6 @@ private void displayErrorMessage(String message) {
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
  String user_receiver = user;
 
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Login Message");
-    alert.setHeaderText(null);
-    alert.setContentText("You successfully login, Good day and Welcome " + user);
-    alert.showAndWait();
-
     FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
     Parent root = loader1.load();
 
@@ -172,6 +156,35 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
     
       
 }
+private void recordLoginReport(String user) throws SQLException {
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "")) {
+            ResultSet resultSet1 = con.createStatement().executeQuery("SELECT MAX(ReportID) FROM reports");
+
+            int highestId1 = 0;
+            if (resultSet1.next()) {
+                highestId1 = resultSet1.getInt(1);
+            }
+
+            int newId1 = highestId1 + 1;
+
+            String insertSQL1 = "INSERT INTO reports (ReportID, username, date, activity) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement insertStatement1 = con.prepareStatement(insertSQL1, Statement.RETURN_GENERATED_KEYS)) {
+                LocalDate currentDate = LocalDate.now();
+                String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                insertStatement1.setInt(1, newId1);
+                insertStatement1.setString(2, user);
+                insertStatement1.setString(3, formattedDate);
+                insertStatement1.setString(4, "Login");
+
+                int reportRowsAffected = insertStatement1.executeUpdate();
+                if (reportRowsAffected == 1) {
+                    System.out.println("Done recording reports");
+                }
+            }
+        }
+    }
+
 
 public boolean validatePassword(String enteredPassword, byte[] storedSalt, String storedHashedPassword) {
     try {

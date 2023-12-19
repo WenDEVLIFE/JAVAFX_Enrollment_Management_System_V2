@@ -17,6 +17,8 @@ import javafx.scene.control.ButtonType;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class ButtonCell1 extends TableCell<Student, Void> {
     private final Button button;
@@ -34,6 +36,14 @@ public class ButtonCell1 extends TableCell<Student, Void> {
                     // Code for deleting user
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Delete Confirmation");
+                      String iconPath = "pictures/deleteicon.png";
+                    // Load the PNG image
+                    Image iconImage = new Image(iconPath);
+
+                    ImageView imageView = new ImageView(iconImage);
+                    imageView.setFitWidth(128);
+                    imageView.setFitHeight(128);
+                    alert.getDialogPane().setGraphic(imageView);
                     alert.setHeaderText(null);
                     alert.setContentText("Are you sure you want to delete this user?");
 

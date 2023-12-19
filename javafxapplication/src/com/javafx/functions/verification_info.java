@@ -28,6 +28,7 @@ public class verification_info {
 		//database password
 		private String myDB_PASSWORD = "";
                 
+                // To display the trachers
     public int teachers(Label displayinfo) throws ClassNotFoundException, SQLException{
         int numberOfteachers = 0;
 
@@ -73,6 +74,7 @@ public class verification_info {
 		
         
     }
+    // To display the total student
     public int student(Label displayinfo1) throws ClassNotFoundException, SQLException{
          int numberOfteachers = 0;
 
@@ -94,8 +96,28 @@ public class verification_info {
 
         return numberOfteachers;
     }
-    public void reports(Label displayinfo3){
-        
+    
+    // To display the report
+    public int reports(Label displayinfo3) throws ClassNotFoundException, SQLException{
+         int numberOfteachers = 0;
+
+        // Load MySQL driver
+        Class.forName("com.mysql.jdbc.Driver");
+
+        // Connect to the database using try-with-resources
+        try (Connection con = DriverManager.getConnection(mydb_url, myDB_username, myDB_PASSWORD);
+             java.sql.Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) AS ReportID FROM reports")) {
+
+            // Check if the result set has data
+            if (rs.next()) {
+              numberOfteachers = rs.getInt("ReportID");
+               displayinfo3.setText(""+numberOfteachers);
+                System.gc();
+            }
+        } // Resources are closed automatically due to try-with-resources
+
+        return numberOfteachers;
     }
  public void checkroles(String user_receiver, Button adminbutton, Button reportbutton, Button dashboardbs, FontAwesomeIcon adminicon, FontAwesomeIcon reporticon, FontAwesomeIcon dashicon) {
      try (Connection connection = DriverManager.getConnection(mydb_url, myDB_username, myDB_PASSWORD)) {
