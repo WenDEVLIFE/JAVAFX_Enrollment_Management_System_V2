@@ -7,3 +7,4 @@ Guide on how to open the program
 - Admin: WenDEVLIFE
 - Password:@WenDEVLIFE
 
+- For a full guide go on thee issue section
