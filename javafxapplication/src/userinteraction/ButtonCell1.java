@@ -41,8 +41,8 @@ public class ButtonCell1 extends TableCell<Student, Void> {
                     Image iconImage = new Image(iconPath);
 
                     ImageView imageView = new ImageView(iconImage);
-                    imageView.setFitWidth(128);
-                    imageView.setFitHeight(128);
+                    imageView.setFitWidth(64);
+                    imageView.setFitHeight(64);
                     alert.getDialogPane().setGraphic(imageView);
                     alert.setHeaderText(null);
                     alert.setContentText("Are you sure you want to delete this user?");

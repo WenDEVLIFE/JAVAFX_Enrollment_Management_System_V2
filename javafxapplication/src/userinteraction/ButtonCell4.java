@@ -44,8 +44,8 @@ private String user1;
                     Image iconImage = new Image(iconPath);
 
                     ImageView imageView = new ImageView(iconImage);
-                    imageView.setFitWidth(128);
-                    imageView.setFitHeight(128);
+                    imageView.setFitWidth(64);
+                    imageView.setFitHeight(64);
                     alert.getDialogPane().setGraphic(imageView);
                     alert.setTitle("Delete Confirmation");
                     alert.setHeaderText(null);

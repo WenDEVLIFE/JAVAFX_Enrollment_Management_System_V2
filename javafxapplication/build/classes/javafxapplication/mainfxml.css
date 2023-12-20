@@ -70,9 +70,19 @@
 
 #customebutton1 {
     -fx-background-color: #1899D6, rgba(0, 0, 255, 0.7);
-     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0 ,0.5), 10, 0, 0, 0);
+        -fx-text-fill: #FFFFFF;
 }
+#customebutton1:hover{
+    -fx-background-color:
+            linear-gradient(#a9ff00,#f0ff35),
+            radial-gradient(center 50% -40%, radius 200%, #80c800 45%, #b8ee36 50%);
+    -fx-background-radius: 6,5;
+    -fx-background-insets: 0,1;
 
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0.0, 0, 1);
+   -fx-text-fill: #FFFFFF;
+}
 .roots {
     /* this the css for rectagular shape */
     

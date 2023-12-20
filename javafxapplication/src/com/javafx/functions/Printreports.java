@@ -100,6 +100,23 @@ public class Printreports {
             // Check the user's choice
             if (result.isPresent() && result.get() == yesButton) {
                 // Save the PDF file to the selected location
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("System Message");
+                        alert.setHeaderText(null); // You can add header text if desired
+                        String iconPath11 = "pictures/pdf.png";
+                        // Load the PNG image
+                        Image iconImage11 = new Image(iconPath11);
+
+                        ImageView imageView1 = new ImageView(iconImage11);
+                        imageView1.setFitWidth(64);
+                        imageView1.setFitHeight(64);
+                        alert.getDialogPane().setGraphic(imageView1);
+
+                        // Set content text with user variable
+                        String contentText = String.format("The PDF has successfully saved");
+                        alert.setContentText(contentText);
+
+                        alert.showAndWait();
                 document.save(selectedFile.getAbsolutePath() + ".pdf");
                 System.out.println("PDF created successfully at: " + selectedFile.getAbsolutePath() + ".pdf");
             } else {
@@ -140,7 +157,7 @@ private void drawTableOnPage(PDPageContentStream contentStream, TableView<Report
 String logoPath = "src/pictures/mabini.png";
 
 // Adjust the Y-coordinate for the school name
-float schoolNameY = 620; // Adjust this value based on your desired position
+float schoolNameY = 440; // Adjust this value based on your desired position
 float schoolNameX = 140; // Adjust this value based on your desired position
 
 contentStream.beginText();
@@ -151,25 +168,25 @@ contentStream.endText();
 
 // Add logo
 PDImageXObject logo = PDImageXObject.createFromFile(logoPath, document);
-contentStream.drawImage(logo, 230, 650, logo.getWidth() / 4, logo.getHeight() / 4);
+contentStream.drawImage(logo, 230, 480, logo.getWidth() / 4, logo.getHeight() / 4);
 
 // Address
 contentStream.beginText();
-contentStream.newLineAtOffset(120, 590);
+contentStream.newLineAtOffset(120, 380);
 contentStream.setFont(font, 16);
 contentStream.showText("Km. 6, Narra Street, Bangkal, Davao City, Philippines");
 contentStream.endText();
 
 // Event name
 contentStream.beginText();
-contentStream.newLineAtOffset(200, 560);
+contentStream.newLineAtOffset(200, 360);
 contentStream.setFont(font, 16);
 contentStream.showText("Enrollment Management System");
 contentStream.endText();
 
 // Report Table
 contentStream.beginText();
-contentStream.newLineAtOffset(260, 540);
+contentStream.newLineAtOffset(260, 330);
 contentStream.setFont(font, 16);
 contentStream.showText("Report Table");
 contentStream.endText();

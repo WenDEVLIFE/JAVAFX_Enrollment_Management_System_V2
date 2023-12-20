@@ -27,6 +27,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import userinteraction.DashboardController;
 
@@ -44,6 +46,7 @@ public class loginuser {
      // store the data from the main
 public final String user;
 private final String pass;
+
 
  public static String mydb_url = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     public static String myDB_username = "root";  // Database username
@@ -75,7 +78,6 @@ private final String pass;
                          Platform.runLater(() -> {
                              try {
                                  displayWelcomeMessage(user,event);
-                                 recordLoginReport(user);
                              } catch (SQLException ex) {
                                  Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
                              } catch (ClassNotFoundException ex) {
@@ -102,7 +104,7 @@ private void handleDatabaseConnectionError(SQLException e) {
 }
 
       public  void checkMySQLServerStatus() throws SQLException {
-        try (Connection connection = DriverManager.getConnection(mydb_url, myDB_username, myDB_PASSWORD)) {
+        try (Connection con = DriverManager.getConnection(mydb_url, myDB_username, myDB_PASSWORD)) {
             // Connection successful, MySQL is online.
         } catch (SQLException e) {
             // Connection failed, MySQL is offline. You can log the error or handle it as needed.
@@ -121,6 +123,25 @@ private void displayErrorMessage(String message) {
 private void displayWelcomeMessage(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
  String user_receiver = user;
 
+  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+alert.setTitle("Login Message");
+alert.setHeaderText(null); // You can add header text if desired
+String iconPath = "pictures/enrollment_managemet_system.png";
+// Load the PNG image
+Image iconImage = new Image(iconPath);
+
+ImageView imageView = new ImageView(iconImage);
+imageView.setFitWidth(64);
+imageView.setFitHeight(64);
+alert.getDialogPane().setGraphic(imageView);
+
+// Set content text with user variable
+String contentText = String.format("You successfully login, Good day and Welcome %s", user);
+alert.setContentText(contentText);
+
+alert.showAndWait();
+
+
     FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/userinteraction/dashboard.fxml"));
     Parent root = loader1.load();
 
@@ -135,6 +156,7 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
     // to close the current scene
     if (stage1 == null) {
         stage1 = new Stage();
+         recordLoginReport(user);
          System.runFinalization();
     }
 
@@ -157,6 +179,7 @@ private void displayWelcomeMessage(String user, ActionEvent event) throws SQLExc
       
 }
 private void recordLoginReport(String user) throws SQLException {
+    String login="Login";
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "")) {
             ResultSet resultSet1 = con.createStatement().executeQuery("SELECT MAX(ReportID) FROM reports");
 
@@ -175,11 +198,13 @@ private void recordLoginReport(String user) throws SQLException {
                 insertStatement1.setInt(1, newId1);
                 insertStatement1.setString(2, user);
                 insertStatement1.setString(3, formattedDate);
-                insertStatement1.setString(4, "Login");
+                insertStatement1.setString(4, login);
 
                 int reportRowsAffected = insertStatement1.executeUpdate();
                 if (reportRowsAffected == 1) {
                     System.out.println("Done recording reports");
+                
+                     System.runFinalization();
                 }
             }
         }

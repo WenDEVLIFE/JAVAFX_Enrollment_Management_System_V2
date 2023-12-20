@@ -56,15 +56,27 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.image.Image;
+import javafx.scene.control.TableView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 public class DashboardController {
 
 
     private static ObservableList<User> userList;
     private  static ObservableList<Grading> gradingList;
         private  static ObservableList<Reports> reportList;
+        
    ObservableList<Student> studentList = FXCollections.observableArrayList();
     ObservableList<Subject> subjectList = FXCollections.observableArrayList();
    
@@ -134,6 +146,16 @@ public class DashboardController {
     private Label displayinfo2;
     @FXML
     private Label displayinfo3;;
+    
+     @FXML
+    private Label dashboardlabel;
+     
+      @FXML
+    private Label schoolname;
+      
+      @FXML
+    private Label enrollabel;
+     
    @FXML
 
           
@@ -152,6 +174,9 @@ private Tooltip toolTip3 = new Tooltip();
 
     @FXML
     private ImageView LogoView;
+    
+     @FXML
+    private ImageView useriview;
 
   public DashboardController() {
         // Initialize the tooltip
@@ -339,6 +364,9 @@ private Tooltip toolTip3 = new Tooltip();
     @FXML
     private ComboBox<String> newyear;
     
+    @FXML
+    private ComboBox<String> reportselection;
+    
         @FXML
     private TextField usernamefield;
           @FXML
@@ -466,6 +494,21 @@ private Tooltip toolTip3 = new Tooltip();
             @FXML
     private FontAwesomeIcon reporticon;
             
+            
+                @FXML
+    private Pane teacherboard;
+
+                
+    @FXML
+    private Pane studentboard;
+    
+              @FXML
+    private Pane gradeboard;
+              
+              
+              @FXML
+    private Pane reportboard;
+                
     // this are the action events
       @FXML
      void AdduserAction(ActionEvent event) {
@@ -650,7 +693,7 @@ private void hidePassword() {
    @FXML
     void comboaction(ActionEvent event) {
         String selectedItem = selecttable.getSelectionModel().getSelectedItem();
-
+if (selectedItem != null) {
         // Check the selected item and switch to the corresponding tab
         if (selectedItem.equals("Enrollment Form")) {
    TabPanesel.getSelectionModel().select(Enroll);
@@ -658,15 +701,17 @@ private void hidePassword() {
   TabPanesel.getSelectionModel().select(EnrollTableForm);
         }
         // Add more conditions as needed for other strings or tabs
+    }else {
+        System.out.println("Selected item is null");
     }
-     
+    }
     
     // this are ComboBox from enrollment tform to enroll 
        @FXML
     void comboshitacctionfucker(ActionEvent event) {
 
         String selectedItem1 = selecttable1.getSelectionModel().getSelectedItem();
-
+if (selectedItem1 != null) {
             // Check the selected item and switch to the corresponding tab
         if (selectedItem1.equals("Enrollment Form")) {
    TabPanesel.getSelectionModel().select(Enroll);
@@ -674,19 +719,25 @@ private void hidePassword() {
   TabPanesel.getSelectionModel().select(EnrollTableForm);
         }
         // Add more conditions as needed for other strings or tabs
+    }else {
+        System.out.println("Selected item is null");
+    }
     }
     
     @FXML
     void comboaction2(ActionEvent event) {
       String selectedItem2 = selecttable2.getSelectionModel().getSelectedItem();
-
+if (selectedItem2 != null) {
         // Check the selected item and switch to the corresponding tab
              if (selectedItem2.equals("User Table")) {
 TabPanesel.getSelectionModel().select(Admin);
         } else if (selectedItem2.equals("Add User Form")) {
   TabPanesel.getSelectionModel().select(User);
         }
-        // Add more conditions as needed for other strings or tabs
+}else {
+        System.out.println("Selected item is null");
+    }
+// Add more conditions as needed for other strings or tabs
     
     }
         @FXML
@@ -694,37 +745,35 @@ TabPanesel.getSelectionModel().select(Admin);
    String selectedItem2 = selecttable3.getSelectionModel().getSelectedItem();
 
         // Check the selected item and switch to the corresponding tab
+        if (selectedItem2 != null) {
         if (selectedItem2.equals("User Table")) {
 TabPanesel.getSelectionModel().select(Admin);
         } else if (selectedItem2.equals("Add User Form")) {
   TabPanesel.getSelectionModel().select(User);
         }
+        }
+        else {
+        System.out.println("Selected item is null");
+    }
     }
 
     @FXML
     void comboaction4(ActionEvent event) {
 
          String selectedItem3 = selecttable4.getSelectionModel().getSelectedItem();
-
+  if (selectedItem3 != null) {
         // Check the selected item and switch to the corresponding tab
         switch (selectedItem3) {
-            case "Subject Table":
-                TabPanesel.getSelectionModel().select(Subject);
-                break;
-            case "Create Grades form":
-                TabPanesel.getSelectionModel().select(CreateGrades);
-                break;
-            case "Grading table":
+            case "Subject Table" -> TabPanesel.getSelectionModel().select(Subject);
+            case "Create Grades form" -> TabPanesel.getSelectionModel().select(CreateGrades);
+            case "Grading table" -> {
                 TabPanesel.getSelectionModel().select(Grading1);
                 System.out.println("grading");
-                break;
-            case "Create Subject":
-                TabPanesel.getSelectionModel().select(CreateSubject);
-                break;
-            default:
-                break;
+            }
+            case "Create Subject" -> TabPanesel.getSelectionModel().select(CreateSubject);
+            default -> System.out.println(" is null");
         }
-    
+  }
     }
     
     
@@ -733,6 +782,7 @@ TabPanesel.getSelectionModel().select(Admin);
     String selectedItem3 = selecttable5.getSelectionModel().getSelectedItem();
 
         // Check the selected item and switch to the corresponding tab
+         if (selectedItem3 != null) {
         switch (selectedItem3) {
             case "Subject Table":
                 TabPanesel.getSelectionModel().select(Subject);
@@ -748,57 +798,60 @@ TabPanesel.getSelectionModel().select(Admin);
                 TabPanesel.getSelectionModel().select(CreateSubject);
                 break;
             default:
+                 System.out.println(" is null");
                 break;
         }
+         }else {
+        System.out.println(" is null");
+    }
     }
 
      @FXML
     void comboaction6(ActionEvent event) {
 
             String selectedItem3 = selecttable6.getSelectionModel().getSelectedItem();
-
+ if (selectedItem3 != null) {
         // Check the selected item and switch to the corresponding tab
         switch (selectedItem3) {
-            case "Subject Table":
-                TabPanesel.getSelectionModel().select(Subject);
-                break;
-            case "Create Grades form":
-                TabPanesel.getSelectionModel().select(CreateGrades);
-                break;
-            case "Grading table":
+            case "Subject Table" -> TabPanesel.getSelectionModel().select(Subject);
+            case "Create Grades form" -> TabPanesel.getSelectionModel().select(CreateGrades);
+            case "Grading table" -> {
                 TabPanesel.getSelectionModel().select(Grading1);
                 System.out.println("grading");
-                break;
-            case "Create Subject":
-                TabPanesel.getSelectionModel().select(CreateSubject);
-                break;
-            default:
-                break;
+            }
+            case "Create Subject" -> TabPanesel.getSelectionModel().select(CreateSubject);
+            default -> {
+                 System.out.println(" is null");
+            }
         }
+ }
+ else {
+ System.out.println(" is null");
+    }
     }
     @FXML
     void comboaction7(ActionEvent event) {
 
             String selectedItem3 = selecttable7.getSelectionModel().getSelectedItem();
-
+ if (selectedItem3 != null) {
         // Check the selected item and switch to the corresponding tab
         switch (selectedItem3) {
-            case "Subject Table":
-                TabPanesel.getSelectionModel().select(Subject);
-                break;
-            case "Create Grades form":
-                TabPanesel.getSelectionModel().select(CreateGrades);
-                break;
-            case "Grading table":
+            case "Subject Table" -> TabPanesel.getSelectionModel().select(Subject);
+            case "Create Grades form" -> TabPanesel.getSelectionModel().select(CreateGrades);
+            case "Grading table" -> {
                 TabPanesel.getSelectionModel().select(Grading1);
                 System.out.println("grading");
-                break;
-            case "Create Subject":
-                TabPanesel.getSelectionModel().select(CreateSubject);
-                break;
-            default:
-                break;
+            }
+            case "Create Subject" -> TabPanesel.getSelectionModel().select(CreateSubject);
+            default -> {
+                    System.out.println(" is null");
+            }
         }
+        
+ }else {
+      System.out.println(" is null");
+    }
+ 
     }
     
     // To enroll student function
@@ -1106,44 +1159,24 @@ if ( setLabelUser != null ||  setLabelUser1 !=null  ||  setLabelUser2 !=null || 
     user_receiver = user;
     user1 = user_receiver;
     
-   setLabelUser.setText("User:"+ user_receiver);
-    setLabelUser1.setText("User:" + user_receiver);
-    setLabelUser2.setText("User:" + user_receiver);
-    setLabelUser3.setText("User:" + user_receiver);
-    setLabelUser4.setText("User:" + user_receiver);
-    setLabelUser5.setText("User:" +user_receiver);
-    setLabelUser6.setText("User:" +user_receiver);
-     setUserLabel7.setText("User:" + user_receiver);
-     setUserLabel8.setText("User:" + user_receiver);
-       setLabelUser9.setText("User:" + user_receiver);
-       setUserLabel10.setText("User:" + user_receiver);
-       setUserLabel11.setText("User:" + user_receiver);
-       setUserLabel12.setText("User:" + user_receiver);
+   setLabelUser.setText(user_receiver);
+    setLabelUser1.setText( user_receiver);
+    setLabelUser2.setText(user_receiver);
+    setLabelUser3.setText(user_receiver);
+    setLabelUser4.setText(user_receiver);
+    setLabelUser5.setText(user_receiver);
+    setLabelUser6.setText(user_receiver);
+     setUserLabel7.setText( user_receiver);
+     setUserLabel8.setText(user_receiver);
+       setLabelUser9.setText( user_receiver);
+       setUserLabel10.setText(user_receiver);
+       setUserLabel11.setText( user_receiver);
+       setUserLabel12.setText(user_receiver);
 
        System.out.println( user_receiver);
       verification_info roles = new verification_info();
       roles.checkroles(user_receiver, adminbutton, reportbutton, dashboardbs, adminicon, reporticon, dashicon);
-      
-      
 
-
-Alert alert = new Alert(Alert.AlertType.INFORMATION);
-alert.setTitle("Login Message");
-alert.setHeaderText(null); // You can add header text if desired
-String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
-
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
-
-// Set content text with user variable
-String contentText = String.format("You successfully login, Good day and Welcome %s", user);
-alert.setContentText(contentText);
-
-alert.showAndWait();
   }
 else {
     System.out.println("username is null");
@@ -1181,8 +1214,8 @@ Image iconImage = new Image(iconPath);
 
 
 ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
+imageView.setFitWidth(64);
+imageView.setFitHeight(64);
 alert.getDialogPane().setGraphic(imageView);
 
     alert.setHeaderText(null);
@@ -1201,16 +1234,51 @@ alert.getDialogPane().setGraphic(imageView);
             performLogout();
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
         }
             } else if (response == buttonTypeNo) {
                 // User clicked "No," do nothing or handle accordingly
             }
         });
 }
+public void logout_reports() throws SQLException{
+      String userreceive= setLabelUser3.getText();
+        System.out.println("Label Text: " +  userreceive);
+     String loginout="Logout";
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "")) {
+            ResultSet resultSet1 = con.createStatement().executeQuery("SELECT MAX(ReportID) FROM reports");
 
+            int highestId1 = 0;
+            if (resultSet1.next()) {
+                highestId1 = resultSet1.getInt(1);
+            }
+
+            int newId1 = highestId1 + 1;
+
+            String insertSQL1 = "INSERT INTO reports (ReportID, username, date, activity) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement insertStatement1 = con.prepareStatement(insertSQL1, Statement.RETURN_GENERATED_KEYS)) {
+                LocalDate currentDate = LocalDate.now();
+                String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                insertStatement1.setInt(1, newId1);
+                insertStatement1.setString(2,  userreceive);
+                insertStatement1.setString(3, formattedDate);
+                insertStatement1.setString(4, loginout);
+
+                int reportRowsAffected = insertStatement1.executeUpdate();
+                if (reportRowsAffected == 1) {
+                    System.out.println("Done recording reports");
+                
+                     System.runFinalization();
+                }
+            }
+        }
+}
     
     // This will perform an logout
-private void performLogout() throws IOException {
+private void performLogout() throws IOException, SQLException {
+    logout_reports();
     System.out.println("Logging out...");
 
     // User clicked "Yes," perform logout action
@@ -1322,10 +1390,66 @@ private void performLogout() throws IOException {
    public void memoryleakclose(){
            System.gc();
      Tab selectedTab = TabPanesel.getSelectionModel().getSelectedItem();
+      // Set the text of all labels to null or an empty string
+        setLabelUser.setText(null);
+        setLabelUser1.setText(null);
+        setLabelUser2.setText(null);
+        setLabelUser3.setText(null);
+        setLabelUser4.setText(null);
+        setLabelUser5.setText(null);
+        setLabelUser6.setText(null);
+        setUserLabel7.setText(null);
+        setUserLabel8.setText(null);
+        setLabelUser9.setText(null);
+        setUserLabel10.setText(null);
+        setUserLabel11.setText(null);
+        setUserLabel12.setText(null);
+
+        SubjectName.setText(null);
+        displayinfo.setText(null);
+        displayinfo1.setText(null);
+        displayinfo2.setText(null);
+        displayinfo3.setText(null);
+
     Enrollaction.setOnAction(null);
         gradesbuttonaction.setOnAction(null);
          reportbutton.setOnAction(null);
 
+      // Set values to null
+        newmonth.setValue(null);
+        newday1.setValue(null);
+        newyear.setValue(null);
+        newage.setValue(null);
+        newgender.setValue(null);
+        reportselection.setValue(null);
+        Selectedsection.setValue(null);
+        Selectedstarttime.setValue(null);
+        Selectedendtime.setValue(null);
+        selecttable.setValue(null);
+        selecttable1.setValue(null);
+        selecttable2.setValue(null);
+        selecttable3.setValue(null);
+        selecttable4.setValue(null);
+        selecttable5.setValue(null);
+        selecttable6.setValue(null);
+        selecttable7.setValue(null);
+        Role.setValue(null);
+        Age.setValue(null);
+        year.setValue(null);
+        day.setValue(null);
+        gender.setValue(null);
+        month.setValue(null);
+
+        // Disable ComboBoxes
+        newmonth.setDisable(true);
+        newday1.setDisable(true);
+        newyear.setDisable(true);
+        newage.setDisable(true);
+        newgender.setDisable(true);
+        reportselection.setDisable(true);
+        Selectedsection.setDisable(true);
+        Selectedstarttime.setDisable(true);
+        Selectedendtime.setDisable(true);
         selecttable.setDisable(true);
         selecttable1.setDisable(true);
         selecttable2.setDisable(true);
@@ -1333,8 +1457,61 @@ private void performLogout() throws IOException {
         selecttable4.setDisable(true);
         selecttable5.setDisable(true);
         selecttable6.setDisable(true);
-
+        selecttable7.setDisable(true);
         Role.setDisable(true);
+        Age.setDisable(true);
+        year.setDisable(true);
+        day.setDisable(true);
+        gender.setDisable(true);
+        month.setDisable(true);
+        
+         // Disable Buttons
+        Enrollaction.setDisable(true);
+        gradesbuttonaction.setDisable(true);
+        reportbutton.setDisable(true);
+        clearbutton1.setDisable(true);
+        enrollstudent.setDisable(true);
+        clearbutton2.setDisable(true);
+        Adddsubject.setDisable(true);
+        adminbutton.setDisable(true);
+        clearbutton3.setDisable(true);
+        changepasswordbutton.setDisable(true);
+        dashboardbs.setDisable(true);
+        
+        
+           // Disable Tables
+        EnrollTable.setDisable(true);
+        AdminTable.setDisable(true);
+        SubjectTable.setDisable(true);
+        GradingTable.setDisable(true);
+        ReportTable.setDisable(true);
+        
+          // Disable Icons
+        adminicon.setDisable(true);
+        dashicon.setDisable(true);
+        reporticon.setDisable(true);
+
+        // Disable Panes
+        teacherboard.setDisable(true);
+        studentboard.setDisable(true);
+        gradeboard.setDisable(true);
+        reportboard.setDisable(true);
+
+
+
+        // Set value to null for CheckBoxes
+        checkpassword.setSelected(false);
+        checkpassword1.setSelected(false);
+        checkpassword11.setSelected(false);
+
+
+        // Disable CheckBoxes
+        checkpassword.setDisable(true);
+        checkpassword1.setDisable(true);
+        checkpassword11.setDisable(true);
+        
+        Role.setDisable(true);
+        useriview = LogoView;
         System.gc();
         System.runFinalization();
      LogoView = null;
@@ -1352,7 +1529,6 @@ private void performLogout() throws IOException {
          return new_phone_number.matches("0\\d{11}");
     }
     
- 
       // To initialize the function when the dashboard fxml is opened
               @FXML
     public void initialize() throws ClassNotFoundException, SQLException {
@@ -1380,7 +1556,7 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
     newyear.setValue("Year");
     newage.setValue("Select a age");
     newgender.setValue("Select a gender");
-    
+    reportselection.setValue("Select an Option");
       Selectedsection.setValue("Select a section");
       Selectedstarttime.setValue("Select a time");
       Selectedendtime.setValue("Select a time");
@@ -1520,6 +1696,16 @@ AdminTable.getStylesheets().add(getClass().getResource("/javafxapplication/mainf
                                              // Add more items as needed
         );
                  Selectedsection.setItems(sec);
+                 
+                            ObservableList<String> Reportinfo = FXCollections.observableArrayList(
+                "Select a option",
+                "Today", "See All","Yesterday", "2 days ago", "3 days ago", 
+                "4 days ago", "5 days ago"       ,"6 days ago", 
+                "7 days ago" , "Last Week", "2 weeks ago","3 weeks ago", 
+                "4 weeks ago", "month ago"
+                                             // Add more items as needed
+        );
+                             reportselection.setItems(Reportinfo);
 
                       
 
@@ -1647,7 +1833,7 @@ TableColumn<Student, String> AddressColumn1 = new TableColumn<>("Address");
  
 });
   
-          TableColumn<Student, String> Birthcolumn = new TableColumn<>("Born");
+          TableColumn<Student, String> Birthcolumn = new TableColumn<>("Phone Number");
        Birthcolumn.setCellValueFactory(new PropertyValueFactory<>("BirthYear"));
        Birthcolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
  Birthcolumn .setCellFactory(TextFieldTableCell.forTableColumn());
@@ -1655,7 +1841,7 @@ Birthcolumn .setOnEditCommit(event -> {
  
 });
  
-     TableColumn<Student, String> PhoneNumbercolumn = new TableColumn<>("Phone Number");
+     TableColumn<Student, String> PhoneNumbercolumn = new TableColumn<>("Born");
      PhoneNumbercolumn.setCellValueFactory(new PropertyValueFactory<>("PhoneNum"));
        PhoneNumbercolumn .setCellFactory(CustomTableCellFactory1::createCenteredStringCell);
  PhoneNumbercolumn .setCellFactory(TextFieldTableCell.forTableColumn());
@@ -1980,7 +2166,10 @@ TableColumn<Reports, String> date= new TableColumn<>("Date");
 reportloaddb();
 
 });   
-  
+  reportselection.getItems().addAll("Today", "See All","Yesterday", "2 days ago", "3 days ago", "4 days ago",
+                "5 days ago", "6 days ago", "7 days ago", "1 week ago", "2 weeks ago",
+                "3 weeks ago", "4 weeks ago", "1 month ago");
+        reportselection.setValue("Today");
            
 }   
     @FXML
@@ -2016,5 +2205,123 @@ reportloaddb();
  public void printreport_action (ActionEvent event) throws IOException {
     Printreports reports = new Printreports();
     reports.create_PDF_Grades(ReportTable);
+}
+ 
+    @FXML
+    void report_selection(ActionEvent event) {
+             String selected_report = reportselection.getSelectionModel().getSelectedItem();
+    
+    // Fetch reports from the database based on the selected time period
+    List<Reports> reports = fetchReports(selected_report);
+
+    // Update the report table with the fetched reports
+    ReportTable.getItems().setAll(reports);
+    updateColumnVisibility(selected_report);
+ }
+private void updateColumnVisibility(String selected_report) {
+   if ("See All".equals(selected_report)) {
+        // Show all columns
+        for (TableColumn<Reports, ?> column : ReportTable.getColumns()) {
+            column.setVisible(true);
+        }
+    } else {
+        // Show/hide columns based on the selected date
+        LocalDate currentDate = LocalDate.now();
+        for (TableColumn<Reports, ?> column : ReportTable.getColumns()) {
+            if (column.getId() != null && !column.getId().equals(selected_report)) {
+                column.setVisible(false);
+            } else {
+                column.setVisible(true);
+            }
+        }
+    }
+}
+    
+  private List<Reports> fetchReports(String selectedReport) {
+    List<Reports> reports = new ArrayList<>();
+
+    // TODO: Replace with your actual database connection details
+    String url = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
+    String username = "root";
+    String password = "";
+
+    try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        String sql;
+        if (calculateStartDate(selectedReport) == null) {
+            // No date filtering required
+            sql = "SELECT * FROM reports";
+        } else {
+            // Date filtering required
+            sql = "SELECT * FROM reports WHERE date >= ?";
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            // Set the start date based on the selected time period
+            if (calculateStartDate(selectedReport) != null) {
+                preparedStatement.setDate(1, calculateStartDate(selectedReport));
+            }
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Reports report = new Reports(
+                            resultSet.getInt("reportID"),
+                            resultSet.getString("username"),
+                            resultSet.getString("date"),
+                            resultSet.getString("activity")
+                    );
+                    reports.add(report);
+                }
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle the exception appropriately
+    }
+
+    return reports;
+}
+
+    private java.sql.Date calculateStartDate(String selectedReport) {
+    if ("See All".equals(selectedReport)) {
+        // Return null to indicate that no date filtering is required
+        return null;
+    }
+
+    LocalDate currentDate = LocalDate.now();
+  if (selectedReport != null) {
+    switch (selectedReport) {
+        case "Today":
+            return Date.valueOf(currentDate);
+        case "Yesterday":
+            return Date.valueOf(currentDate.minusDays(1));
+        case "2 days ago":
+            return Date.valueOf(currentDate.minusDays(2));
+        case "3 days ago":
+            return Date.valueOf(currentDate.minusDays(3));
+        case "4 days ago":
+            return Date.valueOf(currentDate.minusDays(4));
+        case "5 days ago":
+            return Date.valueOf(currentDate.minusDays(5));
+        case "6 days ago":
+            return Date.valueOf(currentDate.minusDays(6));
+        case "7 days ago":
+            return Date.valueOf(currentDate.minusDays(7));
+        case "Last week ago":
+            return Date.valueOf(currentDate.minusWeeks(1));
+        case "2 weeks ago":
+            return Date.valueOf(currentDate.minusWeeks(2));
+        case "3 weeks ago":
+            return Date.valueOf(currentDate.minusWeeks(3));
+        case "4 weeks ago":
+            return Date.valueOf(currentDate.minusWeeks(4));
+        case "month ago":
+            return Date.valueOf(currentDate.minusMonths(1));
+        default:
+            throw new IllegalArgumentException("Unknown time period: " + selectedReport);
+   }
+    } else {
+        System.out.println("Selected report is null");
+    }
+        return null;
 }
 }

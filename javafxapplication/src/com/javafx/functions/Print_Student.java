@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Optional;
 import javafx.scene.control.TableColumn;
 
-
 public class Print_Student {
     private FileChooser fileChooser;
     private PDDocument document;
@@ -38,142 +37,165 @@ public class Print_Student {
     }
 
     public void create_PDF_Student(TableView<Student> EnrollTable) throws IOException {
-        // Set up PDF document
         try {
             document = new PDDocument();
             PDPage page = new PDPage();
             document.addPage(page);
 
-            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-                PDType0Font font = PDType0Font.load(document, new File("src/font/arialbd.ttf"));
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            PDType0Font font = PDType0Font.load(document, new File("src/font/arialbd.ttf"));
 
-                // Your school name and logo
-                String schoolName = "Mabini National High School";
-                String logoPath = "src/pictures/mabini.png";
+            // Your school name and logo
+            String schoolName = "Mabini National High School";
+            String logoPath = "src/pictures/mabini.png";
 
-                // Adjust the Y-coordinate for the school name
-                float schoolNameY = 630; // Adjust this value based on your desired position
-                float schoolNameX = 210; // Adjust this value based on your desired position
+            float schoolNameY = 630;
+            float schoolNameX = 210;
+            contentStream.beginText();
+            contentStream.newLineAtOffset(schoolNameX, schoolNameY);
+            contentStream.setFont(font, 18);
+            contentStream.showText(schoolName);
+            contentStream.endText();
+
+            PDImageXObject logo = PDImageXObject.createFromFile(logoPath, document);
+            contentStream.drawImage(logo, 250, 650, logo.getWidth() / 4, logo.getHeight() / 4);
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(220, 610);
+            contentStream.setFont(font, 8);
+            contentStream.showText("Km. 6, Narra Street, Bangkal, Davao City, Philippines");
+            contentStream.endText();
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(220, 580);
+            contentStream.setFont(font, 12);
+            contentStream.showText("Enrollment Management System");
+            contentStream.endText();
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(260, 560);
+            contentStream.setFont(font, 12);
+            contentStream.showText("Student Table");
+            contentStream.endText();
+
+            float xStart = 30;
+            float yStart = 500;
+            float tableHeight = 30;
+            float rowHeight = 30;
+
+            float[] columnWidths = calculateColumnWidths(EnrollTable);
+            for (TableColumn<Student, ?> column : EnrollTable.getColumns()) {
+                if (column.getText().equals("Delete") || column.getText().equals("Edit")) {
+                    continue;
+                }
+
+                float headerCellWidth = columnWidths[EnrollTable.getColumns().indexOf(column)];
+
+                contentStream.setLineWidth(0.5f);
+                contentStream.addRect(xStart, yStart, headerCellWidth, tableHeight);
+                contentStream.stroke();
                 contentStream.beginText();
-                contentStream.newLineAtOffset(schoolNameX, schoolNameY);
-                contentStream.setFont(font, 18);
-                contentStream.showText(schoolName);
-                contentStream.endText();
-
-                // Add logo
-                PDImageXObject logo = PDImageXObject.createFromFile(logoPath, document);
-                contentStream.drawImage(logo, 250, 650, logo.getWidth() / 4, logo.getHeight() / 4);
-
-                contentStream.beginText();
-                contentStream.newLineAtOffset(220, 610);
                 contentStream.setFont(font, 8);
-                contentStream.showText("Km. 6, Narra Street, Bangkal, Davao City, Philippines");
+                contentStream.newLineAtOffset(xStart + 5, yStart + 5);
+                contentStream.showText(column.getText());
                 contentStream.endText();
+                xStart += headerCellWidth;
+            }
 
-                // Add event name
-                contentStream.beginText();
-                contentStream.newLineAtOffset(220, 580);
-                contentStream.setFont(font, 12);
-                contentStream.showText("Enrollment Management System");
-                contentStream.endText();
+            yStart -= rowHeight;
+            PDPage newPage = null;
+            PDPageContentStream newContentStream = null;
 
-                contentStream.beginText();
-                contentStream.newLineAtOffset(260, 560);
-                contentStream.setFont(font, 12);
-                contentStream.showText("Student Table");
-                contentStream.endText();
+            for (Student student : EnrollTable.getItems()) {
+                xStart = 30; // Reset xStart for each row
 
-                // Add table headers
-                float xStart = 30;
-                float yStart = 500;
-                float tableHeight = 30;
-                float rowHeight = 30;
+                if (yStart < 50) {
+                    // Close the current content stream
+                    contentStream.close();
 
-                // Dynamically calculate header cell width based on content
-                float[] columnWidths = calculateColumnWidths(EnrollTable);
+                    // Create a new page
+                    newPage = new PDPage();
+                    document.addPage(newPage);
+
+                    // Create a new content stream for the new page
+                    newContentStream = new PDPageContentStream(document, newPage);
+                    yStart = 500;
+                }
+
                 for (TableColumn<Student, ?> column : EnrollTable.getColumns()) {
-                    // Skip the "Delete" column
-                   if (column.getText().equals("Delete") || column.getText().equals("Edit")) {
-                            continue;
-                        }
+                    if (column.getText().equals("Delete") || column.getText().equals("Edit")) {
+                        continue;
+                    }
 
                     float headerCellWidth = columnWidths[EnrollTable.getColumns().indexOf(column)];
 
-                    // Draw rectangle
-                    contentStream.setLineWidth(0.5f);
-                    contentStream.addRect(xStart, yStart, headerCellWidth, tableHeight);
-                    contentStream.stroke();
-
-                    // Add text
-                    contentStream.beginText();
-                    contentStream.setFont(font, 12);
-                    contentStream.newLineAtOffset(xStart + 5, yStart + 5); // Adjust text position within cell
-                    contentStream.showText(column.getText());
-                    contentStream.endText();
-
+                    (newContentStream != null ? newContentStream : contentStream).setLineWidth(0.5f);
+                    (newContentStream != null ? newContentStream : contentStream).addRect(xStart, yStart, headerCellWidth, tableHeight);
+                    (newContentStream != null ? newContentStream : contentStream).stroke();
+                    (newContentStream != null ? newContentStream : contentStream).beginText();
+                    (newContentStream != null ? newContentStream : contentStream).setFont(font, 8);
+                    (newContentStream != null ? newContentStream : contentStream).newLineAtOffset(xStart + 5, yStart + 5);
+                    (newContentStream != null ? newContentStream : contentStream).showText(String.valueOf(column.getCellData(student)));
+                    (newContentStream != null ? newContentStream : contentStream).endText();
                     xStart += headerCellWidth;
                 }
 
-                // Add table data
                 yStart -= rowHeight;
-                for (Student student : EnrollTable.getItems()) {
-                    xStart = 30; // Reset xStart for each row
+            }
 
-                    for (TableColumn<Student, ?> column : EnrollTable.getColumns()) {
-                        // Skip the "Delete" column
-                        if (column.getText().equals("Delete") || column.getText().equals("Edit")) {
-                            continue;
-                        }
-
-                        float headerCellWidth = columnWidths[EnrollTable.getColumns().indexOf(column)];
-
-                        // Draw rectangle
-                        contentStream.setLineWidth(0.5f);
-                        contentStream.addRect(xStart, yStart, headerCellWidth, tableHeight);
-                        contentStream.stroke();
-
-                        // Add text
-                        contentStream.beginText();
-                        contentStream.setFont(font, 8);
-                        contentStream.newLineAtOffset(xStart + 5, yStart + 5); // Adjust text position within cell
-                        contentStream.showText(String.valueOf(column.getCellData(student)));
-                        contentStream.endText();
-
-                        xStart += headerCellWidth;
-                    }
-                    yStart -= rowHeight;
-                }
+            if (newContentStream != null) {
+                newContentStream.close(); // Close the last content stream
             }
 
             // Show the file chooser dialog
             File selectedFile = fileChooser.showSaveDialog(null);
 
             if (selectedFile != null) {
-                // Get the selected file
                 String iconPath = "src/pictures/icons8-reports-58.png";
 
-                // Create an ImageIcon from the specified file path
                 Image image = new Image(new File(iconPath).toURI().toString());
 
-                // Create a confirmation dialog
                 Alert confirmationDialog = new Alert(AlertType.CONFIRMATION);
+                String iconPath1 = "pictures/pdf.png";
+                // Load the PNG image
+                Image iconImage = new Image(iconPath1);
+
+                ImageView imageView = new ImageView(iconImage);
+                imageView.setFitWidth(64);
+                imageView.setFitHeight(64);
+                confirmationDialog.getDialogPane().setGraphic(imageView);
                 confirmationDialog.setTitle("PDF Message");
                 confirmationDialog.setHeaderText(null);
                 confirmationDialog.setContentText("The data is saved through PDF");
                 confirmationDialog.setGraphic(new ImageView(image));
 
-                // Customize the buttons (Yes, No)
                 ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
                 ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
                 confirmationDialog.getButtonTypes().setAll(yesButton, noButton);
 
-                // Show the dialog and wait for a response
                 Optional<ButtonType> result = confirmationDialog.showAndWait();
 
-                // Check the user's choice
                 if (result.isPresent() && result.get() == yesButton) {
-                    // Save the PDF file to the selected location
                     document.save(selectedFile.getAbsolutePath() + ".pdf");
+                    
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("System Message");
+                        alert.setHeaderText(null); // You can add header text if desired
+                        String iconPath11 = "pictures/pdf.png";
+                        // Load the PNG image
+                        Image iconImage11 = new Image(iconPath11);
+
+                        ImageView imageView1 = new ImageView(iconImage11);
+                        imageView.setFitWidth(64);
+                        imageView.setFitHeight(64);
+                        alert.getDialogPane().setGraphic(imageView1);
+
+                        // Set content text with user variable
+                        String contentText = String.format("The PDF has successfully saved");
+                        alert.setContentText(contentText);
+
+                        alert.showAndWait();
+                
                     System.out.println("PDF created successfully at: " + selectedFile.getAbsolutePath() + ".pdf");
                 } else {
                     System.out.println("PDF creation canceled by the user.");
@@ -196,23 +218,24 @@ public class Print_Student {
             for (int col = 0; col < numColumns; col++) {
                 TableColumn<Student, ?> column = EnrollTable.getColumns().get(col);
 
-                float maxWidth = font.getStringWidth(column.getText()) / 1000 * 12; // Adjust font size if needed
+                float maxWidth = font.getStringWidth(column.getText()) / 1000 * 12;
 
                 for (Student student : EnrollTable.getItems()) {
                     String value = String.valueOf(column.getCellData(student));
-                    float width = font.getStringWidth(value) / 1000 * 8; // Adjust font size if needed
+                    float width = font.getStringWidth(value) / 1000 * 8;
 
                     if (width > maxWidth) {
                         maxWidth = width;
                     }
                 }
 
-                columnWidths[col] = maxWidth + 10; // Add padding
+                columnWidths[col] = maxWidth + 10;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return columnWidths;
-    }
+
+    return columnWidths;
+}
 }

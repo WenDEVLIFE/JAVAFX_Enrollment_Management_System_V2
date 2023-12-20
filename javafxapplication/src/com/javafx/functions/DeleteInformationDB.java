@@ -35,13 +35,13 @@ public class DeleteInformationDB {
                     System.out.println("User deleted successfully");
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
+                // Load the PNG image
+                Image iconImage = new Image(iconPath);
 
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
+                ImageView imageView = new ImageView(iconImage);
+                imageView.setFitWidth(64);
+                imageView.setFitHeight(64);
+                alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("User deletion successfully");
@@ -92,15 +92,15 @@ alert.getDialogPane().setGraphic(imageView);
                 int rowsDeleted = preparedStatement.executeUpdate();
                 if (rowsDeleted > 0) {
                     System.out.println("Student deleted successfully");
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-         String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                           String iconPath = "pictures/enrollment_managemet_system.png";
+                  // Load the PNG image
+                  Image iconImage = new Image(iconPath);
 
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
+                  ImageView imageView = new ImageView(iconImage);
+                  imageView.setFitWidth(64);
+                  imageView.setFitHeight(64);
+                  alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Student deletion successfully");
@@ -156,13 +156,13 @@ alert.getDialogPane().setGraphic(imageView);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                    String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
+                // Load the PNG image
+                Image iconImage = new Image(iconPath);
 
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
+                ImageView imageView = new ImageView(iconImage);
+                imageView.setFitWidth(64);
+                imageView.setFitHeight(64);
+                alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Subject deletion successfully");
@@ -240,15 +240,16 @@ alert.getDialogPane().setGraphic(imageView);
             }
             if (rowsDeleted > 0) {
                 System.out.println("Grading deleted successfully");
+                
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                   String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
+                String iconPath = "pictures/enrollment_managemet_system.png";
+                // Load the PNG image
+                Image iconImage = new Image(iconPath);
 
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
+                ImageView imageView = new ImageView(iconImage);
+                imageView.setFitWidth(64);
+                imageView.setFitHeight(64);
+                alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Grading deletion successfully");
@@ -299,15 +300,15 @@ alert.getDialogPane().setGraphic(imageView);
             if (rowsDeleted > 0) {
                 System.out.println("Grading deleted successfully");
                 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                   String iconPath = "pictures/enrollment_managemet_system.png";
-// Load the PNG image
-Image iconImage = new Image(iconPath);
+                  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                  String iconPath = "pictures/enrollment_managemet_system.png";
+                // Load the PNG image
+                Image iconImage = new Image(iconPath);
 
-ImageView imageView = new ImageView(iconImage);
-imageView.setFitWidth(128);
-imageView.setFitHeight(128);
-alert.getDialogPane().setGraphic(imageView);
+                ImageView imageView = new ImageView(iconImage);
+                imageView.setFitWidth(64);
+                imageView.setFitHeight(64);
+                alert.getDialogPane().setGraphic(imageView);
                 alert.setTitle("System Message");
                 alert.setHeaderText(null);
                 alert.setContentText("Report deletion successfully");

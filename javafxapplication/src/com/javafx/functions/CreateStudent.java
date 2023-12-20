@@ -64,17 +64,9 @@ public class CreateStudent {
                 return; // Exit the method if the student name exists.
             }
 
-            // Get the maximum ID value from the student table.
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT MAX(StudentID) FROM studentinformation");
-
-            int highestId = 0;
-            if (resultSet.next()) {
-                highestId = resultSet.getInt(1);
-            }
-
+    
             // Increment the highest ID value by 1 to get the new ID value.
-            int newId = highestId + 1;
+            int newId = generateRandomStudentID();
 
             // Create a prepared statement to insert a new student into the database.
             String insertSQL = "INSERT INTO studentinformation (StudentID, StudentName, Age, StudentAddress, Gender, BirthYear, PhoneNum) VALUES (?, ?, ?, ?, ?, ?, ?)";
