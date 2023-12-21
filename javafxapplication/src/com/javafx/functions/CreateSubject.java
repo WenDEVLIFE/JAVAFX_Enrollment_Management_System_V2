@@ -20,7 +20,9 @@ import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -35,10 +37,23 @@ public class CreateSubject {
     String username = "root";
     String password = "";
     private static String sub, sec, time_start, time_end;
+    
+    private static TextField subjectfield;
+    private static ComboBox <String> Selectedsection;
+    
+    private static ComboBox <String> Selectedstarttime;
+    
+        private static ComboBox <String> Selectedendtime;
 
+    /**
+     *
+     * @param args
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end, SubjectTable, subjectList,     user1 );
-        cs.create_subjects();
+        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end, SubjectTable, subjectList,     user1);
+        cs.create_subjects(subjectfield, Selectedsection, Selectedstarttime, Selectedendtime);
     }
 
     public CreateSubject(String sub, String sec, String time_start, String time_end, TableView<Subject> SubjectTable, ObservableList<Subject> subjectList, String user_receiver) {
@@ -51,7 +66,7 @@ public class CreateSubject {
         CreateSubject.    user1  =     user1 ;
     }
 
-    public void create_subjects() throws SQLException {
+    public void create_subjects(TextField subjectfield, ComboBox<String> Selectedsection, ComboBox<String> Selectedstarttime, ComboBox<String> Selectedendtime) throws SQLException {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT MAX(SubjectID) FROM subjecttable");
@@ -110,6 +125,11 @@ public class CreateSubject {
                 Reports newreport = new Reports(newId1,     user1 , formattedDate, "Create Subject");
                 ReportTable.getItems().add(newreport);
 
+                Selectedstarttime.setValue("Select a time");
+                Selectedendtime.setValue("Select a time");
+                Selectedsection.setValue("Select a section");
+                subjectfield.setText("");
+                
                 System.gc();
                 System.runFinalization();
             }

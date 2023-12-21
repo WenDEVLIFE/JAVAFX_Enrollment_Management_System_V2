@@ -13,7 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -30,6 +32,9 @@ public class AddUserAdminFunction {
  private static String password;
  private static String confirmpass;
 private  static String selectedItemString1;
+private static TextField usernamefield;
+private static PasswordField passwordfield;
+private static PasswordField confirmpasswordfield;
 
 
   
@@ -75,7 +80,7 @@ private  static String selectedItemString1;
 
     }
   // Move the create() method outside of the main() method.
- public static void create(String username, String password, String selectedItemString1, TableView<User> AdminTable) throws NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException {
+ public static void create(String username, String password, String selectedItemString1, TableView<User> AdminTable, TextField usernamefield, PasswordField passwordfield, PasswordField confirmpasswordfield) throws NoSuchAlgorithmException, InvalidKeySpecException, ClassNotFoundException {
         
    
 
@@ -136,7 +141,7 @@ AdminTable.getItems().add(newUser);
     public static void main(String[] args) {
         try {
         
-            create(username, password, selectedItemString1, AdminTable);
+            create(username, password, selectedItemString1, AdminTable, usernamefield, passwordfield, confirmpasswordfield);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }

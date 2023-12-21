@@ -19,7 +19,9 @@ import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 public class CreateStudent {
     private static TableView<Student> EnrollTable;
@@ -30,7 +32,14 @@ public class CreateStudent {
     String url = "jdbc:mysql://localhost:3306/mhns_enrollment_db"; // Change to your database URL
     String username = "root";
     String password = "";
-
+   private static TextField Studentname;
+   private static TextField Address;
+   private static TextField phonenumber;
+   private static ComboBox<String> Age;
+   private static ComboBox<String> gender;
+   private static ComboBox<String> month;
+   private static ComboBox<String> year;
+   private static ComboBox<String> day;
     public CreateStudent(String studentname, String address, String Phone, String selected_Age, String selected_gender, String birthmonth, String birthdate, String birthyear, TableView<Student> EnrollTable, ObservableList<Student> studentList, String     user1 , TableView<Reports> ReportTable) {
         CreateStudent.studentname = studentname;
         CreateStudent.address = address;
@@ -47,10 +56,10 @@ public class CreateStudent {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         CreateStudent c = new CreateStudent(studentname, address, Phone, selected_Age, selected_gender, birthmonth, birthdate, birthyear, EnrollTable, studentList,     user1 , ReportTable);
-        c.createstudent();
+        c.createstudent(Studentname, Address, phonenumber, Age, gender, month, year, day);
     }
 
-    public void createstudent() throws SQLException, ClassNotFoundException {
+    public void createstudent(TextField Studentname, TextField Address, TextField phonenumber, ComboBox<String> Age, ComboBox<String> gender, ComboBox<String> month, ComboBox<String> year, ComboBox<String> day) throws SQLException, ClassNotFoundException {
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             String alldate = birthmonth + "/" + birthdate + "/" + birthyear;
 

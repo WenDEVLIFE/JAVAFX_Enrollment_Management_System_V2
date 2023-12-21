@@ -17,7 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 
 
@@ -57,7 +59,7 @@ public class User_Exist {
         return false;
     }
 
-    public void user_identification() {
+    public void user_identification(TextField usernamefield, PasswordField passwordfield, PasswordField confirmpasswordfield) {
         try {
             // Check if the username already exists in the database.
             if (doesUsernameExist(username)) {
@@ -72,7 +74,7 @@ public class User_Exist {
             } else {
                 try {
                     // Assuming AddUserAdminFunction.create() adds the user to the database
-                AddUserAdminFunction.create(username, password, selectedItemString1, AdminTable);
+                AddUserAdminFunction.create(username, password, selectedItemString1, AdminTable,usernamefield, passwordfield, confirmpasswordfield);
                     // You might want to show a success message here
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Message");

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -22,7 +23,7 @@ public class Addgrades {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-      public void addGrades(String enterSub, String enterStudent, String enterSection, int grade1, int grade2, int grade3, int grade4, String user_receiver) {
+      public void addGrades(String enterSub, String enterStudent, String enterSection, int grade1, int grade2, int grade3, int grade4, String user_receiver, TextField enter_subjectname, TextField enterstudentname, TextField entersection, TextField firstgrading, TextField seciondgrading, TextField thirdgrading, TextField fourthgrading) {
         try (Connection connection = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
             // Find subjectID based on enterSub (subject name)
             int subjectID = findSubjectID(connection, enterSub);
@@ -34,7 +35,7 @@ public class Addgrades {
                 // Increment the highest ID value by 1 to get the new ID value.
 
                 // Insert grades into the grades table
-                insertGrades(connection, enterSection, enterStudent, subjectID, newId, grade1, grade2, grade3, grade4);
+                insertGrades(connection, enterSection, enterStudent, subjectID, newId, grade1, grade2, grade3, grade4,enter_subjectname,enterstudentname,entersection,firstgrading,seciondgrading, thirdgrading, fourthgrading);
             } else {
                 System.out.println("Subject not found: " + enterSub);
             }
@@ -74,7 +75,7 @@ public class Addgrades {
         }
     }
 
-    private void insertGrades(Connection connection, String enterSection, String enterStudent, int subjectID, int newId, int grade1, int grade2, int grade3, int grade4) throws SQLException {
+    private void insertGrades(Connection connection, String enterSection, String enterStudent, int subjectID, int newId, int grade1, int grade2, int grade3, int grade4, TextField enter_subjectname, TextField enterstudentname, TextField entersection, TextField firstgrading, TextField seciondgrading, TextField thirdgrading, TextField fourthgrading) throws SQLException {
         String insertGrades = "INSERT INTO gradingtable (SubjectID, StudentName, Section, FirstG, SecondG, ThirdG, FourthG, Total, StudentID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertGrades)) {
             preparedStatement.setInt(1, subjectID);
@@ -98,6 +99,15 @@ public class Addgrades {
                 alert.setContentText("Grades added successfully");
                 alert.showAndWait();
                       System.gc();
+                      
+       enter_subjectname.setText("");
+       enterstudentname.setText("");
+       entersection.setText("");
+       firstgrading.setText("");
+       seciondgrading.setText("");
+        thirdgrading.setText("");
+        fourthgrading.setText("");
+        
    System.runFinalization();
             System.out.println("Done");
         }

@@ -77,12 +77,15 @@ private final String pass;
                     } else if (validatePassword(pass, storedSalt, storedHashedPassword)) {
                          Platform.runLater(() -> {
                              try {
-                                 displayWelcomeMessage(user,event);
+                                 try {
+                                     recordLoginReport(user, event);
+                                 } catch (ClassNotFoundException ex) {
+                                     Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
+                                 } catch (IOException ex) {
+                                     Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
+                                 }
+                        
                              } catch (SQLException ex) {
-                                 Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
-                             } catch (ClassNotFoundException ex) {
-                                 Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
-                             } catch (IOException ex) {
                                  Logger.getLogger(loginuser.class.getName()).log(Level.SEVERE, null, ex);
                              }
                     });
@@ -156,7 +159,7 @@ alert.showAndWait();
     // to close the current scene
     if (stage1 == null) {
         stage1 = new Stage();
-         recordLoginReport(user);
+
          System.runFinalization();
     }
 
@@ -178,7 +181,7 @@ alert.showAndWait();
     
       
 }
-private void recordLoginReport(String user) throws SQLException {
+private void recordLoginReport(String user, ActionEvent event) throws SQLException, ClassNotFoundException, IOException {
     String login="Login";
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mhns_enrollment_db", "root", "")) {
             ResultSet resultSet1 = con.createStatement().executeQuery("SELECT MAX(ReportID) FROM reports");
@@ -203,7 +206,7 @@ private void recordLoginReport(String user) throws SQLException {
                 int reportRowsAffected = insertStatement1.executeUpdate();
                 if (reportRowsAffected == 1) {
                     System.out.println("Done recording reports");
-                
+                  displayWelcomeMessage(user,event);
                      System.runFinalization();
                 }
             }

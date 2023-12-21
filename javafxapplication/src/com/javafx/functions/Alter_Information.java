@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 /**
  *
  * @author Administrator
@@ -17,7 +18,7 @@ public class Alter_Information {
         private static final String DB_URL = "jdbc:mysql://localhost:3306/mhns_enrollment_db";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
-    public void altergrades(String find_entersub, String find_enterstudent, int update_grade1, int update_grade2, int update_grade3, int update_grade4){
+    public void altergrades(String find_entersub, String find_enterstudent, int update_grade1, int update_grade2, int update_grade3, int update_grade4, TextField enter_subjectname1, TextField enterstudentname1, TextField firstgrading1, TextField seciondgrading1, TextField thirdgrading1, TextField fourthgrading1){
                 try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             // Assuming you have a table named 'grades' with columns: subjectID, studentName, grade1, grade2, grade3, grade4, average
             String updateQuery = "UPDATE gradingtable SET FirstG =?, SecondG=?, ThirdG=?, FourthG=?, Total=? " +
@@ -43,6 +44,14 @@ public class Alter_Information {
                                 alert.setHeaderText(null);
                                 alert.setContentText("Grades has been updated");
                                 alert.showAndWait();
+                                
+                                enter_subjectname1.setText("");
+                                enterstudentname1.setText("");
+                                firstgrading1.setText("");
+                                seciondgrading1.setText("");
+                                thirdgrading1.setText("");
+                                fourthgrading1.setText("");
+                                 
                 } else {
                     System.out.println("No records found for the given subject and student.");
                       Alert alert = new Alert(Alert.AlertType.INFORMATION);

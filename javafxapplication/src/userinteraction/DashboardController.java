@@ -27,8 +27,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,19 +43,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.image.Image;
 import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
@@ -547,7 +540,7 @@ private Tooltip toolTip3 = new Tooltip();
                userList = databaseHandler.fetchDataFromDatabase();
 
                   User_Exist e = new User_Exist(username, password, selectedItemString1, AdminTable, userList);
-                    e.user_identification();
+                    e.user_identification( usernamefield,passwordfield,        confirmpasswordfield );
                     clearFields(); // You can define this method to clear the input fields
                 }
             }
@@ -889,7 +882,7 @@ TabPanesel.getSelectionModel().select(Admin);
                   }
                   else {
                   CreateStudent s = new CreateStudent(studentname, address, Phone, selected_Age, selected_gender ,birthmonth, birthdate, birthyear ,EnrollTable, studentList,    user1 ,ReportTable);
-                  s.createstudent();
+                  s.createstudent(Studentname, Address, phonenumber, Age,gender,month,year,day);
                   }
               }
           }
@@ -931,8 +924,8 @@ TabPanesel.getSelectionModel().select(Admin);
                 alert.setContentText("Please select a time");
                 alert.showAndWait();
                 } else{
-                        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end , SubjectTable,subjectList,    user1 );
-                        cs.create_subjects();
+                        CreateSubject cs = new CreateSubject(sub, sec, time_start, time_end , SubjectTable,subjectList,    user1);
+                        cs.create_subjects( subjectfield,Selectedsection ,Selectedstarttime,Selectedendtime);
                 }
        }
              
@@ -963,8 +956,10 @@ TabPanesel.getSelectionModel().select(Admin);
         alert.showAndWait();
         } else {
              Changecredentials ce = new Changecredentials ();
-             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver, event,currentusernamefield, newusernamefield, passwordfield1 ,
-             setLabelUser,setLabelUser1, setLabelUser2,setLabelUser3, setLabelUser4,setLabelUser5,setLabelUser6, setUserLabel7,setUserLabel8,
+             ce.ChangeUsername(currentuser,newuser,confirmation_password,user_receiver,
+                     event,currentusernamefield, newusernamefield, passwordfield1 ,
+             setLabelUser,setLabelUser1, setLabelUser2,setLabelUser3, setLabelUser4,
+             setLabelUser5,setLabelUser6, setUserLabel7,setUserLabel8,
              setLabelUser9,setUserLabel10,setUserLabel11,setUserLabel12);
         }
         
@@ -991,7 +986,7 @@ String passwordnew =newpassword.getText();
              }
              else {
                     Changecredentials ce = new Changecredentials ();
-             ce.ChangePassword(username1,passwordold,passwordnew );
+             ce.ChangePassword(username1,passwordold,passwordnew,enterusername,oldpassword,newpassword);
              }
 
     }
@@ -1021,7 +1016,9 @@ String passwordnew =newpassword.getText();
            } else {
                
                Addgrades g = new Addgrades();
-           g.addGrades(entersub,enterstudent,entersectione,grade1,grade2,grade3,grade4,user_receiver);
+           g.addGrades(entersub,enterstudent,entersectione,grade1,grade2
+                   ,grade3,grade4,user_receiver,
+                   enter_subjectname,enterstudentname,entersection,firstgrading,seciondgrading,thirdgrading,fourthgrading);
            }
           
      }
@@ -1057,7 +1054,7 @@ String passwordnew =newpassword.getText();
                 alert.showAndWait();
            } else {
               Alter_Information update = new Alter_Information();
-              update.altergrades(find_entersub, find_enterstudent,update_grade1, update_grade2, update_grade3, update_grade4);
+              update.altergrades(find_entersub, find_enterstudent,update_grade1, update_grade2, update_grade3, update_grade4,enter_subjectname1,enterstudentname1,firstgrading1,seciondgrading1, thirdgrading1, fourthgrading1);
                
            }
     }
@@ -1242,6 +1239,8 @@ alert.getDialogPane().setGraphic(imageView);
             }
         });
 }
+    
+    
 public void logout_reports() throws SQLException{
       String userreceive= setLabelUser3.getText();
         System.out.println("Label Text: " +  userreceive);

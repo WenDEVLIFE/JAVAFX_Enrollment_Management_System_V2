@@ -31,8 +31,16 @@ public static Stage stage2;
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public void ChangeUsername(String currentuser, String newuser, String confirmation_password, String user_receiver, ActionEvent event, TextField currentusernamefield, TextField newusernamefield, PasswordField passwordfield1, Label setLabelUser, Label setLabelUser1, Label setLabelUser2, Label setLabelUser3, Label setLabelUser4, Label setLabelUser5, Label setLabelUser6, Label setUserLabel7, Label setUserLabel8, Label setLabelUser9, Label setUserLabel10, Label setUserLabel11, Label setUserLabel12) throws IOException {
-    try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+    public void ChangeUsername(String currentuser, String newuser, String confirmation_password,
+            String user_receiver, ActionEvent event, TextField currentusernamefield, 
+            TextField newusernamefield, PasswordField passwordfield1, 
+            Label setLabelUser, Label setLabelUser1, Label setLabelUser2,
+            Label setLabelUser3, Label setLabelUser4, Label setLabelUser5, 
+            Label setLabelUser6, Label setUserLabel7, Label setUserLabel8,
+            Label setLabelUser9, Label setUserLabel10, Label setUserLabel11, 
+            Label setUserLabel12) throws IOException {
+            String user_receiver1= setLabelUser3.getText();
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
         // Check if the current username exists in the database
         String query = "SELECT * FROM usertable WHERE username = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -58,21 +66,21 @@ public static Stage stage2;
                             if (rowsUpdated > 0) {
                                 // Notify the user about the successful username change
                                 // If the current user is the receiver, update the label and open the dashboard
-                                if (currentuser.equals(user_receiver)) {
+                                if (currentuser.equals(user_receiver1)) {
                                     user_receiver = newuser;
-                                setLabelUser.setText("User:"+ user_receiver);
-                                setLabelUser1.setText("User:" + user_receiver);
-                                setLabelUser2.setText("User:" + user_receiver);
-                                setLabelUser3.setText("User:" + user_receiver);
-                                setLabelUser4.setText("User:" + user_receiver);
-                                setLabelUser5.setText("User:" +user_receiver);
-                                setLabelUser6.setText("User:" +user_receiver);
-                                setUserLabel7.setText("User:" + user_receiver);
-                                setUserLabel8.setText("User:" + user_receiver);
-                                setLabelUser9.setText("User:" + user_receiver);
-                                setUserLabel10.setText("User:" + user_receiver);
-                                setUserLabel11.setText("User:" + user_receiver);
-                                setUserLabel12.setText("User:" + user_receiver);
+                                setLabelUser.setText( user_receiver);
+                                setLabelUser1.setText(user_receiver);
+                                setLabelUser2.setText( user_receiver);
+                                setLabelUser3.setText(user_receiver);
+                                setLabelUser4.setText(user_receiver);
+                                setLabelUser5.setText(user_receiver);
+                                setLabelUser6.setText(user_receiver);
+                                setUserLabel7.setText(user_receiver);
+                                setUserLabel8.setText(user_receiver);
+                                setLabelUser9.setText(user_receiver);
+                                setUserLabel10.setText( user_receiver);
+                                setUserLabel11.setText( user_receiver);
+                                setUserLabel12.setText( user_receiver);
                                 }
                                 // Display a success message
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -80,6 +88,9 @@ public static Stage stage2;
                                 alert.setHeaderText(null);
                                 alert.setContentText("User changed successfully");
                                 alert.showAndWait();
+                                currentusernamefield.setText("");
+                                newusernamefield.setText("");
+                                passwordfield1.setText("");
 
                                 System.out.println("Username changed successfully.");
                                 System.runFinalization();
@@ -122,7 +133,7 @@ public static Stage stage2;
         }
     }
 
-   public void ChangePassword(String username1, String passwordold, String passwordnew) throws NoSuchAlgorithmException, InvalidKeySpecException {
+   public void ChangePassword(String username1, String passwordold, String passwordnew, TextField enterusername, PasswordField oldpassword, PasswordField newpassword) throws NoSuchAlgorithmException, InvalidKeySpecException {
     if (verifyPasswordLength(passwordnew)) {
         // Check if the current password exists in the database
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -180,6 +191,10 @@ PreparedStatement updateStatement = connection.prepareStatement("UPDATE usertabl
                 alert.setHeaderText(null);
                 alert.setContentText("Password successfully changed");
                 alert.showAndWait();
+                
+               enterusername.setText("");
+               oldpassword.setText("");
+             newpassword.setText("");
             }
         } catch (SQLException e) {
             e.printStackTrace();
